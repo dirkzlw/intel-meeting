@@ -1,0 +1,54 @@
+buildscript {
+
+    // 自定义  Thymeleaf 和 Thymeleaf Layout Dialect 的版本
+    ext['thymeleaf.version'] = '3.0.3.RELEASE'
+    ext['thymeleaf-layout-dialect.version'] = '2.2.0'
+
+    // 自定义  Hibernate 的版本
+    ext['hibernate.version'] = '5.2.8.Final'
+
+    repositories {
+//        mavenCentral()
+        maven {
+            url 'http://maven.aliyun.com/nexus/content/groups/public/'
+        }
+    }
+    dependencies {
+        classpath 'org.springframework.boot:spring-boot-gradle-plugin:1.5.19.RELEASE'
+    }
+}
+
+plugins {
+    id 'java'
+}
+
+apply plugin: 'org.springframework.boot'
+
+group = 'com.intel.meeting'
+version = '0.0.1'
+sourceCompatibility = '1.8'
+
+
+repositories {
+//    mavenCentral()
+    maven {
+        url 'http://maven.aliyun.com/nexus/content/groups/public/'
+    }
+}
+
+dependencies {
+
+    compile 'org.springframework.boot:spring-boot-starter-web'
+    testCompile 'org.springframework.boot:spring-boot-starter-test'
+    //Thymeleaf
+    compile 'org.springframework.boot:spring-boot-starter-thymeleaf'
+    //DevTools  启动热部署
+    compile 'org.springframework.boot:spring-boot-devtools'
+    //Mysql连接驱动     指定5.1.6版本
+    compile 'mysql:mysql-connector-java:5.1.6'
+    //druid连接池
+    compile 'com.alibaba:druid:1.1.2'
+    compile 'com.alibaba:druid-spring-boot-starter:1.1.2'
+    //Spring Data Jpa
+    compile 'org.springframework.boot:spring-boot-starter-data-jpa'
+}
