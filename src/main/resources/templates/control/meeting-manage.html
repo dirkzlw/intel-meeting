@@ -16,6 +16,11 @@
     <script src="/control/table/js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
     <script src="/control/table/js/bootbox.min.js"></script>
 
+    <style type="text/css">
+        a:hover {
+            text-decoration: none;
+        }
+    </style>
 </head>
 <body>
 
@@ -30,11 +35,12 @@
                 <div class="search_input">
                     <div class="input-group mb-3">
                         <span>会议室：</span>
-                        <input id="Ktext" type="text" class="form-control" placeholder="请输入会议室名称">
+                        <input id="smrn" type="text" class="form-control" placeholder="请输入会议室名称/状态">
                     </div>
                 </div>
                 <div class="search_input">
                     <button class="btn btn-primary search_btn" type="button" id="search_btn">查询</button>
+                    <button th:if="${mrPage.isSearch == 1}" class="btn btn-primary search_btn" type="hidden" id="end_search_btn">结束查询</button>
                 </div>
             </div>
             <div class="line"></div>
@@ -145,7 +151,7 @@
             </tr>
             </thead>
             <tbody id="show_tbody">
-            <tr th:each="mr : ${mrList}" th:id="${mr.meetingId} + 1">
+            <tr th:each="mr : ${mrPage.mrList}" th:id="${mr.meetingId} + 1">
                 <td th:text="${mr.meetingName}"></td>
                 <td th:text="${mr.containNum}"></td>
                 <td th:text="${mr.enableStatus}"></td>
@@ -157,6 +163,28 @@
             </tbody>
         </table>
     </div>
+    <div class="content">
+        <div th:if="${mrPage != null}" style="display: inline;">
+            共<span id="totalPage" th:text="${mrPage.totalPage}"></span>页
+            &nbsp;&nbsp;
+            共<span th:text="${mrPage.totalNum}"></span>条
+
+            &nbsp;&nbsp;
+            <a th:if="${mrPage.page}>1"
+               th:href="@{/to/control/meeting-manage(page=${mrPage.page - 2})}">上一页</a>
+            &nbsp;&nbsp;
+            <span th:text="${mrPage.page}"></span>
+            &nbsp;&nbsp;
+            <a th:if="${mrPage.page}<${mrPage.totalPage}"
+               th:href="@{/to/control/meeting-manage(page=${mrPage.page})}">下一页</a>
+            &nbsp;&nbsp;
+            前往
+            <input id="toPage" type="number" style="width: 50px">
+            页
+            <a href="javascript:toSkip()">Go</a>
+        </div>
+    </div>
+</div>
 </div>
 
 <script src="/control/js/ajax.js"></script>
@@ -164,7 +192,6 @@
 <script type="text/javascript">
     function delMeeting(meetingId) {
         // var meetingId = $(this).attr("id");
-        alert("del == " + meetingId)
         var aTag = document.getElementById(meetingId * 1 + 1);
         // ajax 新增会议
         $.ajax({
@@ -180,9 +207,6 @@
                         message: "会议室删除成功",
                         closeButton: false
                     })
-                    // var aTag = document.getElementById(meetingId * 1).parents('tr');
-                    // aTag.remove();
-                    // $(this).parents('tr').remove();
                 }
             },
             error: function (json) {
@@ -195,6 +219,45 @@
             }
         });
     }
+
+    //页面跳转
+    function toSkip() {
+        var toPage = document.getElementById("toPage").value * 1 - 1;
+        var totalPage = document.getElementById("totalPage").textContent;
+        if (toPage >= 0 && toPage < totalPage) {
+            var href = "/to/control/meeting-manage?page=" + toPage;
+            window.open(href, "_self");
+        } else {
+            bootbox.alert({
+                title: "来自智能会议室的提示",
+                message: "跳转页面输入有误",
+                closeButton: false
+            })
+        }
+    }
+
+    //查询
+    $('#search_btn').click(function () {
+        var mrkey = document.getElementById("smrn").value;
+        if (mrkey === '') {
+            bootbox.alert({
+                title: "来自智能会议室的提示",
+                message: "搜索内容不能为空",
+                closeButton: false
+            })
+            return;
+        }else {
+            var href = "/to/control/meeting/search?mrkey=" + mrkey;
+            window.open(href, "_self");
+        }
+    })
+
+    //结束查询
+    $('#end_search_btn').click(function () {
+        var href = "/to/control/meeting-manage";
+        window.open(href, "_self");
+    })
+
 </script>
 </body>
 </html>

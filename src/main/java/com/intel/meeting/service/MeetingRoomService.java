@@ -1,6 +1,7 @@
 package com.intel.meeting.service;
 
 import com.intel.meeting.po.MeetingRoom;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 
@@ -15,4 +16,6 @@ public interface MeetingRoomService {
     List<MeetingRoom> findAllMeetingRoom();
 
     String delMeetingRoom(Integer meetingId);
+
+    Page<MeetingRoom> findMeetingRoomByPage(Integer page, Integer size);
 }

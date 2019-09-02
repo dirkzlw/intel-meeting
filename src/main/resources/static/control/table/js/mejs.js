@@ -15,10 +15,6 @@ $(function () {
         methods.editHandle(trIndex);
     })
 
-    $('#search_btn').click(function () {
-        methods.seachName();
-    })
-
     $('#back_btn').click(function () {
         $('#Ktext').val(' ');
         methods.resectList();
@@ -192,34 +188,6 @@ var methods = {
             xtdStr += '<td>' + xtarSel.eq(b).val() + '</td>'
         }
 
-    },
-    seachName: function () {
-
-        var a = $('#show_tbody tr');
-        var nameVal = $('#Ktext').val().trim();
-        var nameStr = '',
-            nameArr = [];
-
-        if (nameVal === '') {
-            bootbox.alert({
-                title: "来自智能会议室的提示",
-                message: "搜索内容不能为空",
-                closeButton: false
-            })
-            return;
-        }
-
-        for (var c = 0; c < a.length; c++) {
-            var txt = $('td:first', a.eq(c)).html().trim();
-            nameArr.push(txt);
-        }
-
-        a.hide();
-        for (var i = 0; i < nameArr.length; i++) {
-            if (nameArr[i].indexOf(nameVal) > -1) {
-                a.eq(i).show();
-            }
-        }
     },
     resectList: function () {
         $('#show_tbody tr').show();

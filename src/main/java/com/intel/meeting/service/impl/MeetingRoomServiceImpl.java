@@ -4,6 +4,10 @@ import com.intel.meeting.po.MeetingRoom;
 import com.intel.meeting.repository.MeetingRoomRepository;
 import com.intel.meeting.service.MeetingRoomService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -54,8 +58,6 @@ public class MeetingRoomServiceImpl implements MeetingRoomService {
             mrRepository.save(mr);
             return "save";
         }
-
-
     }
 
     /**
@@ -76,5 +78,18 @@ public class MeetingRoomServiceImpl implements MeetingRoomService {
     public String delMeetingRoom(Integer meetingId) {
         mrRepository.delete(meetingId);
         return "del";
+    }
+
+    /**
+     * 分页查询
+     * @param page 当前页
+     * @param size  每页显示的数据
+     * @return
+     */
+    @Override
+    public Page<MeetingRoom> findMeetingRoomByPage(Integer page, Integer size) {
+        Pageable pageable = new PageRequest(page, size, new Sort(Sort.Direction.ASC,"meetingName"));
+        Page<MeetingRoom> mrPage = mrRepository.findAll(pageable);
+        return mrPage;
     }
 }
