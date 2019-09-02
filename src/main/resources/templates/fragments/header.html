@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>header</title>
+</head>
+<body>
+
+    <!--头部-->
+    <div th:fragment="header" style="position: relative;top: 10px">
+        <!--logo-->
+        <div style="display: inline">
+            &nbsp;&nbsp;
+            <img src="/index/img/logo.PNG" style="height: 60px;width: 180px">
+        </div>
+        <!--登录/注册-->
+        <div style="display: inline;margin-left: 90%;position: relative ;top: -55px">
+            <a style="font-size: 25px">登录</a>/
+            <a style="font-size: 25px">注册</a>
+        </div>
+
+    </div>
+
+</body>
+</html>

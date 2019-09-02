@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html
+        xmlns:th="http://www.thymeleaf.org"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="utf-8"/>
+    <title>控制中心--管理会议室</title>
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no"/>
+    <link rel="stylesheet" type="text/css" href="/control/table/css/style.css"/>
+
+    <link rel="stylesheet" type="text/css"
+          href="https://cdn.bootcss.com/twitter-bootstrap/4.2.1/css/bootstrap.min.css"/>
+
+    <script src="/control/table/js/jquery.min.js"></script>
+    <script src="/control/table/js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="/control/table/js/bootbox.min.js"></script>
+
+</head>
+<body>
+
+<!--头部-->
+<div th:replace="~{fragments/header :: header}"></div>
+
+<div class="box" style="position: relative;top: -40px;">
+    <div class="content">
+        <!--搜索输入框及查询、重置按钮-->
+        <div class="container content_width">
+            <div class="person_search">
+                <div class="search_input">
+                    <div class="input-group mb-3">
+                        <span>会议室：</span>
+                        <input id="Ktext" type="text" class="form-control" placeholder="请输入会议室名称">
+                    </div>
+                </div>
+                <div class="search_input">
+                    <button class="btn btn-primary search_btn" type="button" id="search_btn">查询</button>
+                </div>
+            </div>
+            <div class="line"></div>
+        </div>
+        <!--添加按钮及bootstrap的模态框-->
+        <div class="export">
+            <button id="new_add" type="button" class="btn btn-primary btn-sm" data-toggle="modal"
+                    data-target="#renyuan">
+                <img src="/control/table/img/add_two.png"/>
+                <span>添加</span>
+            </button>
+            <div class="modal fade" id="renyuan">
+                <div class="modal-dialog modal-lg modal_position">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title">添加</h4>
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        </div>
+                        <div class="modal-body">
+                            <table id="xztb" class="table">
+                                <!--添加会议弹窗的样式-->
+                                <tbody>
+                                <tr>
+                                    <td class="tb_bg"><label for="meetingName"><font
+                                            style="font-size: 14px; color: red;">*</font>会议室</label>
+                                    </td>
+                                    <td><input class="meetingName" id="meetingName" name="meetingName" type="text"
+                                               placeholder="请输入会议室名称"/></td>
+                                    <td class="tb_bg"><label for="containNum"><font
+                                            style="font-size: 14px; color: red;">*</font>容纳人数</label>
+                                    </td>
+                                    <td><input class="containNum" id="containNum" name="containNum" type="number"
+                                               placeholder="请输入容纳人数"/></td>
+                                </tr>
+                                <tr>
+                                    <td class="tb_bg"><label for="meetingStatus">会议室状态</label></td>
+                                    <td>
+                                        <select id="meetingStatus" name="meetingStatus" class="form-control select_down"
+                                                style="font-size: 13px; color: #666;">
+                                            <option value="空闲">空闲</option>
+                                            <option value="故障">故障</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                            <button id="add_btn" type="button" class="btn btn-secondary">确定</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade" id="xrenyuan">
+                <div class="modal-dialog modal-lg modal_position">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title">修改</h4>
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        </div>
+                        <div class="modal-body">
+                            <table id="xxztb" class="table">
+                                <!--修改会议弹窗的样式-->
+                                <tbody>
+                                <tr>
+                                    <td class="tb_bg"><label for="xmeetingName"><font
+                                            style="font-size: 14px; color: red;">*</font>会议室</label>
+                                    </td>
+                                    <td><input class="xmeetingName" id="xmeetingName" name="xmeetingName" type="text"
+                                               placeholder="请输入会议室名称"/></td>
+                                    <td class="tb_bg"><label for="xcontainNum"><font
+                                            style="font-size: 14px; color: red;">*</font>容纳人数</label>
+                                    </td>
+                                    <td><input class="xcontainNum" id="xcontainNum" name="xcontainNum" type="number"
+                                               placeholder="请输入容纳人数"/></td>
+                                </tr>
+                                <tr>
+                                    <td class="tb_bg"><label for="xmeetingStatus">应急调控</label></td>
+                                    <td>
+                                        <select id="xmeetingStatus" name="xmeetingStatus"
+                                                class="form-control select_down" style="font-size: 13px; color: #666;">
+                                            <option value="空闲">空闲</option>
+                                            <option value="占用">占用</option>
+                                            <option value="故障">故障</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                            <button id="xadd_btn" type="button" class="btn btn-secondary">确定</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--表格列表-->
+        <table id="tb" class="table">
+            <thead>
+            <tr>
+                <th>会议室</th>
+                <th>容纳人数</th>
+                <th>当前状态</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody id="show_tbody">
+            <tr th:each="mr : ${mrList}" th:id="${mr.meetingId} + 1">
+                <td th:text="${mr.meetingName}"></td>
+                <td th:text="${mr.containNum}"></td>
+                <td th:text="${mr.enableStatus}"></td>
+                <td>
+                    <a th:id="${mr.meetingId}" href="#" class="edit">编辑</a>
+                    <a th:id="${mr.meetingId}" href="#" class="del" onclick="delMeeting(this.id)">删除</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script src="/control/js/ajax.js"></script>
+<script src="/control/table/js/mejs.js"></script>
+<script type="text/javascript">
+    function delMeeting(meetingId) {
+        // var meetingId = $(this).attr("id");
+        alert("del == " + meetingId)
+        var aTag = document.getElementById(meetingId * 1 + 1);
+        // ajax 新增会议
+        $.ajax({
+            type: "POST",
+            url: "/control/meeting/del",
+            data: {'meetingId': meetingId},
+            dataType: "text", //return dataType: text or json
+            success: function (json) {
+                if (json == "del") {
+                    aTag.remove();
+                    bootbox.alert({
+                        title: "来自智能会议室的提示",
+                        message: "会议室删除成功",
+                        closeButton: false
+                    })
+                    // var aTag = document.getElementById(meetingId * 1).parents('tr');
+                    // aTag.remove();
+                    // $(this).parents('tr').remove();
+                }
+            },
+            error: function (json) {
+                bootbox.alert({
+                    title: "来自智能会议室的提示",
+                    message: "删除失败，请检查网络",
+                    closeButton: false
+                })
+                return
+            }
+        });
+    }
+</script>
+</body>
+</html>

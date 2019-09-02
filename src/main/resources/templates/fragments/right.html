@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="UTF-8">
+    <title>right</title>
+</head>
+<body>
+
+<div th:fragment="right" >
+    <div class="aside-widget">
+        <header>
+            <h3>公告</h3>
+        </header>
+        <div class="body">
+            <ul class="clean-list">
+                <li class="notice_active_ch">
+                    <span style="font-size: 18px">欢迎您，DirkBlog_V2上线了！</span>
+                </li>
+                <li class="notice_active_ch">
+                   <span style="font-size: 18px">如有侵权，请联系管理员删除！</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="aside-widget">
+        <header>
+            <h3>热门文章</h3>
+        </header>
+        <div class="body">
+            <ul class="clean-list" th:each="hotBlog : ${hotBlogList}">
+                <li>
+                    <a th:text="${hotBlog.blogTitle}" th:href="@{/blog/showOne(id=${hotBlog.blogId})}"></a>
+                    <span th:text="${hotBlog.viewNum}" style="float: right;"></span>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="aside-widget">
+        <header>
+            <h3>标签</h3>
+        </header>
+        <div class="body clearfix">
+            <ul class="tags">
+                <li><a th:href="@{/tag/search(blogType=1)}">前端</a></li>
+                <li><a th:href="@{/tag/search(blogType=2)}">后端</a></li>
+                <li><a th:href="@{/tag/search(blogType=3)}">架构</a></li>
+                <li><a th:href="@{/tag/search(blogType=4)}">Linux</a></li>
+                <li><a th:href="@{/tag/search(blogType=5)}">数据库</a></li>
+                <li><a th:href="@{/tag/search(blogType=6)}">编程语言</a></li>
+                <li><a th:href="@{/tag/search(blogType=7)}">其他</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="aside-widget">
+        <header>
+            <h3>关注</h3>
+        </header>
+        <div class="">
+            <img style="height: 100%;width: 100%" src="/index/img/wen.jpg" alt="">
+        </div>
+    </div>
+</div>
+</body>
+</html>

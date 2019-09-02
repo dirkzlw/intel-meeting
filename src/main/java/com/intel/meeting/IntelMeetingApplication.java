@@ -9,5 +9,4 @@ public class IntelMeetingApplication {
     public static void main(String[] args) {
         SpringApplication.run(IntelMeetingApplication.class, args);
     }
-
 }

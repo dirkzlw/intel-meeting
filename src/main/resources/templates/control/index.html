@@ -1,0 +1,56 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <title>智能会议管理--控制中心</title>
+
+    <link href="/control/css/move.css" type="text/css" rel="stylesheet" />
+
+    <style type="text/css">
+        a{
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<ul class="list">
+    <li>
+        <div class="border"></div>
+        <span class="icon">Z</span>
+        <div class="text">
+            <h2><a th:href="@{/}">使用统计</a></h2>
+            <h3>count</h3>
+        </div>
+    </li>
+    <li>
+        <div class="border"></div>
+        <span class="icon">N</span>
+        <div class="text">
+            <h2><a th:href="@{/}">使用记录</a></h2>
+            <h3>record</h3>
+        </div>
+    </li>
+    <li>
+        <div class="border"></div>
+        <span class="icon">F</span>
+        <div class="text">
+            <h2><a th:href="@{/}">会议室状态</a></h2>
+            <h3>status</h3>
+        </div>
+    </li>
+    <li>
+        <div class="border"></div>
+        <span class="icon">B</span>
+        <div class="text">
+            <h2><a th:href="@{/to/control/meeting-manage}">管理会议室</a></h2>
+            <h3>应急调控</h3>
+        </div>
+    </li>
+</ul>
+
+</body>
+</html>
