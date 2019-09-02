@@ -8,7 +8,7 @@ $(function () {
     })
 
     $('#show_tbody').on('click', '.edit', function () {
-        editMeetingId = this.id
+        editUserId = this.id
         trIndex = $('.edit', '#show_tbody').index($(this));
         addEnter = true;
         $(this).parents('tr').addClass('has_case');
@@ -31,7 +31,7 @@ $(function () {
 
 })
 
-var editMeetingId,
+var editUserId,
     addEnter = true,
     noRepeat = false,
     tdStr = '',
@@ -52,34 +52,35 @@ var methods = {
             return;
         }
         if (addEnter) {
-            var meetingName = $('.meetingName').val().trim();
-            var containNum = $('.containNum').val().trim();
-            var meetingStatus = $("#meetingStatus option:selected").val();
-            // ajax 新增会议
+            var username = $('.username').val().trim();
+            var password = $('.password').val().trim();
+            var email = $('.email').val().trim();
+            var role = $("#role option:selected").val();
+            // ajax 新增用户
             $.ajax({
                 type: "POST",
-                url: "/control/meeting/save",
-                data: {'meetingName': meetingName, 'containNum': containNum, 'enableStatus': meetingStatus},
+                url: "/usermgn/user/save",
+                data: {'username': username, 'password': password, 'email': email, 'role': role},
                 dataType: "text", //return dataType: text or json
                 success: function (json) {
                     json = eval('(' + json + ')');
                     var status = json.rtn;
-                    var meetingId = json.rtnId;
-                    var meetingIdTr = meetingId * 1 + 1;
+                    var userId = json.rtnId;
+                    var userIdTr = userId * 1 + 1;
                     if (status == "save") {
                         bootbox.alert({
                             title: "来自智能会议室的提示",
-                            message: "会议室添加成功",
+                            message: "用户添加成功",
                             closeButton: false
                         })
                         methods.setStr();
-                        tdStr += "<td><a id='" + meetingId + "' href='#' class='edit'>编辑</a> <a id='" + meetingId + "' href='#' class='del' onclick='delMeeting(this.id)'>删除</a></td>";
-                        $('#show_tbody').append('<tr id=' + meetingIdTr + '>' + tdStr + '</tr>');
+                        tdStr += "<td><a id='" + userId + "' href='#' class='edit'>编辑</a> <a id='" + userId + "' href='#' class='del' onclick='delUser(this.id)'>删除</a></td>";
+                        $('#show_tbody').append('<tr id=' + userIdTr + '>' + tdStr + '</tr>');
                         $('#renyuan').modal('hide');
                     } else if (status == "exist") {
                         bootbox.alert({
                             title: "来自智能会议室的提示",
-                            message: "会议室已存在，请检查",
+                            message: "用户名/邮箱已存在，请检查",
                             closeButton: false
                         })
                         return
@@ -103,34 +104,40 @@ var methods = {
             return;
         }
         if (addEnter) {
-            var xmeetingName = $('.xmeetingName').val().trim();
-            var xcontainNum = $('.xcontainNum').val().trim();
-            var xmeetingStatus = $("#xmeetingStatus option:selected").val();
+            var xusername = $('.xusername').val().trim();
+            var xpassword = $('.xpassword').val().trim();
+            var xemail = $('.xpassword').val().trim();
+            var xrole = $("#xrole option:selected").val();
             // ajax 修改会议
             $.ajax({
                 type: "POST",
-                url: "/control/meeting/save",
-                data: {'meetingId':editMeetingId,'meetingName': xmeetingName, 'containNum': xcontainNum, 'enableStatus': xmeetingStatus},
+                url: "/usermgn/user/save",
+                data: {
+                    'userId': editUserId,
+                    'username': xusername,
+                    'password': xpassword,
+                    'email': xemail,
+                    'role': xrole
+                },
                 dataType: "text", //return dataType: text or json
                 success: function (json) {
                     json = eval('(' + json + ')');
                     var status = json.rtn;
-                    var meetingId = json.rtnId;
-                    // var meetingIdTr = meetingId * 1 + 1;
+                    var userId = json.rtnId;
                     if (status == "save") {
                         bootbox.alert({
                             title: "来自智能会议室的提示",
-                            message: "会议室修改成功",
+                            message: "用户信息修改成功",
                             closeButton: false
                         })
                         methods.xsetStr();
-                        xtdStr += "<td><a id='" + meetingId + "' href='#' class='edit'>编辑</a> <a id='" + meetingId + "' href='#' class='del' onclick='delMeeting(this.id)'>删除</a></td>";
+                        xtdStr += "<td><a id='" + userId + "' href='#' class='edit'>编辑</a> <a id='" + userId + "' href='#' class='del' onclick='delUser(this.id)'>删除</a></td>";
                         $('#show_tbody tr').eq(trIndex).empty().append(xtdStr);
                         $('#xrenyuan').modal('hide');
                     } else if (status == "exist") {
                         bootbox.alert({
                             title: "来自智能会议室的提示",
-                            message: "会议室已存在，请检查",
+                            message: "用户已存在，请检查",
                             closeButton: false
                         })
                         return
@@ -194,19 +201,28 @@ var methods = {
     },
     xcheckMustMes: function () {
 
-        if ($('.xmeetingName').val().trim() === '') {
+        if ($('.xusername').val().trim() === '') {
             bootbox.alert({
                 title: "来自智能会议室的提示",
-                message: "会议室名称为必选项，请填写",
+                message: "用户名为必选项，请填写",
                 closeButton: false
             })
             hasNullMes = true;
             return
         }
-        if ($('.xcontainNum').val().trim() === '') {
+        if ($('.xpassword').val().trim() === '') {
             bootbox.alert({
                 title: "来自智能会议室的提示",
-                message: "容纳人数为必选项，请填写",
+                message: "密码为必选项，请填写",
+                closeButton: false
+            })
+            hasNullMes = true;
+            return
+        }
+        if ($('.xemail').val().trim() === '') {
+            bootbox.alert({
+                title: "来自智能会议室的提示",
+                message: "邮箱为必选项，请填写",
                 closeButton: false
             })
             hasNullMes = true;
@@ -215,19 +231,28 @@ var methods = {
     },
     checkMustMes: function () {
 
-        if ($('.meetingName').val().trim() === '') {
+        if ($('.username').val().trim() === '') {
             bootbox.alert({
                 title: "来自智能会议室的提示",
-                message: "会议室名称为必选项，请填写",
+                message: "用户名为必选项，请填写",
                 closeButton: false
             })
             hasNullMes = true;
             return
         }
-        if ($('.containNum').val().trim() === '') {
+        if ($('.password').val().trim() === '') {
             bootbox.alert({
                 title: "来自智能会议室的提示",
-                message: "容纳人数为必选项，请填写",
+                message: "密码为必选项，请填写",
+                closeButton: false
+            })
+            hasNullMes = true;
+            return
+        }
+        if ($('.email').val().trim() === '') {
+            bootbox.alert({
+                title: "来自智能会议室的提示",
+                message: "邮箱为必选项，请填写",
                 closeButton: false
             })
             hasNullMes = true;

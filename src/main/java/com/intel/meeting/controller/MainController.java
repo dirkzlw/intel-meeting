@@ -30,4 +30,14 @@ public class MainController {
         return "control/index";
     }
 
+    /**
+     * 接收URL:http://www.intel.com/to/usermgn
+     * 跳转至页面usermgn/index.html
+     * @return
+     */
+    @GetMapping("/to/usermgn")
+    public String toUsermgn(){
+        return "usermgn/index";
+    }
+
 }

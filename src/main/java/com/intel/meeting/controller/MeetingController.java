@@ -6,7 +6,7 @@ import com.intel.meeting.service.MeetingRoomService;
 import com.intel.meeting.service.es.EsMeetingRoomService;
 import com.intel.meeting.utils.EmrUtils;
 import com.intel.meeting.vo.MRPage;
-import com.intel.meeting.vo.MRRtnInfo;
+import com.intel.meeting.vo.RtnIdInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -16,11 +16,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
+ * 处理关于会议室的请求
+ *
  * @author Ranger
  * @create 2019-09-01 20:50
  */
@@ -63,9 +63,7 @@ public class MeetingController {
      */
     @PostMapping("/control/meeting/save")
     @ResponseBody
-    public MRRtnInfo addMeeting(MeetingRoom meetingRoom) {
-
-        System.out.println("meetingRoom = " + meetingRoom);
+    public RtnIdInfo addMeeting(MeetingRoom meetingRoom) {
 
         String result = mrService.saveMeetingRoom(meetingRoom);
 
@@ -75,7 +73,7 @@ public class MeetingController {
                 meetingRoom.getContainNum(),
                 meetingRoom.getEnableStatus()));
 
-        return new MRRtnInfo(result, meetingRoom.getMeetingId());
+        return new RtnIdInfo(result, meetingRoom.getMeetingId());
     }
 
     /**
