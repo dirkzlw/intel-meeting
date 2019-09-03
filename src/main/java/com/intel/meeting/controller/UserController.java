@@ -3,6 +3,7 @@ package com.intel.meeting.controller;
 import com.intel.meeting.po.Role;
 import com.intel.meeting.po.User;
 import com.intel.meeting.service.RoleService;
+import com.intel.meeting.service.UserService;
 import com.intel.meeting.vo.RtnIdInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -24,6 +25,8 @@ public class UserController {
 
     @Autowired
     private RoleService roleService;
+    @Autowired
+    private UserService userService;
 
     @GetMapping("/to/usermgn/user-manage")
     public String toUserManage(Model model){
@@ -35,9 +38,15 @@ public class UserController {
 
     @PostMapping("/usermgn/user/save")
     @ResponseBody
-    public RtnIdInfo saveUser(User user){
+    public RtnIdInfo saveUser(User user,String roleName){
+//        System.out.println(roleName);
+        Role role=roleService.findByRoleName(roleName);
+        user.setRole(role);
+        System.out.println("user:"+user);
+       String result = userService.savaUser(user);
 
-        System.out.println("user = " + user);
+//        return new RtnIdInfo(result,user.getUserId());
+//        System.out.println("user = " + user);
 
         return new RtnIdInfo("save", 1);
     }

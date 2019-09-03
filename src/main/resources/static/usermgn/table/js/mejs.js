@@ -60,7 +60,7 @@ var methods = {
             $.ajax({
                 type: "POST",
                 url: "/usermgn/user/save",
-                data: {'username': username, 'password': password, 'email': email, 'role': role},
+                data: {'username': username, 'password': password, 'email': email, 'roleName': role},
                 dataType: "text", //return dataType: text or json
                 success: function (json) {
                     json = eval('(' + json + ')');
