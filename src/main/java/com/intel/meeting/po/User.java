@@ -1,21 +1,16 @@
 package com.intel.meeting.po;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * @author Ranger
  * @create 2019-09-02 22:26
  */
 @Entity
-@Table(name="t_user")
+@Table(name = "t_user")
 public class User {
     //用户ID
     @Id
@@ -46,14 +41,18 @@ public class User {
     private Integer warnNum;
     // 封号截止时间
     private Date untilTime;
-    // 认证id
-    @Column(length = 10)
-    private Integer authId;
+    // 用户认证
+    @OneToOne
+    @JoinColumn(name = "authId")
+    private UserAuth userAuth;
+    // 预定
+    @OneToMany(mappedBy = "user")
+    private Set<ReserveMeeting> reserveSet = new HashSet<>();
 
-    protected User(){
+    protected User() {
     }
 
-    public User(String username, String password, String email, Role role, String headUrl, Integer status, Integer warnNum, Date untilTime, Integer authId) {
+    public User(String username, String password, String email, Role role, String headUrl, Integer status, Integer warnNum, Date untilTime, UserAuth userAuth, Set<ReserveMeeting> reserveSet) {
         this.username = username;
         this.password = password;
         this.email = email;
@@ -62,7 +61,8 @@ public class User {
         this.status = status;
         this.warnNum = warnNum;
         this.untilTime = untilTime;
-        this.authId = authId;
+        this.userAuth = userAuth;
+        this.reserveSet = reserveSet;
     }
 
     public Integer getUserId() {
@@ -137,12 +137,20 @@ public class User {
         this.untilTime = untilTime;
     }
 
-    public Integer getAuthId() {
-        return authId;
+    public UserAuth getUserAuth() {
+        return userAuth;
     }
 
-    public void setAuthId(Integer authId) {
-        this.authId = authId;
+    public void setUserAuth(UserAuth userAuth) {
+        this.userAuth = userAuth;
+    }
+
+    public Set<ReserveMeeting> getReserveSet() {
+        return reserveSet;
+    }
+
+    public void setReserveSet(Set<ReserveMeeting> reserveSet) {
+        this.reserveSet = reserveSet;
     }
 
     @Override
@@ -157,7 +165,6 @@ public class User {
                 ", status=" + status +
                 ", warnNum=" + warnNum +
                 ", untilTime=" + untilTime +
-                ", authId=" + authId +
                 '}';
     }
 }

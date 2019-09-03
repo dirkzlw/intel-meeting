@@ -15,12 +15,14 @@ public class ReserveMeeting {
     @Column(length = 10)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer reserveId;
-    //用户ID
-    @Column(length = 10)
-    private Integer userId;
-    //会议室ID
-    @Column(length = 10)
-    private Integer meetingroomId;
+    //用户
+    @ManyToOne
+    @JoinColumn(name = "userId")
+    private User user;
+    //会议室
+    @ManyToOne
+    @JoinColumn(name = "meetingId")
+    private MeetingRoom meetingRoom;
     // 开始时间
     @Column(length = 40)
     private Date startTime;
@@ -37,26 +39,19 @@ public class ReserveMeeting {
     public ReserveMeeting() {
     }
 
-    public ReserveMeeting(Integer userId,Integer meetingroomId, Date startTime, Date endTime, Date signTime, Integer usageStatus) {
-        this.userId = userId;
-        this.meetingroomId = meetingroomId;
+    public ReserveMeeting(User user, MeetingRoom meetingRoom, Date startTime, Date endTime, Integer usageStatus, Date signTime) {
+        this.user = user;
+        this.meetingRoom = meetingRoom;
         this.startTime = startTime;
         this.endTime = endTime;
-        this.signTime = signTime;
         this.usageStatus = usageStatus;
+        this.signTime = signTime;
     }
 
     public Integer getReserveId() {
         return reserveId;
     }
 
-    public Integer getUserId() {
-        return userId;
-    }
-
-    public Integer getMeetingroomId() {
-        return meetingroomId;
-    }
 
     public Date getStartTime() {
         return startTime;
@@ -90,12 +85,20 @@ public class ReserveMeeting {
         this.startTime = startTime;
     }
 
-    public void setMeetingroomId(Integer meetingroomId) {
-        this.meetingroomId = meetingroomId;
+    public User getUser() {
+        return user;
     }
 
-    public void setUserId(Integer userId) {
-        this.userId = userId;
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public MeetingRoom getMeetingRoom() {
+        return meetingRoom;
+    }
+
+    public void setMeetingRoom(MeetingRoom meetingRoom) {
+        this.meetingRoom = meetingRoom;
     }
 
     public void setReserveId(Integer reserveId) {
@@ -106,8 +109,6 @@ public class ReserveMeeting {
     public String toString() {
         return "ReserveMeeting{" +
                 "reserveId=" + reserveId +
-                ", userId=" + userId +
-                ", meetingroomId=" + meetingroomId +
                 ", startTime=" + startTime +
                 ", endTime=" + endTime +
                 ", usageStatus=" + usageStatus +
