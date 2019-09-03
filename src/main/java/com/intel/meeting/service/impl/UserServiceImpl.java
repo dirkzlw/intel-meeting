@@ -18,12 +18,15 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserRepository userRepository;
 
-    public String getVCode(String email,String username){
+    @Override
+    public String getVCode(String username,String email){
         User user = userRepository.findByEmail(email);
+        System.out.println("user = " + user);
         if(user!=null){
             return "emailExist";
         }
         User user1 = userRepository.findByUsername(username);
+        System.out.println("user1 = " + user1);
         if (user1!=null){
             return "userNameExist";
         }
@@ -31,6 +34,7 @@ public class UserServiceImpl implements UserService {
         return "success";
     }
 
+    @Override
     public void save(User user){
         userRepository.save(user);
     }
