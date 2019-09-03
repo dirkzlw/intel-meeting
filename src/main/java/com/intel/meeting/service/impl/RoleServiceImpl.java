@@ -1,7 +1,12 @@
 package com.intel.meeting.service.impl;
 
+import com.intel.meeting.po.Role;
+import com.intel.meeting.repository.RoleRepository;
 import com.intel.meeting.service.RoleService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * @author ranger
@@ -9,4 +14,11 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class RoleServiceImpl implements RoleService {
+    @Autowired
+    private RoleRepository roleRepository;
+
+    @Override
+    public List<Role> findAllRoles() {
+        return roleRepository.findAll();
+    }
 }
