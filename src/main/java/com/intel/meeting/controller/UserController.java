@@ -27,8 +27,6 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @Autowired
-    private UserService userService;
     /**
      * 跳转到查询用户界面
      * @return
