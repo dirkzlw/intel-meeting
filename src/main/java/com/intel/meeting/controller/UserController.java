@@ -24,6 +24,8 @@ public class UserController {
 
     @Autowired
     private RoleService roleService;
+    @Autowired
+    private UserService userService;
 
     @Autowired
     private UserService userService;
@@ -68,9 +70,15 @@ public class UserController {
      */
     @PostMapping("/usermgn/user/save")
     @ResponseBody
-    public RtnIdInfo saveUser(User user){
+    public RtnIdInfo saveUser(User user,String roleName){
+//        System.out.println(roleName);
+        Role role=roleService.findByRoleName(roleName);
+        user.setRole(role);
+        System.out.println("user:"+user);
+       String result = userService.savaUser(user);
 
-        System.out.println("user = " + user);
+//        return new RtnIdInfo(result,user.getUserId());
+//        System.out.println("user = " + user);
 
         return new RtnIdInfo("save", 1);
     }
