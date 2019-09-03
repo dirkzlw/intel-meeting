@@ -3,26 +3,24 @@
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
-	<meta charset="utf-8" />
-	<title>智能会议管理</title>
+    <meta charset="utf-8"/>
+    <title>智能会议管理</title>
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no"/>
+    <!-- add styles -->
+    <link href="/index/css/main.css" rel="stylesheet" type="text/css" />
 
-	<!-- add styles -->
-	<link href="/index/css/main.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="/index/table/css/style.css"/>
 
-    <!--表格-->
-    <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css"
+          href="https://cdn.bootcss.com/twitter-bootstrap/4.2.1/css/bootstrap.min.css"/>
 
-    <link rel="stylesheet" type="text/css" href="/index/table/css/demo.css">
+    <script src="/index/table/js/jquery.min.js"></script>
+    <script src="/index/table/js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="/index/table/js/bootbox.min.js"></script>
 
     <style type="text/css">
-        *{margin:0;padding:0;list-style-type:none;}
-        a,img{border:0;}
-        body{font:12px/180% Arial,Lucida,Verdana,"宋体",Helvetica,sans-serif;font-size:13px;color:#211922;text-shadow:0 1px rgba(255,255,255,0.9);}
-        a{
-            cursor: pointer;
-        }
-        a:hover{
+        a:hover {
             text-decoration: none;
         }
     </style>
@@ -30,117 +28,140 @@
 </head>
 <body>
 
-    <!--头部-->
-    <div th:replace="~{fragments/header :: header}"></div>
+<!--头部-->
+<div th:replace="~{fragments/header :: header}"></div>
 
-	<div class="container" style="position: relative;top: -20px;left: -200px">
-		<ul class="menu">
-			<!--<li><a href="#">Home</a></li>-->
-			<li>
-				<a href="#">预定中心</a>
-			</li>
-			<li class="active">
-				<a href="#">认证中心</a>
-			</li>
-			<li>
-				<a href="#">签到</a>
-			</li>
-			<li>
-                <a th:href="@{/to/usermgn}">用户管理</a>
-				<!--<ul class="submenu">-->
-					<!--<li><a href="#">认证审核</a></li>-->
-					<!--<li><a href="#">预定审核</a></li>-->
-					<!--<li><a href="#">管理用户</a></li>-->
-				<!--</ul>-->
-			</li>
-			<li>
-                <a th:href="@{/to/control}">控制中心</a>
-			</li>
-		</ul>
-	</div>
+<div class="container" style="position: relative;top: -20px;left: -200px">
+    <ul class="menu">
+        <!--<li><a href="#">Home</a></li>-->
+        <li>
+            <a href="#">预定中心</a>
+        </li>
+        <li class="active">
+            <a href="#">认证中心</a>
+        </li>
+        <li>
+            <a href="#">签到</a>
+        </li>
+        <li>
+            <a th:href="@{/to/usermgn}">用户管理</a>
+            <!--<ul class="submenu">-->
+            <!--<li><a href="#">认证审核</a></li>-->
+            <!--<li><a href="#">预定审核</a></li>-->
+            <!--<li><a href="#">管理用户</a></li>-->
+            <!--</ul>-->
+        </li>
+        <li>
+            <a th:href="@{/to/control}">控制中心</a>
+        </li>
+    </ul>
+</div>
 
-    <!--分页-->
-    <div class="container">
-        <div class="row">
-            按名称查询
-            <input type="text" style="width: 100px">
-            按空闲时间查询
-            <input type="date">
-            <input type="time">
-            <input type="time">
-            <a>查询</a>
+<div class="box" style="position: relative;top: -42px;">
+    <div class="content">
+        <!--搜索输入框及查询、重置按钮-->
+        <div class="container content_width">
+            <div class="person_search">
+                <div class="search_input">
+                    <div class="input-group mb-3">
+                        <span>会议室：</span>
+                        <input id="smrn" type="text" class="form-control" placeholder="请输入会议室名称/状态">
+                    </div>
+                </div>
+                <div class="search_input">
+                    <button class="btn btn-primary search_btn" type="button" id="search_btn">查询</button>
+                    <!--<button th:if="${mainMrPage.isSearch == 1}" class="btn btn-primary search_btn" type="hidden" id="end_search_btn">结束查询</button>-->
+                </div>
+            </div>
+            <div class="line"></div>
         </div>
-        <div class="row">
-            <div class="col-md-12" style="padding:2em 0;">
-                <div class="table-responsive">
-                    <table class="table table-bordered table-striped" id="mytable">
-                        <thead>
-                        <tr>
-                            <td>会议室</td>
-                            <td>容纳量</td>
-                            <td>会议室状态</td>
-                            <td>预约情况</td>
-                            <td>操作</td>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            <td>B302</td>
-                            <td>25</td>
-                            <td>随时预约</td>
-                            <td></td>
-                            <td>
-                                <a>预约</a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>B302</td>
-                            <td>25</td>
-                            <td>存在预约</td>
-                            <td>2019-08-30 05:05--06:06<br>2019-08-30 05:05--06:06</td>
-                            <td>
-                                <a>预约</a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>B302</td>
-                            <td>25</td>
-                            <td>出现故障</td>
-                            <td>2019-08-30 05:05--06:06</td>
-                            <td>
-                                <a>暂不可用</a>
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
+        <!--添加按钮及bootstrap的模态框-->
+        <div class="export">
+            <div class="modal fade" id="xrenyuan">
+                <div class="modal-dialog modal-lg modal_position">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title">预约会议室</h4>
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        </div>
+                        <div class="modal-body">
+                            <table id="xxztb" class="table">
+                                <!--修改会议弹窗的样式-->
+                                <tbody>
+                                <tr>
+                                    <td class="tb_bg"><label for="reserveDay"><font
+                                            style="font-size: 14px; color: red;">*</font>预约日期</label>
+                                    </td>
+                                    <td><input class="reserveDay" id="reserveDay" name="reserveDay" type="date"/></td>
+                                </tr>
+                                <tr>
+                                    <td class="tb_bg"><label for="startTime"><font
+                                            style="font-size: 14px; color: red;">*</font>开始时间</label>
+                                    </td>
+                                    <td><input class="startTime" id="startTime" name="startTime" type="time"/></td>
+                                    <td class="tb_bg"><label for="endTime"><font
+                                            style="font-size: 14px; color: red;">*</font>结束时间</label>
+                                    </td>
+                                    <td><input class="endTime" id="endTime" name="endTime" type="time"/></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                            <button id="xadd_btn" type="button" class="btn btn-secondary">确定</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="row">
-            <div style="display: inline;">
-                共15页 共5条
+        <!--表格列表-->
+        <table id="tb" class="table">
+            <thead>
+            <tr>
+                <th>会议室</th>
+                <th>容纳人数</th>
+                <th>预约状态</th>
+                <th>预约情况</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody id="show_tbody">
+            <tr th:each="mr : ${mainMrPage.mrList}" th:id="${mr.meetingId} + 1">
+                <td th:text="${mr.meetingName}"></td>
+                <td th:text="${mr.containNum}"></td>
+                <td th:text="${mr.reserveStatus}"></td>
+                <td th:utext="${mr.reserveTime}"></td>
+                <td>
+                    <a th:id="${mr.meetingId}" href="#" class="edit">预约</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="content">
+        <div th:if="${mainMrPage != null}" style="display: inline;">
+            共<span id="totalPage" th:text="${mainMrPage.totalPage}"></span>页
+            &nbsp;&nbsp;
+            共<span th:text="${mainMrPage.totalNum}"></span>条
 
-                上一页
-                5
-                下一页
-
-                每页显示
-                <select style="width: 45px">
-                    <option>10</option>
-                    <option>20</option>
-                    <option>30</option>
-                </select>
-                条
-                前往
-                <input type="number" style="width: 50px">
-                页
-                <a  href="#">Go</a>
-            </div>
+            &nbsp;&nbsp;
+            <a th:if="${mainMrPage.page}>1"
+               th:href="@{/(page=${mainMrPage.page - 2})}">上一页</a>
+            &nbsp;&nbsp;
+            <span th:text="${mainMrPage.page}"></span>
+            &nbsp;&nbsp;
+            <a th:if="${mainMrPage.page}<${mainMrPage.totalPage}"
+               th:href="@{/(page=${mainMrPage.page})}">下一页</a>
+            &nbsp;&nbsp;
+            前往
+            <input id="toPage" type="number" style="width: 50px">
+            页
+            <a href="javascript:toSkip()">Go</a>
         </div>
     </div>
+</div>
 
-    <script src="/index/table/js/jquery-1.11.0.min.js" type="text/javascript"></script>
-    <script type="text/javascript" src="/index/table/js/bootstable.js"></script>
-
+<script src="/index/table/js/mejs.js"></script>
 </body>
 </html>

@@ -8,8 +8,8 @@ import java.util.List;
  * @author Ranger
  * @create 2019-09-02 15:59
  */
-public class MRPage {
-    private List<MeetingRoom> mrList;
+public class MRPage<T> {
+    private List<T> mrList;
     private Integer page;
     private Integer totalPage;
     private Integer totalNum;
@@ -18,7 +18,7 @@ public class MRPage {
     protected MRPage() {
     }
 
-    public MRPage(List<MeetingRoom> mrList, Integer page, Integer totalPage, Integer totalNum,Integer isSearch) {
+    public MRPage(List<T> mrList, Integer page, Integer totalPage, Integer totalNum,Integer isSearch) {
         this.mrList = mrList;
         this.page = page;
         this.totalPage = totalPage;
@@ -26,11 +26,11 @@ public class MRPage {
         this.isSearch = isSearch;
     }
 
-    public List<MeetingRoom> getMrList() {
+    public List<T> getMrList() {
         return mrList;
     }
 
-    public void setMrList(List<MeetingRoom> mrList) {
+    public void setMrList(List<T> mrList) {
         this.mrList = mrList;
     }
 

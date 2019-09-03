@@ -29,14 +29,14 @@ public class ReserveMeeting {
     // 结束时间
     @Column(length = 40)
     private Date endTime;
-    // 使用状态
+    // 使用状态  1--使用  2--取消
     @Column(length = 10)
     private Integer usageStatus;
     // 签到时间
     @Column(length = 40)
     private Date signTime;
 
-    public ReserveMeeting() {
+    protected ReserveMeeting() {
     }
 
     public ReserveMeeting(User user, MeetingRoom meetingRoom, Date startTime, Date endTime, Integer usageStatus, Date signTime) {

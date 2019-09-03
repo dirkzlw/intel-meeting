@@ -18,4 +18,6 @@ public interface MeetingRoomService {
     String delMeetingRoom(Integer meetingId);
 
     Page<MeetingRoom> findMeetingRoomByPage(Integer page, Integer size);
+
+    MeetingRoom findMrById(Integer mrId);
 }

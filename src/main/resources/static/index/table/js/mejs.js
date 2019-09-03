@@ -1,0 +1,217 @@
+$(function () {  //jquery里的,是当文档载入完毕就执行的意思
+
+    $('#xadd_btn').click(function () {//只有在页面加载的时候才会有效触发
+        methods.xaddHandle()
+    })
+
+    $('#show_tbody').on('click', '.edit', function () {
+        editMeetingId = this.id
+        trIndex = $('.edit', '#show_tbody').index($(this));
+        addEnter = true;
+        $(this).parents('tr').addClass('has_case');
+        methods.editHandle(trIndex);
+    })
+
+    $('#back_btn').click(function () {
+        $('#Ktext').val(' ');
+        methods.resectList();
+    })
+
+    $('#renyuan').on('hide.bs.modal', function () {
+        addEnter = true;
+        $('#show_tbody tr').removeClass('has_case');
+        $('#xztb input').val(' ');
+        $('#xztb select').find('option:first').prop('selected', true)
+        $('#xxztb input').val(' ');
+        $('#xxztb select').find('option:first').prop('selected', true)
+    });
+
+})
+
+var editMeetingId,
+    addEnter = true,
+    noRepeat = false,
+    tdStr = '',
+    xtdStr = '',
+    trIndex,
+    hasNullMes = false,
+    tarInp = $('#xztb input'),
+    tarSel = $('#xztb select'),
+    xtarInp = $('#xxztb input'),
+    xtarSel = $('#xxztb select');
+
+var methods = {
+
+    xaddHandle: function (the_index) {
+        hasNullMes = false;
+        methods.xcheckMustMes();
+        if (hasNullMes) {
+            return;
+        }
+        if (addEnter) {
+            var reserveDay = $('.reserveDay').val().trim();
+            var startTime = $('.startTime').val().trim();
+            var endTime = $('.endTime').val().trim();
+            // ajax 修改会议
+            $.ajax({
+                type: "POST",
+                url: "/meeting/reserve",
+                data: {
+                    'meetingId': editMeetingId,
+                    'reserveDay': reserveDay,
+                    'startTime': startTime,
+                    'endTime': endTime
+                },
+                dataType: "text", //return dataType: text or json
+                success: function (json) {
+                    json = eval('(' + json + ')');
+                    var status = json.rtn;
+                    var meetingId = json.rtnId;
+                    // var meetingIdTr = meetingId * 1 + 1;
+                    if (status == "reserve") {
+                        bootbox.alert({
+                            title: "来自智能会议室的提示",
+                            message: "会议室预定成功",
+                            closeButton: false
+                        })
+                        methods.xsetStr();
+                        xtdStr += "<td><a id='" + meetingId + "' href='#' class='edit'>编辑</a> <a id='" + meetingId + "' href='#' class='del' onclick='delMeeting(this.id)'>删除</a></td>";
+                        $('#show_tbody tr').eq(trIndex).empty().append(xtdStr);
+                        $('#xrenyuan').modal('hide');
+                    } else if (status == "exist") {
+                        bootbox.alert({
+                            title: "来自智能会议室的提示",
+                            message: "会议室已存在，请检查",
+                            closeButton: false
+                        })
+                        return
+                    }
+                },
+                error: function (json) {
+                    bootbox.alert({
+                        title: "来自智能会议室的提示",
+                        message: "添加失败，请检查网络",
+                        closeButton: false
+                    })
+                    return
+                }
+            });
+        }
+    },
+    editHandle: function (the_index) {
+
+        var tar = $('#show_tbody tr').eq(the_index);
+        var nowConArr = [];
+        for (var i = 0; i < tar.find('td').length - 1; i++) {
+            var a = tar.children('td').eq(i).html();
+            nowConArr.push(a);
+        }
+
+        $('#xrenyuan').modal('show');
+
+        for (var j = 0; j < xtarInp.length; j++) {
+            xtarInp.eq(j).val(nowConArr[j])
+        }
+        for (var p = 0; p < xtarSel.length; p++) {
+            var the_p = p + xtarInp.length;
+            xtarSel.eq(p).val(nowConArr[the_p]);
+        }
+
+    },
+    setStr: function () {
+
+        tdStr = '';
+        for (var a = 0; a < tarInp.length; a++) {
+            tdStr += '<td>' + tarInp.eq(a).val() + '</td>'
+        }
+        for (var b = 0; b < tarSel.length; b++) {
+            tdStr += '<td>' + tarSel.eq(b).val() + '</td>'
+        }
+
+    },
+    xsetStr: function () {
+
+        xtdStr = '';
+        for (var a = 0; a < xtarInp.length; a++) {
+            xtdStr += '<td>' + xtarInp.eq(a).val() + '</td>'
+        }
+        for (var b = 0; b < xtarSel.length; b++) {
+            xtdStr += '<td>' + xtarSel.eq(b).val() + '</td>'
+        }
+
+    },
+    resectList: function () {
+        $('#show_tbody tr').show();
+    },
+    xcheckMustMes: function () {
+        //确定预约三日内会议室
+        var reserveDay = new Date($('.reserveDay').val().trim())
+        var day1 = reserveDay.getDay()
+        var currentTime = new Date();
+        var day2 = currentTime.getDay()
+        var ds = day1 - day2
+        if (ds > 2 || ds < 0) {
+            bootbox.alert({
+                title: "来自智能会议室的提示",
+                message: "以今天开始，请预约在三日内",
+                closeButton: false
+            })
+            hasNullMes = true;
+            return
+        }
+
+        if (reserveDay === '') {
+            bootbox.alert({
+                title: "来自智能会议室的提示",
+                message: "预定日期为必选项，请填写",
+                closeButton: false
+            })
+            hasNullMes = true;
+            return
+        }
+
+        //确定预约时间在8:00--21:00
+        var startTime = $('.startTime').val().trim()
+        var hour1 = startTime.split(":")[0]
+        var endTime = $('.endTime').val().trim();
+        var hour2 = endTime.split(":")[0]
+        var min2 = endTime.split(":")[1]
+        if (hour1 < 8 || hour2 > 21 || hour2 - hour1 < 0) {
+            bootbox.alert({
+                title: "来自智能会议室的提示",
+                message: "预约时间为08:00--21:00",
+                closeButton: false
+            })
+            hasNullMes = true;
+            return
+        }
+        if(hour2==21 && min2>0){
+            bootbox.alert({
+                title: "来自智能会议室的提示",
+                message: "预约时间不能超过21:00",
+                closeButton: false
+            })
+            hasNullMes = true;
+            return
+        }
+
+        if (startTime === '') {
+            bootbox.alert({
+                title: "来自智能会议室的提示",
+                message: "开始时间为必选项，请填写",
+                closeButton: false
+            })
+            hasNullMes = true;
+            return
+        }
+        if (endTime === '') {
+            bootbox.alert({
+                title: "来自智能会议室的提示",
+                message: "结束为必选项，请填写",
+                closeButton: false
+            })
+            hasNullMes = true;
+            return
+        }
+    },
+}

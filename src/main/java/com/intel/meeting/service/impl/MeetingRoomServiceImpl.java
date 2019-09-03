@@ -92,4 +92,14 @@ public class MeetingRoomServiceImpl implements MeetingRoomService {
         Page<MeetingRoom> mrPage = mrRepository.findAll(pageable);
         return mrPage;
     }
+
+    /**
+     * 根据id查询会议室
+     * @param mrId
+     * @return
+     */
+    @Override
+    public MeetingRoom findMrById(Integer mrId) {
+        return mrRepository.findOne(mrId);
+    }
 }
