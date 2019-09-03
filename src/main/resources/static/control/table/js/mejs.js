@@ -1,9 +1,9 @@
-$(function () {
+$(function () {  //jquery里的,是当文档载入完毕就执行的意思
 
     $('#add_btn').click(function () {
         methods.addHandle()
     })
-    $('#xadd_btn').click(function () {
+    $('#xadd_btn').click(function () {//只有在页面加载的时候才会有效触发
         methods.xaddHandle()
     })
 

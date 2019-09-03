@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width-device-width,initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="sie-edge" />
+    <link rel="stylesheet" type="text/css" href="/user/css/style.css">
+    <title>登录注册页面</title>
+    <!--弹框引入-->
+    <link rel="stylesheet" href="/naran/css/naranja.min.css">
+    <script type="text/javascript" src="/naran/js/naranja.js"></script>
+    <!--图标库-->
+    <script src="https://unpkg.com/ionicons@4.2.2/dist/ionicons.js"></script>
+    <style>
+        button{
+            cursor: pointer;
+        }
+        Vbutton{
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container" id="container">
+    <div class="form-container sign-up-container">
+        <form action="#">
+            <h1>注册</h1>
+            <!--<div class="social-container"> <a href="#" class="social">-->
+                <!--<ion-icon name="logo-facebook"></ion-icon>-->
+            <!--</a> <a href="#" class="social">-->
+                <!--<ion-icon name="logo-googleplus"></ion-icon>-->
+            <!--</a> <a href="#" class="social">-->
+                <!--<ion-icon name="logo-linkedin"></ion-icon>-->
+            <!--</a> </div>-->
+            <div class="left">
+                <input id="userid"type="text" placeholder="用户名">
+                <input id="email" type="email" placeholder="邮箱" onblur="checkemail()">
+                <input id="pwd" type="password" placeholder="密码">
+                <input id="confirm" type="password" placeholder="确认密码">
+                <input style="width:150px;display: inline;" type="text" placeholder="验证码">
+                <Vbutton style="display: inline" onclick="Vcode()">获得验证码</Vbutton>
+            </div>
+            <button>注册</button>
+        </form>
+    </div>
+    <div class="form-container sign-in-container">
+        <form action="#">
+            <h1>登录</h1>
+            <!--<div class="social-container"> <a href="#" class="social">-->
+                <!--<ion-icon name="logo-facebook"></ion-icon>-->
+            <!--</a> <a href="#" class="social">-->
+                <!--<ion-icon name="logo-googleplus"></ion-icon>-->
+            <!--</a> <a href="#" class="social">-->
+                <!--<ion-icon name="logo-linkedin"></ion-icon>-->
+            <!--</a> </div>-->
+            <!--<span>或用邮箱登录</span>-->
+            <input type="email" placeholder="邮箱">
+            <input type="password" placeholder="密码">
+            <button>登录</button>
+        </form>
+    </div>
+    <div class="overlay-container">
+        <div class="overlay">
+            <div class="overlay-panel overlay-left">
+                <h1>欢迎回来</h1>
+                <p>与我们保持联系请登录您的个人信息</p>
+                <button class="ghost" id="signIn">登录</button>
+            </div>
+            <div class="overlay-panel overlay-right">
+                <h1>欢迎光临</h1>
+                <p>输入您的个人资料，并与我们一起开始旅程</p>
+                <button class="ghost" id="signUp">注册</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="/control/table/js/jquery.min.js"></script>
+<script  src="/user/js/script.js"></script>
+<script type="text/javascript">
+
+    function checkemail() {
+        var emreg = /^[a-zA-Z0-9]([a-zA-Z0-9_]{2,20})@([a-z0-9]{1,10})([.]{1})([a-z]{2,4})$/;
+        var email = document.getElementById("email").value
+        if(emreg.test(email) == false){
+            narn("warn","邮箱格式不正确")
+        }
+    }
+//    function checkpwd() {
+//        var pwd = document.getElementById("pwd").value
+//        var confirm = document.getElementById("confirm").value
+//        if(pwd != confirm){
+//            narn("warn","两次密码不一致")
+//          }
+//    }
+    function Vcode() {
+        var userid = document.getElementById("userid").value.trim()
+        var email = document.getElementById("email").value.trim()
+        var pwd = document.getElementById("pwd").value
+        var confirm = document.getElementById("confirm").value
+        if(userid == ""){
+            narn("warn","用户名不能为空")
+            return
+        }else if(email == ""){
+            narn("warn","邮箱不能为空");
+            return
+        }else if(pwd == ""){
+            narn("warn","密码不能为空")
+            return
+        }else if(confirm == ""){
+            narn("warn","确认密码不能为空")
+            return
+        }else if(pwd != confirm){
+            narn("warn","两次密码不一致")
+            return
+        }else{
+            $.ajax({
+                type: "POST",
+                url: "/user/getcode",
+                data: {'username':userid,'email': email},
+                dataType: "text", //return dataType: text or json
+                success: function (json) {
+                    json = eval('(' + json + ')');
+                    var status = json.rtn;
+                    alert(status)
+                    // var meetingIdTr = meetingId * 1 + 1;
+                    if (status == "emailExist") {
+                        narn("warn","邮箱已被注册")
+                        return
+
+                    } else if (status == "userNameExist") {
+                        narn("warn", "用户名已存在")
+                        return
+                    } else if (status == "success"){
+                        narn("success","注册成功")
+                        return
+                    }
+                },
+                error: function (json) {
+
+                    return
+                }
+            });
+        }
+    }
+
+
+    /**
+     * 弹出对话框
+     * @param type
+     * @param msg
+     */
+    function narn (type,msg) {
+        naranja()[type]({
+            title: '消息提示',
+            text: msg,
+            timeout: 'keep',
+            buttons: [{
+                text: '接受',
+                click: function (e) {
+                    naranja().success({
+                        title: '通知',
+                        text: '通知被接受'
+                    })
+                }
+            },{
+                text: '取消',
+                click: function (e) {
+                    e.closeNotification()
+                }
+            }]
+        })
+    }
+</script>
+</body>
+</html>

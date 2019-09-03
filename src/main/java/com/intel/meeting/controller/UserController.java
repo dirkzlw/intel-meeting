@@ -7,7 +7,6 @@ import com.intel.meeting.service.UserService;
 import com.intel.meeting.vo.RtnIdInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.stereotype.Repository;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -28,6 +27,12 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private UserService userService;
+    /**
+     * 跳转到查询用户界面
+     * @return
+     */
     @GetMapping("/to/usermgn/user-manage")
     public String toUserManage(Model model){
         List<Role> roleList = roleService.findAllRoles();
@@ -36,6 +41,33 @@ public class UserController {
         return "usermgn/user-manage";
     }
 
+    /**
+     * 跳转到登陆界面
+     * @return
+     */
+    @GetMapping("/to/user/login")
+    public String toUserLogin(){
+        return "user/login";
+    }
+
+    @PostMapping("/user/getcode")
+    @ResponseBody
+    public RtnIdInfo getVCode(String username,String email){
+        System.out.println("username = " + username);
+        System.out.println("email = " + email);
+        String result = userService.getVCode(username,email);
+        return new RtnIdInfo(result,0);
+    }
+
+
+
+
+
+    /**
+     * 管理员添加用户功能
+     * @param user
+     * @return
+     */
     @PostMapping("/usermgn/user/save")
     @ResponseBody
     public RtnIdInfo saveUser(User user,String roleName){
