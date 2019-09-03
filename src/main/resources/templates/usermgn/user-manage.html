@@ -85,8 +85,7 @@
                                     <td>
                                         <select id="role" name="role" class="form-control select_down"
                                                 style="font-size: 13px; color: #666;">
-                                            <option value="用户">用户</option>
-                                            <option value="管理员">管理员</option>
+                                            <option th:each="role : ${roleList}"  th:value="${role.roleName}" th:text="${role.roleName}"></option>
                                         </select>
                                     </td>
                                 </tr>
@@ -133,8 +132,7 @@
                                     <td>
                                         <select id="xrole" name="xrole"
                                                 class="form-control select_down" style="font-size: 13px; color: #666;">
-                                            <option value="用户">用户</option>
-                                            <option value="管理员">管理员</option>
+                                            <option th:each="role : ${roleList}"  th:value="${role.roleName}" th:text="${role.roleName}"></option>
                                         </select>
                                     </td>
                                 </tr>

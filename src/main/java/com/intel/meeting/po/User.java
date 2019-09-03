@@ -5,6 +5,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import java.util.Date;
 
@@ -30,8 +32,9 @@ public class User {
     @Column(length = 40)
     private String email;
     // 角色
-    @Column(length = 20)
-    private String role;
+    @ManyToOne
+    @JoinColumn(name = "roleId")
+    private Role role;
     // 头像URL
     @Column(length = 100)
     private String headUrl;
@@ -50,7 +53,7 @@ public class User {
     protected User(){
     }
 
-    public User(String username, String password, String email, String role, String headUrl, Integer status, Integer warnNum, Date untilTime, Integer authId) {
+    public User(String username, String password, String email, Role role, String headUrl, Integer status, Integer warnNum, Date untilTime, Integer authId) {
         this.username = username;
         this.password = password;
         this.email = email;
@@ -94,11 +97,11 @@ public class User {
         this.email = email;
     }
 
-    public String getRole() {
+    public Role getRole() {
         return role;
     }
 
-    public void setRole(String role) {
+    public void setRole(Role role) {
         this.role = role;
     }
 
