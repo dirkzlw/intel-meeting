@@ -51,6 +51,8 @@ dependencies {
     compile 'org.springframework.boot:spring-boot-starter-data-jpa'
     //Spring Data ElasticSearch
     compile 'org.springframework.boot:spring-boot-starter-data-elasticsearch'
+    //Spring Data Redis
+    compile 'org.springframework.boot:spring-boot-starter-data-redis'
 //    使用lombok   出现bug  spring MVC不能将参数封装成对象
 //    compile 'org.projectlombok:lombok:1.18.2'
 }

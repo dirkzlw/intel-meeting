@@ -73,7 +73,7 @@ public class UserController {
         Role role=roleService.findByRoleName(roleName);
         user.setRole(role);
         System.out.println("user:"+user);
-       String result = userService.savaUser(user);
+       String result = userService.saveUser(user);
 
 //        return new RtnIdInfo(result,user.getUserId());
 //        System.out.println("user = " + user);
