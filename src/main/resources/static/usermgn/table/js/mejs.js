@@ -64,8 +64,14 @@ var methods = {
                 dataType: "text", //return dataType: text or json
                 success: function (json) {
                     json = eval('(' + json + ')');
+                    var userId=json.userId;
+                    var username=json.username;
+                    var password=json.password;
+                    var email=json.email;
+                    var role=json.role;
                     var status = json.rtn;
-                    var userId = json.rtnId;
+                    alert(status)
+                    // var userId = json.rtnId;
                     var userIdTr = userId * 1 + 1;
                     if (status == "save") {
                         bootbox.alert({
@@ -73,7 +79,7 @@ var methods = {
                             message: "用户添加成功",
                             closeButton: false
                         })
-                        xtdStr = "      \n" +
+                        tdStr = "      \n" +
                             "                <td>"+username+"</td>\n" +
                             "                <td>"+password+"</td>\n" +
                             "                <td>"+email+"</td>\n" +
@@ -82,10 +88,10 @@ var methods = {
                             "                    <a id='" + userId + "' href='#' class='edit'>编辑</a> <a id='" + userId + "' href='#' class='del' onclick='delUser(this.id)'>删除</a>" +
                             "               </td>" +
                             "           ";
-                        $('#show_tbody tr').eq(trIndex).empty().append(xtdStr);
+                        // $('#show_tbody tr').eq(trIndex).empty().append(xtdStr);
                         // methods.setStr();
                         //  tdStr += "<td><a id='" + userId + "' href='#' class='edit'>编辑</a> <a id='" + userId + "' href='#' class='del' onclick='delUser(this.id)'>删除</a></td>";
-                        // $('#show_tbody').append('<tr id=' + userIdTr + '>' + tdStr + '</tr>');
+                        $('#show_tbody').append('<tr id=' + userIdTr + '>' + tdStr + '</tr>');
                         $('#renyuan').modal('hide');
                     } else if (status=="userNameExist") {
                         bootbox.alert({

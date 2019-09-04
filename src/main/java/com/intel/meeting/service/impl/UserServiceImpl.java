@@ -125,6 +125,7 @@ public class UserServiceImpl implements UserService {
                     //1. 判断该用户是否存在
                     return "exist";
             }
+            user.setPassword(MD5Utils.md5(user.getPassword()));
             User save = userRepository.save(user);
             System.out.println("save = " + save);
             return "save";
