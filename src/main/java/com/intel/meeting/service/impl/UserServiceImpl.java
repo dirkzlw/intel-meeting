@@ -91,12 +91,15 @@ public class UserServiceImpl implements UserService {
     @Override
     public String login(String usernameoremail, String password){
 
+        System.out.println("usernameoremail = " + usernameoremail);
+        System.out.println("password = " + password);
+
         List<User> userList = userRepository.findDistinctByUsernameOrEmail(usernameoremail,usernameoremail);
         if(userList == null){
             return "NotExist";
         }else {
             for (User user : userList) {
-                 if (user.getPassword().equals(password)){
+                 if (user.getPassword().equals(MD5Utils.md5(password))){
                     return "success";
                 }
             }
