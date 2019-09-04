@@ -48,6 +48,12 @@ public class UserController {
         return "user/login";
     }
 
+    /**
+     * 验证用户名和邮箱的重复性
+     * @param username
+     * @param email
+     * @return
+     */
     @PostMapping("/user/getcode")
     @ResponseBody
     public RtnIdInfo getVCode(String username,String email){
@@ -56,6 +62,15 @@ public class UserController {
         String result = userService.getVCode(username,email);
         return new RtnIdInfo(result,0);
     }
+
+
+
+//    @PostMapping("/user/register")
+//    @ResponseBody
+//    public RtnIdInfo register(User user,String code){
+//        String result = userService.register(user,code);
+//        return new RtnIdInfo(result,0);
+//    }
 
 
 

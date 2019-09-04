@@ -52,6 +52,7 @@ public class UserServiceImpl implements UserService {
         String vcode = (int) ((Math.random() * 9 + 1) * 100000) + "";
         String key = new String((username + "-" + email).getBytes());
         System.out.println("key = " + key);
+        System.out.println("vcode = " + vcode);
         redisTemplate.opsForValue().set(key, vcode, 10L, TimeUnit.MINUTES);
 
         /**
