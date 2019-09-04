@@ -1,6 +1,7 @@
 package com.intel.meeting.service;
 
 import com.intel.meeting.po.User;
+import org.springframework.data.domain.Page;
 
 /**
  * @author ranger
@@ -15,4 +16,7 @@ public interface UserService {
     String register(User user,String vcode);
 
     String login(String usernameoremail, String password);
+    Page<User> findUserByPage(Integer page, Integer size);
+
+    String delUser(Integer userId);
 }

@@ -3,8 +3,17 @@ package com.intel.meeting.service.impl;
 import com.intel.meeting.po.User;
 import com.intel.meeting.repository.UserRepository;
 import com.intel.meeting.service.UserService;
+import com.intel.meeting.utils.MD5Utils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.redis.core.RedisOperations;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,7 +23,6 @@ import java.util.concurrent.TimeUnit;
  * @author ranger
  * @create 2019-09 -03-13:54
  */
-
 @Service
 public class UserServiceImpl implements UserService {
     @Autowired
@@ -26,6 +34,7 @@ public class UserServiceImpl implements UserService {
     //邮件发送者
     @Value("${spring.mail.username}")
     private String fromEmail;
+    private RedisOperations<String, String> redisTemplate;
 
     @Override
     public String getVCode(String username,String email){
@@ -136,5 +145,23 @@ public class UserServiceImpl implements UserService {
             userRepository.save(user);
             return "save";
         }
+    }
+
+//   @Override
+    public Page<User> findUserByPage(Integer page, Integer size) {
+        Pageable pageable = new PageRequest(page, size, new Sort(Sort.Direction.ASC,"username"));
+        Page<User> userPage = userRepository.findAll(pageable);
+        return userPage;
+    }
+
+    /**
+     * 根据id删除用户
+     * @param userId
+     * @return
+     */
+    @Override
+    public String delUser(Integer userId) {
+        userRepository.delete(userId);
+        return "del";
     }
 }

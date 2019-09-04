@@ -159,39 +159,40 @@
             </tr>
             </thead>
             <tbody id="show_tbody">
-            <!--<tr th:each="mr : ${mrPage.mrList}" th:id="${mr.meetingId} + 1">-->
-                <!--<td th:text="${mr.username}"></td>-->
-                <!--<td th:text="${mr.password}"></td>-->
-                <!--<td th:text="${mr.enableStatus}"></td>-->
-                <!--<td>-->
-                    <!--<a th:id="${mr.meetingId}" href="#" class="edit">编辑</a>-->
-                    <!--<a th:id="${mr.meetingId}" href="#" class="del" onclick="delUser(this.id)">删除</a>-->
-                <!--</td>-->
-            <!--</tr>-->
+            <tr th:each="user : ${userPage.mrList}" th:id="${user.userId} + 1">
+                <td th:text="${user.username}"></td>
+                <td th:text="${user.password}"></td>
+                <td th:text="${user.email}"></td>
+                <td th:text="${user.role}"></td>
+                <td>
+                    <a th:id="${user.userId}" href="#" class="edit">编辑</a>
+                    <a th:id="${user.userId}" href="#" class="del" onclick="delUser(this.id)">删除</a>
+                </td>
+            </tr>
             </tbody>
         </table>
     </div>
-    <!--<div class="content">-->
-        <!--<div th:if="${mrPage != null}" style="display: inline;">-->
-            <!--共<span id="totalPage" th:text="${mrPage.totalPage}"></span>页-->
-            <!--&nbsp;&nbsp;-->
-            <!--共<span th:text="${mrPage.totalNum}"></span>条-->
+    <div class="content">
+        <div th:if="${userPage != null}" style="display: inline;">
+            共<span id="totalPage" th:text="${userPage.totalPage}"></span>页
+            &nbsp;&nbsp;
+            共<span th:text="${userPage.totalNum}"></span>条
 
-            <!--&nbsp;&nbsp;-->
-            <!--<a th:if="${mrPage.page}>1"-->
-               <!--th:href="@{/to/usermgn/meeting-manage(page=${mrPage.page - 2})}">上一页</a>-->
-            <!--&nbsp;&nbsp;-->
-            <!--<span th:text="${mrPage.page}"></span>-->
-            <!--&nbsp;&nbsp;-->
-            <!--<a th:if="${mrPage.page}<${mrPage.totalPage}"-->
-               <!--th:href="@{/to/usermgn/meeting-manage(page=${mrPage.page})}">下一页</a>-->
-            <!--&nbsp;&nbsp;-->
-            <!--前往-->
-            <!--<input id="toPage" type="number" style="width: 50px">-->
-            <!--页-->
-            <!--<a href="javascript:toSkip()">Go</a>-->
-        <!--</div>-->
-    <!--</div>-->
+            &nbsp;&nbsp;
+            <a th:if="${userPage.page}>1"
+               th:href="@{/to/usermgn/user-manage(page=${userPage.page - 2})}">上一页</a>
+            &nbsp;&nbsp;
+            <span th:text="${userPage.page}"></span>
+            &nbsp;&nbsp;
+            <a th:if="${userPage.page}<${userPage.totalPage}"
+               th:href="@{/to/usermgn/user-manage(page=${userPage.page})}">下一页</a>
+            &nbsp;&nbsp;
+            前往
+            <input id="toPage" type="number" style="width: 50px">
+            页
+            <a href="javascript:toSkip()">Go</a>
+        </div>
+    </div>
 </div>
 </div>
 

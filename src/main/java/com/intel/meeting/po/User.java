@@ -21,7 +21,7 @@ public class User {
     @Column(length = 30)
     private String username;
     //密码
-    @Column(length = 30)
+    @Column(length = 40)
     private String password;
     // 邮箱
     @Column(length = 40)

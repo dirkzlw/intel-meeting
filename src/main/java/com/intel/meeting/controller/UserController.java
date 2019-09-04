@@ -37,9 +37,28 @@ public class UserController {
      * @return
      */
     @GetMapping("/to/usermgn/user-manage")
-    public String toUserManage(Model model){
+    public String toUserManage(Model model,
+                               @RequestParam(required = false) Integer page){
         List<Role> roleList = roleService.findAllRoles();
-        model.addAttribute("roleList", roleList);
+        System.out.println("roleList = " + roleList);
+        if (page == null) {
+            page = 0;
+        }
+        Page<User> userPage =userService.findUserByPage(page, 10);
+        List<User> userList=userPage.getContent();
+        List<UserInfo> userInfoList=new ArrayList<>();
+        for(User user:userList){
+            UserInfo userInfo=new UserInfo(user.getUsername(),"******",user.getEmail(),user.getRole().getRoleName());
+            userInfo.setUserId(user.getUserId());
+            userInfoList.add(userInfo);
+        }
+        MRPage userPageInfo = new MRPage(userInfoList,
+                page + 1,
+                userPage.getTotalPages(),
+                (int) userPage.getTotalElements(),
+                2);
+       model.addAttribute("userPage", userPageInfo);
+       model.addAttribute("roleList", roleList);
         return "usermgn/user-manage";
     }
 
@@ -102,12 +121,17 @@ public class UserController {
      */
     @PostMapping("/usermgn/user/save")
     @ResponseBody
-    public RtnIdInfo saveUser(User user,String roleName){
+    public UserInfo saveUser(User user,String roleName){
+//        System.out.println(roleName);
         Role role=roleService.findByRoleName(roleName);
         user.setRole(role);
         System.out.println("user:"+user);
        String result = userService.saveUser(user);
 
-        return new RtnIdInfo("save", 1);
+//        return new RtnIdInfo(result,user.getUserId());
+//        System.out.println("user = " + user);
+        UserInfo userInfo=new UserInfo(user.getUsername(),"******",user.getEmail(),user.getRole().getRoleName());
+        userInfo.setUserId(user.getUserId());
+        return userInfo;
     }
 }

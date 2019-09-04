@@ -73,17 +73,35 @@ var methods = {
                             message: "用户添加成功",
                             closeButton: false
                         })
-                        methods.setStr();
-                        tdStr += "<td><a id='" + userId + "' href='#' class='edit'>编辑</a> <a id='" + userId + "' href='#' class='del' onclick='delUser(this.id)'>删除</a></td>";
-                        $('#show_tbody').append('<tr id=' + userIdTr + '>' + tdStr + '</tr>');
+                        xtdStr = "      \n" +
+                            "                <td>"+username+"</td>\n" +
+                            "                <td>"+password+"</td>\n" +
+                            "                <td>"+email+"</td>\n" +
+                            "                <td>"+role+"</td>\n" +
+                            "                <td>\n" +
+                            "                    <a id='" + userId + "' href='#' class='edit'>编辑</a> <a id='" + userId + "' href='#' class='del' onclick='delUser(this.id)'>删除</a>" +
+                            "               </td>" +
+                            "           ";
+                        $('#show_tbody tr').eq(trIndex).empty().append(xtdStr);
+                        // methods.setStr();
+                        //  tdStr += "<td><a id='" + userId + "' href='#' class='edit'>编辑</a> <a id='" + userId + "' href='#' class='del' onclick='delUser(this.id)'>删除</a></td>";
+                        // $('#show_tbody').append('<tr id=' + userIdTr + '>' + tdStr + '</tr>');
                         $('#renyuan').modal('hide');
-                    } else if (status == "exist") {
+                    } else if (status=="userNameExist") {
                         bootbox.alert({
                             title: "来自智能会议室的提示",
-                            message: "用户名/邮箱已存在，请检查",
+                            message: "用户名已存在，请检查",
                             closeButton: false
                         })
                         return
+                    }else if(status=="emailExist"){
+                        bootbox.alert({
+                            title: "来自智能会议室的提示",
+                            message: "邮箱已存在，请检查",
+                            closeButton: false
+                        })
+                        return
+
                     }
                 },
                 error: function (json) {
@@ -106,7 +124,7 @@ var methods = {
         if (addEnter) {
             var xusername = $('.xusername').val().trim();
             var xpassword = $('.xpassword').val().trim();
-            var xemail = $('.xpassword').val().trim();
+            var xemail = $('.xemail').val().trim();
             var xrole = $("#xrole option:selected").val();
             // ajax 修改会议
             $.ajax({
@@ -117,7 +135,7 @@ var methods = {
                     'username': xusername,
                     'password': xpassword,
                     'email': xemail,
-                    'role': xrole
+                    'roleName': xrole
                 },
                 dataType: "text", //return dataType: text or json
                 success: function (json) {
