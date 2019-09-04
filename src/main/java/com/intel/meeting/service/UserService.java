@@ -11,4 +11,6 @@ public interface UserService {
     String saveUser(User user);
     String getVCode(String username,String email);
     String register(User user,String vcode);
+
+    String login(String usernameoremail, String password);
 }

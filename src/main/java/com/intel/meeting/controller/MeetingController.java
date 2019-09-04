@@ -108,7 +108,6 @@ public class MeetingController {
                 1,
                 mrList.size(),
                 1);
-        System.out.println("mrPage.getMrList() = " + mrPage.getMrList());
         model.addAttribute("mrPage", mrPage);
         return "control/meeting-manage";
     }

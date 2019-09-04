@@ -27,8 +27,6 @@ public class UserServiceImpl implements UserService {
     private RedisTemplate<String,String> redisTemplate;
     @Autowired
     private UserRepository userRepository;
-    @Autowired
-    private  RoleService roleService;
 
     //注入javaMail发送器
     @Autowired
@@ -39,13 +37,13 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public String getVCode(String username,String email){
-        User user = userRepository.findByEmail(email);
-        if(user!=null){
-            return "emailExist";
-        }
         User user1 = userRepository.findByUsername(username);
         if (user1!=null){
             return "userNameExist";
+        }
+        User user = userRepository.findByEmail(email);
+        if(user!=null){
+            return "emailExist";
         }
 
         /**
@@ -56,8 +54,6 @@ public class UserServiceImpl implements UserService {
          */
         String vcode = (int) ((Math.random() * 9 + 1) * 100000) + "";
         String key = username + "-" + email;
-        System.out.println("key = " + key);
-        System.out.println("vcode = " + vcode);
         redisTemplate.opsForValue().set(key, vcode, 10L, TimeUnit.MINUTES);
 
         /**
@@ -66,7 +62,6 @@ public class UserServiceImpl implements UserService {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                //这里完成
                 SimpleMailMessage message = new SimpleMailMessage();
 
                 message.setFrom(fromEmail);
@@ -92,11 +87,6 @@ public class UserServiceImpl implements UserService {
         if (code==null){
             return "NotMatch";
         }else if (code.equals(vcode)){
-
-            //注册时把用户身份置为用户身份
-            Role role=roleService.findByRoleName("用户");
-            user.setRole(role);
-
             user.setPassword(MD5Utils.md5(user.getPassword()));
             userRepository.save(user);
             redisTemplate.delete(key);
@@ -104,6 +94,22 @@ public class UserServiceImpl implements UserService {
         }
 
         return "CodeError";
+    }
+
+    @Override
+    public String login(String usernameoremail, String password){
+
+        List<User> userList = userRepository.findDistinctByUsernameOrEmail(usernameoremail,usernameoremail);
+        if(userList == null){
+            return "NotExist";
+        }else {
+            for (User user : userList) {
+                 if (user.getPassword().equals(password)){
+                    return "success";
+                }
+            }
+        }
+        return "PwdError";
     }
 
     @Override
@@ -116,7 +122,6 @@ public class UserServiceImpl implements UserService {
                     return "exist";
             }
             User save = userRepository.save(user);
-            System.out.println("save = " + save);
             return "save";
         } else {
             //修改用户名

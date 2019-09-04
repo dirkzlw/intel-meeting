@@ -124,7 +124,6 @@
                 success: function (json) {
                     json = eval('(' + json + ')');
                     var status = json.rtn;
-                    alert(status)
                     // var meetingIdTr = meetingId * 1 + 1;
                     if (status == "emailExist") {
                         narn("warn","邮箱已被注册")
@@ -189,7 +188,6 @@
                 success: function (json) {
                     json = eval('(' + json + ')');
                     var status = json.rtn;
-                    alert(status)
                     // var meetingIdTr = meetingId * 1 + 1;
                     if (status == "CodeError") {
                         narn("warn", "验证码错误")
