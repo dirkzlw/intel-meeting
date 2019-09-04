@@ -4,7 +4,10 @@ import com.intel.meeting.po.User;
 import com.intel.meeting.repository.UserRepository;
 import com.intel.meeting.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,24 +17,29 @@ import java.util.concurrent.TimeUnit;
  * @author ranger
  * @create 2019-09 -03-13:54
  */
-
 @Service
 public class UserServiceImpl implements UserService {
-    @Autowired
-    private UserRepository userRepository;
 
-    //注入redis,虽报错，但没错；一定需要<String,String>不然就给定具体序列化
     @Autowired
     private RedisTemplate<String,String> redisTemplate;
 
-    @Override
-    public String getVCode(String username, String email) {
+    @Autowired
+    private UserRepository userRepository;
+
+    //注入javaMail发送器
+    @Autowired
+    private JavaMailSender mailSender;
+    //邮件发送者
+    @Value("${spring.mail.username}")
+    private String fromEmail;
+
+    public String getVCode(String username,String email){
         User user = userRepository.findByEmail(email);
-        if (user != null) {
+        if(user!=null){
             return "emailExist";
         }
         User user1 = userRepository.findByUsername(username);
-        if (user1 != null) {
+        if (user1!=null){
             return "userNameExist";
         }
 
@@ -53,6 +61,16 @@ public class UserServiceImpl implements UserService {
             @Override
             public void run() {
                 //这里完成
+                SimpleMailMessage message = new SimpleMailMessage();
+
+                message.setFrom(fromEmail);
+                message.setTo(email);
+
+                message.setSubject("来自IntelMeeting的消息");
+                message.setText("您的验证码为:" + vcode + ".\n请及时填写验证码，有效期为十分钟.\n");
+
+                //发送
+                mailSender.send(message);
             }
         }).start();
 
