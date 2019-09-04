@@ -63,18 +63,19 @@ public class UserController {
         return new RtnIdInfo(result,0);
     }
 
-
-
-//    @PostMapping("/user/register")
-//    @ResponseBody
-//    public RtnIdInfo register(User user,String code){
-//        String result = userService.register(user,code);
-//        return new RtnIdInfo(result,0);
-//    }
-
-
-
-
+    /**
+     * 注册功能
+     * @param user
+     * @param code
+     * @return
+     */
+    @PostMapping("/user/register")
+    @ResponseBody
+    public RtnIdInfo register(User user,String code){
+        System.out.println("user = " + user);
+        String result = userService.register(user,code);
+        return new RtnIdInfo(result,0);
+    }
 
     /**
      * 管理员添加用户功能

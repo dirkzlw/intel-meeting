@@ -1,8 +1,11 @@
 package com.intel.meeting.service.impl;
 
+import com.intel.meeting.po.Role;
 import com.intel.meeting.po.User;
 import com.intel.meeting.repository.UserRepository;
+import com.intel.meeting.service.RoleService;
 import com.intel.meeting.service.UserService;
+import com.intel.meeting.utils.MD5Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -22,9 +25,10 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private RedisTemplate<String,String> redisTemplate;
-
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private  RoleService roleService;
 
     //注入javaMail发送器
     @Autowired
@@ -33,6 +37,7 @@ public class UserServiceImpl implements UserService {
     @Value("${spring.mail.username}")
     private String fromEmail;
 
+    @Override
     public String getVCode(String username,String email){
         User user = userRepository.findByEmail(email);
         if(user!=null){
@@ -50,7 +55,7 @@ public class UserServiceImpl implements UserService {
          * 注册需要根据key取value，然后校对，可参考test下com.intel.meeting.TestRedis
          */
         String vcode = (int) ((Math.random() * 9 + 1) * 100000) + "";
-        String key = new String((username + "-" + email).getBytes());
+        String key = username + "-" + email;
         System.out.println("key = " + key);
         System.out.println("vcode = " + vcode);
         redisTemplate.opsForValue().set(key, vcode, 10L, TimeUnit.MINUTES);
@@ -76,6 +81,29 @@ public class UserServiceImpl implements UserService {
         }).start();
 
         return "success";
+    }
+
+    @Override
+    public String register(User user, String vcode) {
+
+        String key = user.getUsername() + "-" + user.getEmail();
+        String code = redisTemplate.opsForValue().get(key);
+
+        if (code==null){
+            return "NotMatch";
+        }else if (code.equals(vcode)){
+
+            //注册时把用户身份置为用户身份
+            Role role=roleService.findByRoleName("用户");
+            user.setRole(role);
+
+            user.setPassword(MD5Utils.md5(user.getPassword()));
+            userRepository.save(user);
+            redisTemplate.delete(key);
+            return "success";
+        }
+
+        return "CodeError";
     }
 
     @Override
