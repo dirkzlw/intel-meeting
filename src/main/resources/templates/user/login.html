@@ -56,9 +56,9 @@
                 <!--<ion-icon name="logo-linkedin"></ion-icon>-->
             <!--</a> </div>-->
             <!--<span>或用邮箱登录</span>-->
-            <input type="email" placeholder="邮箱">
-            <input type="password" placeholder="密码">
-            <button>登录</button>
+            <input id="usernameoremail" type="text" placeholder="用户名或邮箱">
+            <input id="pwd1" type="password" placeholder="密码">
+            <button onclick="login()">登录</button>
         </form>
     </div>
     <div class="overlay-container">
@@ -212,6 +212,48 @@
         }
     }
 
+
+    function login() {
+        var usernameoremail = document.getElementById("usernameoremail").value.trim()
+        var pwd = document.getElementById("pwd1").value
+        if(usernameoremail == ""){
+            narn("warn","用户名或邮箱为空")
+            return
+        } else if(pwd1 == ""){
+            narn("warn","密码为空")
+            return
+        } else {
+            $.ajax({
+                type: "POST",
+                url: "/user/login",
+                data: {'usernameoremail': usernameoremail, 'password': pwd},
+                dataType: "text", //return dataType: text or json
+                success: function (json) {
+                    json = eval('(' + json + ')');
+                    var status = json.rtn;
+                    // var meetingIdTr = meetingId * 1 + 1;
+                    if (status == "NotExist") {
+                        narn("warn", "用户名或邮箱不存在")
+                        return
+
+                    } else if (status == "PwdError") {
+                        narn("warn", "密码错误")
+                        return
+                    } else if (status == "success") {
+                        narn("success", "登陆成功,页面即将跳转,请稍候")
+                        setTimeout(function () {
+                            window.location.href = 'http://localhost';
+                        }, 2500)
+                        return
+                    }
+                },
+                error: function (json) {
+
+                    return
+                }
+            });
+        }
+    }
 
 
     /**

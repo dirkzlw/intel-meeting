@@ -4,6 +4,7 @@ import com.intel.meeting.po.Role;
 import com.intel.meeting.po.User;
 import com.intel.meeting.service.RoleService;
 import com.intel.meeting.service.UserService;
+import com.intel.meeting.utils.MD5Utils;
 import com.intel.meeting.vo.RtnIdInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -78,7 +79,20 @@ public class UserController {
         user.setRole(role);
 
         String result = userService.register(user,code);
-        return new RtnIdInfo("result",0);
+        return new RtnIdInfo(result,0);
+    }
+
+    /**
+     * 登陆功能
+     * @param usernameoremail
+     * @param password
+     * @return
+     */
+    @PostMapping("/user/login")
+    @ResponseBody
+    public RtnIdInfo login(String usernameoremail,String password){
+        String result = userService.login(usernameoremail, password);
+        return new RtnIdInfo(result,0);
     }
 
     /**
