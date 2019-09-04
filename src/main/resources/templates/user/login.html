@@ -38,11 +38,11 @@
                 <input id="userid"type="text" placeholder="用户名">
                 <input id="email" type="email" placeholder="邮箱" onblur="checkemail()">
                 <input id="pwd" type="password" placeholder="密码">
-                <input id="confirm" type="password" placeholder="确认密码">
-                <input style="width:150px;display: inline;" type="text" placeholder="验证码">
+                <input id="confirm" type="password" placeholder="确认密码" onblur="checkpwd()">
+                <input id="code" style="width:150px;display: inline;" type="text" placeholder="验证码">
                 <Vbutton style="display: inline" onclick="Vcode()">获得验证码</Vbutton>
             </div>
-            <button>注册</button>
+            <button onclick="register()">注册</button>
         </form>
     </div>
     <div class="form-container sign-in-container">
@@ -88,13 +88,13 @@
             narn("warn","邮箱格式不正确")
         }
     }
-//    function checkpwd() {
-//        var pwd = document.getElementById("pwd").value
-//        var confirm = document.getElementById("confirm").value
-//        if(pwd != confirm){
-//            narn("warn","两次密码不一致")
-//          }
-//    }
+    function checkpwd() {
+        var pwd = document.getElementById("pwd").value
+        var confirm = document.getElementById("confirm").value
+        if(pwd != confirm){
+            narn("warn","两次密码不一致")
+          }
+    }
     function Vcode() {
         var userid = document.getElementById("userid").value.trim()
         var email = document.getElementById("email").value.trim()
@@ -124,7 +124,6 @@
                 success: function (json) {
                     json = eval('(' + json + ')');
                     var status = json.rtn;
-                    alert(status)
                     // var meetingIdTr = meetingId * 1 + 1;
                     if (status == "emailExist") {
                         narn("warn","邮箱已被注册")
@@ -134,7 +133,7 @@
                         narn("warn", "用户名已存在")
                         return
                     } else if (status == "success"){
-                        narn("success","注册成功")
+                        narn("success","验证码已成功发送至邮箱，有效期十分钟")
                         return
                     }
                 },
@@ -145,6 +144,74 @@
             });
         }
     }
+
+
+
+
+
+    /**
+     * 点击注册时验证四项是否为空
+     */
+    function register() {
+        var userid = document.getElementById("userid").value.trim()
+        var email = document.getElementById("email").value.trim()
+        var pwd = document.getElementById("pwd").value
+        var confirm = document.getElementById("confirm").value
+        var code = document.getElementById("code").value
+        if (userid == "") {
+            narn("warn", "用户名不能为空")
+            return
+        } else if (email == "") {
+            narn("warn", "邮箱不能为空");
+            return
+        } else if (pwd == "") {
+            narn("warn", "密码不能为空")
+            return
+        } else if (confirm == "") {
+            narn("warn", "确认密码不能为空")
+            return
+        } else if (pwd != confirm) {
+            narn("warn", "两次密码不一致")
+            return
+        } else if (code == ""){
+            narn("warn","验证码为空")
+            return
+        } else if (code.length != 6){
+            narn("warn","验证码长度错误")
+            return
+        } else {
+            $.ajax({
+                type: "POST",
+                url: "/user/register",
+                data: {'username': userid, 'email': email, 'password': pwd, 'code': code},
+                dataType: "text", //return dataType: text or json
+                success: function (json) {
+                    json = eval('(' + json + ')');
+                    var status = json.rtn;
+                    // var meetingIdTr = meetingId * 1 + 1;
+                    if (status == "CodeError") {
+                        narn("warn", "验证码错误")
+                        return
+
+                    } else if (status == "NotMatch") {
+                        narn("warn", "注册信息被修改，请确认注册信息是否为初始输入信息")
+                        return
+                    } else if (status == "success") {
+                        narn("success", "注册成功,页面即将跳转,请稍候")
+                        setTimeout(function () {
+                            window.location.href = 'http://localhost';
+                        }, 2500)
+                        return
+                    }
+                },
+                error: function (json) {
+
+                    return
+                }
+            });
+        }
+    }
+
 
 
     /**

@@ -24,13 +24,18 @@ public class MainController {
     @Autowired
     private MeetingRoomService mrService;
 
+    @GetMapping("/")
+    public String toI(){
+        return "redirect:/index";
+    }
+
     /**
      * 接收Get请求，URL：http://www.intel.com
      * 跳转至页面：index/index.html
      * @return
      */
-    @GetMapping("/")
-    public String toI(Model model,
+    @GetMapping("/index")
+    public String toIndex(Model model,
                       @RequestParam(required = false) Integer page){
         if (page == null) {
             page = 0;

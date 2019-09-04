@@ -1,7 +1,6 @@
 package com.intel.meeting.po;
 
 import javax.persistence.*;
-import java.util.Date;
 
 /**
  * @author ranger
@@ -25,21 +24,21 @@ public class ReserveMeeting {
     private MeetingRoom meetingRoom;
     // 开始时间
     @Column(length = 40)
-    private Date startTime;
+    private String startTime;
     // 结束时间
     @Column(length = 40)
-    private Date endTime;
+    private String endTime;
     // 使用状态  1--使用  2--取消
     @Column(length = 10)
     private Integer usageStatus;
     // 签到时间
     @Column(length = 40)
-    private Date signTime;
+    private String signTime;
 
     protected ReserveMeeting() {
     }
 
-    public ReserveMeeting(User user, MeetingRoom meetingRoom, Date startTime, Date endTime, Integer usageStatus, Date signTime) {
+    public ReserveMeeting(User user, MeetingRoom meetingRoom, String startTime, String endTime, Integer usageStatus, String signTime) {
         this.user = user;
         this.meetingRoom = meetingRoom;
         this.startTime = startTime;
@@ -53,11 +52,11 @@ public class ReserveMeeting {
     }
 
 
-    public Date getStartTime() {
+    public String getStartTime() {
         return startTime;
     }
 
-    public Date getEndTime() {
+    public String getEndTime() {
         return endTime;
     }
 
@@ -65,11 +64,11 @@ public class ReserveMeeting {
         return usageStatus;
     }
 
-    public Date getSignTime() {
+    public String getSignTime() {
         return signTime;
     }
 
-    public void setSignTime(Date signTime) {
+    public void setSignTime(String signTime) {
         this.signTime = signTime;
     }
 
@@ -77,11 +76,11 @@ public class ReserveMeeting {
         this.usageStatus = usageStatus;
     }
 
-    public void setEndTime(Date endTime) {
+    public void setEndTime(String endTime) {
         this.endTime = endTime;
     }
 
-    public void setStartTime(Date startTime) {
+    public void setStartTime(String startTime) {
         this.startTime = startTime;
     }
 

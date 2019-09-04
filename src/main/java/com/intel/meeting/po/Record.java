@@ -1,7 +1,6 @@
 package com.intel.meeting.po;
 
 import javax.persistence.*;
-import java.util.Date;
 
 /**
  * @author ranger
@@ -23,18 +22,18 @@ public class Record {
     private String meetingAddress;
     // 开始时间
     @Column(length = 40)
-    private Date startTime;
+    private String startTime;
     // 结束时间
     @Column(length = 40)
-    private Date endTime;
+    private String endTime;
     // 签到时间
     @Column(length = 40)
-    private Date signTime;
+    private String signTime;
 
     public Record(){
     }
 
-    public Record(String userName, String meetingAddress, Date startTime, Date endTime, Date signTime) {
+    public Record(String userName, String meetingAddress, String startTime, String endTime, String signTime) {
         this.userName = userName;
         this.meetingAddress = meetingAddress;
         this.startTime = startTime;
@@ -66,27 +65,27 @@ public class Record {
         this.meetingAddress = meetingAddress;
     }
 
-    public Date getStartTime() {
+    public String getStartTime() {
         return startTime;
     }
 
-    public void setStartTime(Date startTime) {
+    public void setStartTime(String startTime) {
         this.startTime = startTime;
     }
 
-    public Date getEndTime() {
+    public String getEndTime() {
         return endTime;
     }
 
-    public void setEndTime(Date endTime) {
+    public void setEndTime(String endTime) {
         this.endTime = endTime;
     }
 
-    public Date getSignTime() {
+    public String getSignTime() {
         return signTime;
     }
 
-    public void setSignTime(Date signTime) {
+    public void setSignTime(String signTime) {
         this.signTime = signTime;
     }
 

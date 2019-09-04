@@ -9,14 +9,14 @@ import java.util.Date;
  * @create 2019-09-03 21:37
  */
 public class DateUtils {
-    public static Date dateTimeToDate(SimpleDateFormat sdf,String date,String time){
 
-        Date rtn = null;
+    public static Date stringToDate(SimpleDateFormat sdf,String time){
+
         try {
-            rtn = sdf.parse(date + " " + time);
+            return sdf.parse(time);
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        return rtn;
+        return null;
     }
 }

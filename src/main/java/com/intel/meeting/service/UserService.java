@@ -10,8 +10,9 @@ import com.intel.meeting.po.User;
 
 public interface UserService {
 
-    String getVCode(String email,String userid);
+    String saveUser(User user);
+    String getVCode(String username,String email);
+    String register(User user,String vcode);
 
-    String savaUser(User user);
-
+    String login(String usernameoremail, String password);
 }

@@ -65,23 +65,33 @@ var methods = {
                 dataType: "text", //return dataType: text or json
                 success: function (json) {
                     json = eval('(' + json + ')');
-                    var status = json.rtn;
-                    var meetingId = json.rtnId;
-                    // var meetingIdTr = meetingId * 1 + 1;
-                    if (status == "reserve") {
+                    var meetingId = json.meetingId;
+                    var meetingName = json.meetingName;
+                    var containNum = json.containNum;
+                    var reserveStatus = json.reserveStatus;
+                    var reserveTime = json.reserveTime;
+                    var rtn = json.rtn;
+                    if (rtn == "reserve") {
                         bootbox.alert({
                             title: "来自智能会议室的提示",
                             message: "会议室预定成功",
                             closeButton: false
                         })
-                        methods.xsetStr();
-                        xtdStr += "<td><a id='" + meetingId + "' href='#' class='edit'>编辑</a> <a id='" + meetingId + "' href='#' class='del' onclick='delMeeting(this.id)'>删除</a></td>";
+                        xtdStr = "      \n" +
+                            "                <td>"+meetingName+"</td>\n" +
+                            "                <td>"+containNum+"</td>\n" +
+                            "                <td>"+reserveStatus+"</td>\n" +
+                            "                <td>"+reserveTime+"</td>\n" +
+                            "                <td>\n" +
+                            "                    <a id="+meetingId+" href='#' class='edit'>预约</a>" +
+                            "               </td>" +
+                            "           ";
                         $('#show_tbody tr').eq(trIndex).empty().append(xtdStr);
                         $('#xrenyuan').modal('hide');
-                    } else if (status == "exist") {
+                    } else if (rtn == "timeError") {
                         bootbox.alert({
                             title: "来自智能会议室的提示",
-                            message: "会议室已存在，请检查",
+                            message: "会议室时间存在冲突，请检查",
                             closeButton: false
                         })
                         return
@@ -118,42 +128,22 @@ var methods = {
         }
 
     },
-    setStr: function () {
-
-        tdStr = '';
-        for (var a = 0; a < tarInp.length; a++) {
-            tdStr += '<td>' + tarInp.eq(a).val() + '</td>'
-        }
-        for (var b = 0; b < tarSel.length; b++) {
-            tdStr += '<td>' + tarSel.eq(b).val() + '</td>'
-        }
-
-    },
-    xsetStr: function () {
-
-        xtdStr = '';
-        for (var a = 0; a < xtarInp.length; a++) {
-            xtdStr += '<td>' + xtarInp.eq(a).val() + '</td>'
-        }
-        for (var b = 0; b < xtarSel.length; b++) {
-            xtdStr += '<td>' + xtarSel.eq(b).val() + '</td>'
-        }
-
-    },
     resectList: function () {
         $('#show_tbody tr').show();
     },
     xcheckMustMes: function () {
+
         //确定预约三日内会议室
         var reserveDay = new Date($('.reserveDay').val().trim())
+        var datems = new Date("2019-09-04").getTime()
         var day1 = reserveDay.getDay()
         var currentTime = new Date();
         var day2 = currentTime.getDay()
         var ds = day1 - day2
-        if (ds > 2 || ds < 0) {
+        if (reserveDay-datems > 230400000 || reserveDay-datems <0) {
             bootbox.alert({
                 title: "来自智能会议室的提示",
-                message: "以今天开始，请预约在三日内",
+                message: "以当前时间开始，请预约在三日内",
                 closeButton: false
             })
             hasNullMes = true;
@@ -173,6 +163,7 @@ var methods = {
         //确定预约时间在8:00--21:00
         var startTime = $('.startTime').val().trim()
         var hour1 = startTime.split(":")[0]
+        var sec1 = startTime.split(":")[1]
         var endTime = $('.endTime').val().trim();
         var hour2 = endTime.split(":")[0]
         var min2 = endTime.split(":")[1]
@@ -185,10 +176,23 @@ var methods = {
             hasNullMes = true;
             return
         }
-        if(hour2==21 && min2>0){
+        if (hour2 == 21 && min2 > 0) {
             bootbox.alert({
                 title: "来自智能会议室的提示",
                 message: "预约时间不能超过21:00",
+                closeButton: false
+            })
+            hasNullMes = true;
+            return
+        }
+
+        var nowTime = new Date();
+        var nowHour = nowTime.getHours();
+        var nowMin = nowTime.getMinutes();
+        if (ds == 0 && (hour1 < nowHour || (hour1 == nowHour && sec1 < nowMin))) {
+            bootbox.alert({
+                title: "来自智能会议室的提示",
+                message: "开始时间应为未来时间",
                 closeButton: false
             })
             hasNullMes = true;

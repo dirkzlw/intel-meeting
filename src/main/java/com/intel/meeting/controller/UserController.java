@@ -6,12 +6,14 @@ import com.intel.meeting.service.RoleService;
 import com.intel.meeting.service.UserService;
 import com.intel.meeting.vo.RtnIdInfo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 /**
@@ -26,6 +28,8 @@ public class UserController {
     private RoleService roleService;
     @Autowired
     private UserService userService;
+    @Value("${USER_INIT_ROLE}")
+    private String USER_INIT_ROLE;
 
     /**
      * 跳转到查询用户界面
@@ -34,7 +38,6 @@ public class UserController {
     @GetMapping("/to/usermgn/user-manage")
     public String toUserManage(Model model){
         List<Role> roleList = roleService.findAllRoles();
-        System.out.println("roleList = " + roleList);
         model.addAttribute("roleList", roleList);
         return "usermgn/user-manage";
     }
@@ -48,18 +51,35 @@ public class UserController {
         return "user/login";
     }
 
+    /**
+     * 验证用户名和邮箱的重复性
+     * @param username
+     * @param email
+     * @return
+     */
     @PostMapping("/user/getcode")
     @ResponseBody
     public RtnIdInfo getVCode(String username,String email){
-        System.out.println("username = " + username);
-        System.out.println("email = " + email);
         String result = userService.getVCode(username,email);
         return new RtnIdInfo(result,0);
     }
 
+    /**
+     * 注册功能
+     * @param user
+     * @param code
+     * @return
+     */
+    @PostMapping("/user/register")
+    @ResponseBody
+    public RtnIdInfo register(User user,String code){
+        Role role = null;
+        role = roleService.findByRoleName(new String(USER_INIT_ROLE));
+        user.setRole(role);
 
-
-
+        String result = userService.register(user,code);
+        return new RtnIdInfo("result",0);
+    }
 
     /**
      * 管理员添加用户功能
@@ -69,14 +89,10 @@ public class UserController {
     @PostMapping("/usermgn/user/save")
     @ResponseBody
     public RtnIdInfo saveUser(User user,String roleName){
-//        System.out.println(roleName);
         Role role=roleService.findByRoleName(roleName);
         user.setRole(role);
         System.out.println("user:"+user);
        String result = userService.saveUser(user);
-
-//        return new RtnIdInfo(result,user.getUserId());
-//        System.out.println("user = " + user);
 
         return new RtnIdInfo("save", 1);
     }
