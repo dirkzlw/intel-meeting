@@ -127,7 +127,7 @@
             </tr>
             </thead>
             <tbody id="show_tbody">
-            <tr th:each="mr : ${mainMrPage.mrList}" th:id="${mr.meetingId} + 1">
+            <tr th:each="mr : ${mainMrPage.mrList}" >
                 <td th:text="${mr.meetingName}"></td>
                 <td th:text="${mr.containNum}"></td>
                 <td th:text="${mr.reserveStatus}"></td>
@@ -147,12 +147,12 @@
 
             &nbsp;&nbsp;
             <a th:if="${mainMrPage.page}>1"
-               th:href="@{/(page=${mainMrPage.page - 2})}">上一页</a>
+               th:href="@{/index(page=${mainMrPage.page - 2})}">上一页</a>
             &nbsp;&nbsp;
             <span th:text="${mainMrPage.page}"></span>
             &nbsp;&nbsp;
             <a th:if="${mainMrPage.page}<${mainMrPage.totalPage}"
-               th:href="@{/(page=${mainMrPage.page})}">下一页</a>
+               th:href="@{/index(page=${mainMrPage.page})}">下一页</a>
             &nbsp;&nbsp;
             前往
             <input id="toPage" type="number" style="width: 50px">

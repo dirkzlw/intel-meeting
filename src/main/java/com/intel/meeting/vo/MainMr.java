@@ -23,16 +23,28 @@ public class MainMr {
     private String reserveStatus;
     // 预约时间
     private String reserveTime;
+    // 预约返回结果
+    private String rtn;
 
     protected MainMr() {
     }
 
-    public MainMr(Integer meetingId, String meetingName, Integer containNum, String reserveStatus, String reserveTime) {
+    public MainMr(String rtn) {
+        this.rtn = rtn;
+    }
+
+    public MainMr(Integer meetingId,
+                  String meetingName,
+                  Integer containNum,
+                  String reserveStatus,
+                  String reserveTime,
+                  String rtn) {
         this.meetingId = meetingId;
         this.meetingName = meetingName;
         this.containNum = containNum;
         this.reserveStatus = reserveStatus;
         this.reserveTime = reserveTime;
+        this.rtn = rtn;
     }
 
     public Integer getMeetingId() {
@@ -73,5 +85,13 @@ public class MainMr {
 
     public void setReserveTime(String reserveTime) {
         this.reserveTime = reserveTime;
+    }
+
+    public String getRtn() {
+        return rtn;
+    }
+
+    public void setRtn(String rtn) {
+        this.rtn = rtn;
     }
 }
