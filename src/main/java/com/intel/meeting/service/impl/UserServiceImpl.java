@@ -97,9 +97,16 @@ public class UserServiceImpl implements UserService {
         return "CodeError";
     }
 
+    /**
+     * 登录
+     * @param usernameoremail
+     * @param password
+     * @return
+     */
     @Override
     public String login(String usernameoremail, String password){
-
+        System.out.println("usernameoremail = " + usernameoremail);
+        System.out.println("password = " + password);
         List<User> userList = userRepository.findDistinctByUsernameOrEmail(usernameoremail,usernameoremail);
         if(userList == null){
             return "NotExist";
@@ -113,6 +120,11 @@ public class UserServiceImpl implements UserService {
         return "PwdError";
     }
 
+    /**
+     * 保存用户
+     * @param user
+     * @return
+     */
     @Override
     public String saveUser(User user) {
         List<User> userList = userRepository.findDistinctByUsernameOrEmail(user.getUsername(), user.getEmail());
@@ -145,7 +157,13 @@ public class UserServiceImpl implements UserService {
         }
     }
 
-//   @Override
+    /**
+     * 分页查询用户
+     * @param page
+     * @param size
+     * @return
+     */
+   @Override
     public Page<User> findUserByPage(Integer page, Integer size) {
         Pageable pageable = new PageRequest(page, size, new Sort(Sort.Direction.ASC,"username"));
         Page<User> userPage = userRepository.findAll(pageable);
@@ -182,5 +200,15 @@ public class UserServiceImpl implements UserService {
             }
         }
         return null;
+    }
+
+    /**
+     * 根据id查询用户
+     * @param userId
+     * @return
+     */
+    @Override
+    public User findUserById(Integer userId) {
+        return userRepository.findOne(userId);
     }
 }

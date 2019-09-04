@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
+    <meta charset="UTF-8"/>
     <meta name="viewport" content="width-device-width,initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="sie-edge" />
+    <meta http-equiv="X-UA-Compatible" content="sie-edge"/>
     <link rel="stylesheet" type="text/css" href="/user/css/style.css">
     <title>登录注册页面</title>
     <!--弹框引入-->
@@ -12,10 +12,11 @@
     <!--图标库-->
     <script src="https://unpkg.com/ionicons@4.2.2/dist/ionicons.js"></script>
     <style>
-        button{
+        button {
             cursor: pointer;
         }
-        Vbutton{
+
+        Vbutton {
             cursor: pointer;
         }
     </style>
@@ -28,14 +29,14 @@
         <form action="#">
             <h1>注册</h1>
             <!--<div class="social-container"> <a href="#" class="social">-->
-                <!--<ion-icon name="logo-facebook"></ion-icon>-->
+            <!--<ion-icon name="logo-facebook"></ion-icon>-->
             <!--</a> <a href="#" class="social">-->
-                <!--<ion-icon name="logo-googleplus"></ion-icon>-->
+            <!--<ion-icon name="logo-googleplus"></ion-icon>-->
             <!--</a> <a href="#" class="social">-->
-                <!--<ion-icon name="logo-linkedin"></ion-icon>-->
+            <!--<ion-icon name="logo-linkedin"></ion-icon>-->
             <!--</a> </div>-->
             <div class="left">
-                <input id="userid"type="text" placeholder="用户名">
+                <input id="userid" type="text" placeholder="用户名">
                 <input id="email" type="email" placeholder="邮箱" onblur="checkemail()">
                 <input id="pwd" type="password" placeholder="密码">
                 <input id="confirm" type="password" placeholder="确认密码" onblur="checkpwd()">
@@ -49,11 +50,11 @@
         <form action="#">
             <h1>登录</h1>
             <!--<div class="social-container"> <a href="#" class="social">-->
-                <!--<ion-icon name="logo-facebook"></ion-icon>-->
+            <!--<ion-icon name="logo-facebook"></ion-icon>-->
             <!--</a> <a href="#" class="social">-->
-                <!--<ion-icon name="logo-googleplus"></ion-icon>-->
+            <!--<ion-icon name="logo-googleplus"></ion-icon>-->
             <!--</a> <a href="#" class="social">-->
-                <!--<ion-icon name="logo-linkedin"></ion-icon>-->
+            <!--<ion-icon name="logo-linkedin"></ion-icon>-->
             <!--</a> </div>-->
             <!--<span>或用邮箱登录</span>-->
             <input id="usernameoremail" type="text" placeholder="用户名或邮箱">
@@ -78,62 +79,65 @@
 </div>
 
 <script src="/control/table/js/jquery.min.js"></script>
-<script  src="/user/js/script.js"></script>
+<script src="/control/js/ajax.js"></script>
+<script src="/user/js/script.js"></script>
 <script type="text/javascript">
 
     function checkemail() {
         var emreg = /^[a-zA-Z0-9]([a-zA-Z0-9_]{2,20})@([a-z0-9]{1,10})([.]{1})([a-z]{2,4})$/;
         var email = document.getElementById("email").value
-        if(emreg.test(email) == false){
-            narn("warn","邮箱格式不正确")
+        if (emreg.test(email) == false) {
+            narn("warn", "邮箱格式不正确")
         }
     }
+
     function checkpwd() {
         var pwd = document.getElementById("pwd").value
         var confirm = document.getElementById("confirm").value
-        if(pwd != confirm){
-            narn("warn","两次密码不一致")
-          }
+        if (pwd != confirm) {
+            narn("warn", "两次密码不一致")
+        }
     }
+
     function Vcode() {
         var userid = document.getElementById("userid").value.trim()
         var email = document.getElementById("email").value.trim()
         var pwd = document.getElementById("pwd").value
         var confirm = document.getElementById("confirm").value
-        if(userid == ""){
-            narn("warn","用户名不能为空")
+        if (userid == "") {
+            narn("warn", "用户名不能为空")
             return
-        }else if(email == ""){
-            narn("warn","邮箱不能为空");
+        } else if (email == "") {
+            narn("warn", "邮箱不能为空");
             return
-        }else if(pwd == ""){
-            narn("warn","密码不能为空")
+        } else if (pwd == "") {
+            narn("warn", "密码不能为空")
             return
-        }else if(confirm == ""){
-            narn("warn","确认密码不能为空")
+        } else if (confirm == "") {
+            narn("warn", "确认密码不能为空")
             return
-        }else if(pwd != confirm){
-            narn("warn","两次密码不一致")
+        } else if (pwd != confirm) {
+            narn("warn", "两次密码不一致")
             return
-        }else{
+        } else {
             $.ajax({
                 type: "POST",
                 url: "/user/getcode",
-                data: {'username':userid,'email': email},
+                data: {'username': userid, 'email': email},
                 dataType: "text", //return dataType: text or json
                 success: function (json) {
                     json = eval('(' + json + ')');
                     var status = json.rtn;
                     // var meetingIdTr = meetingId * 1 + 1;
                     if (status == "emailExist") {
-                        narn("warn","邮箱已被注册")
+                        narn("warn", "邮箱已被注册")
                         return
 
                     } else if (status == "userNameExist") {
                         narn("warn", "用户名已存在")
                         return
-                    } else if (status == "success"){
-                        narn("success","验证码已成功发送至邮箱，有效期十分钟")
+                    } else if (status == "success") {
+                        narn("success", "验证码已成功发送至邮箱，有效期十分钟")
                         return
                     }
                 },
@@ -144,10 +148,6 @@
             });
         }
     }
-
-
-
-
 
     /**
      * 点击注册时验证四项是否为空
@@ -173,11 +173,11 @@
         } else if (pwd != confirm) {
             narn("warn", "两次密码不一致")
             return
-        } else if (code == ""){
-            narn("warn","验证码为空")
+        } else if (code == "") {
+            narn("warn", "验证码为空")
             return
-        } else if (code.length != 6){
-            narn("warn","验证码长度错误")
+        } else if (code.length != 6) {
+            narn("warn", "验证码长度错误")
             return
         } else {
             $.ajax({
@@ -212,34 +212,35 @@
         }
     }
 
-
+    /*
+    * 登录
+    */
     function login() {
         var usernameoremail = document.getElementById("usernameoremail").value.trim()
         var pwd = document.getElementById("pwd1").value
-        if(usernameoremail == ""){
-            narn("warn","用户名或邮箱为空")
+        if (usernameoremail == "") {
+            narn("warn", "用户名或邮箱为空")
             return
-        } else if(pwd1 == ""){
-            narn("warn","密码为空")
+        } else if (pwd == "") {
+            narn("warn", "密码为空")
             return
         } else {
             $.ajax({
                 type: "POST",
-                url: "/user/login",
+                url: "/user/login" + "?&" + new Date().getTime(),
+                // async : false,
+                // contentType:"application/x-www-form-urlencoded",
                 data: {'usernameoremail': usernameoremail, 'password': pwd},
                 dataType: "text", //return dataType: text or json
                 success: function (json) {
-                    json = eval('(' + json + ')');
-                    var status = json.rtn;
-                    // var meetingIdTr = meetingId * 1 + 1;
-                    if (status == "NotExist") {
+                    if (json == "NotExist") {
                         narn("warn", "用户名或邮箱不存在")
                         return
 
-                    } else if (status == "PwdError") {
+                    } else if (json == "PwdError") {
                         narn("warn", "密码错误")
                         return
-                    } else if (status == "success") {
+                    } else if (json == "success") {
                         narn("success", "登陆成功,页面即将跳转,请稍候")
                         setTimeout(function () {
                             window.location.href = 'http://localhost';
@@ -248,9 +249,10 @@
                     }
                 },
                 error: function (json) {
-
+                    narn("warn", "登录出错，请检查网络")
                     return
-                }
+                },
+
             });
         }
     }
@@ -261,7 +263,7 @@
      * @param type
      * @param msg
      */
-    function narn (type,msg) {
+    function narn(type, msg) {
         naranja()[type]({
             title: '消息提示',
             text: msg,
@@ -274,7 +276,7 @@
                         text: '通知被接受'
                     })
                 }
-            },{
+            }, {
                 text: '取消',
                 click: function (e) {
                     e.closeNotification()

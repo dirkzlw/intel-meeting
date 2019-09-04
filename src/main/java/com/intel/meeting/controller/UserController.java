@@ -4,8 +4,10 @@ import com.intel.meeting.po.Role;
 import com.intel.meeting.po.User;
 import com.intel.meeting.service.RoleService;
 import com.intel.meeting.service.UserService;
+import com.intel.meeting.utils.UserUtils;
 import com.intel.meeting.vo.MRPage;
 import com.intel.meeting.vo.RtnIdInfo;
+import com.intel.meeting.vo.SessionUser;
 import com.intel.meeting.vo.UserInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -47,7 +49,8 @@ public class UserController {
      */
     @GetMapping("/to/usermgn/user-manage")
     public String toUserManage(Model model,
-                               @RequestParam(required = false) Integer page){
+                               @RequestParam(required = false) Integer page,
+                               HttpServletRequest request){
         List<Role> roleList = roleService.findAllRoles();
         System.out.println("roleList = " + roleList);
         if (page == null) {
@@ -68,7 +71,8 @@ public class UserController {
                 2);
        model.addAttribute("userPage", userPageInfo);
        model.addAttribute("roleList", roleList);
-        return "usermgn/user-manage";
+        UserUtils.setUserIndex(model, request);
+       return "usermgn/user-manage";
     }
 
     /**
@@ -118,31 +122,37 @@ public class UserController {
      */
     @PostMapping("/user/login")
     @ResponseBody
-    public RtnIdInfo login(String usernameoremail, String password,
+    public String login(String usernameoremail, String password,
                            HttpServletRequest request,
                            HttpServletResponse response){
         String result = userService.login(usernameoremail, password);
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                if("success".equals(result)){
-                    User user = userService.findUserByUsernameOrEmailAndPassword(usernameoremail, password);
-                    if (user !=null){
-                        //将JSESSIONID存于本地cookie中
-                        Cookie cookiesessionid = new Cookie("JSESSIONID", request.getSession().getId());
-                        cookiesessionid.setMaxAge(24 * 60 * 60);
-                        response.addCookie(cookiesessionid);
+        if("success".equals(result)){
+            User user = userService.findUserByUsernameOrEmailAndPassword(usernameoremail, password);
+            System.out.println("user = " + user);
+            if (user !=null){
+                //将JSESSIONID存于本地cookie中
+                Cookie cookiesessionid = new Cookie("JSESSIONID", request.getSession().getId());
+                cookiesessionid.setMaxAge(24 * 60 * 60);
+                response.addCookie(cookiesessionid);
 
-                        //存Session
-                        //根据用户角色，设置用户权限
-                        HttpSession session = request.getSession();
-                        session.setAttribute("sessionUser", user);
-                        session.setMaxInactiveInterval(3 * 24 * 60);    //设置session生存时间
-                    }
-                }
+                //存Session
+                //根据用户角色，设置用户权限
+                HttpSession session = request.getSession();
+                //将User转换为SessionUser
+                SessionUser sessionUser = new SessionUser(user.getUserId(),
+                        user.getUsername(),
+                        user.getRole().getRoleName(),
+                        user.getHeadUrl());
+                session.setAttribute("sessionUser", sessionUser);
+                session.setMaxInactiveInterval(3 * 24 * 60);    //设置session生存时间
+                System.out.println("result1 = " + result);
+                return result;
             }
-        }).start();
-        return new RtnIdInfo(result,0);
+            System.out.println("result2 = " + result);
+            return result;
+        }
+        System.out.println("result3 = " + result);
+        return result;
     }
 
     /**

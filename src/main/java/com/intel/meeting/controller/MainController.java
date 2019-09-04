@@ -51,6 +51,7 @@ public class MainController {
                 (int) mrPage.getTotalElements(),
                 2);
         model.addAttribute("mainMrPage", mrPageInfo);
+        model.addAttribute("abx", "#");
         UserUtils.setUserIndex(model, request);
         return "index/index";
     }
@@ -61,7 +62,9 @@ public class MainController {
      * @return
      */
     @GetMapping("/to/control")
-    public String toControl(){
+    public String toControl(Model model,
+                            HttpServletRequest request){
+        UserUtils.setUserIndex(model, request);
         return "control/index";
     }
 
@@ -71,7 +74,9 @@ public class MainController {
      * @return
      */
     @GetMapping("/to/usermgn")
-    public String toUsermgn(){
+    public String toUsermgn(Model model,
+                            HttpServletRequest request){
+        UserUtils.setUserIndex(model, request);
         return "usermgn/index";
     }
 

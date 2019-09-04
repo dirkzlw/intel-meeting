@@ -1,6 +1,7 @@
 package com.intel.meeting.utils;
 
 import com.intel.meeting.po.User;
+import com.intel.meeting.vo.SessionUser;
 import com.intel.meeting.vo.UserIndex;
 import org.springframework.ui.Model;
 
@@ -14,7 +15,7 @@ public class UserUtils {
 
     public static void setUserIndex(Model model, HttpServletRequest request){
         //从session中获取author，判断是否登录
-        User user = (User) request.getSession().getAttribute("sessionUser");
+        SessionUser user = (SessionUser) request.getSession().getAttribute("sessionUser");
         UserIndex userIndex = null;
         if(user != null){
             userIndex = new UserIndex(user.getUserId(), user.getHeadUrl());
@@ -22,6 +23,7 @@ public class UserUtils {
             userIndex = new UserIndex(null, null);
         }
         model.addAttribute("user", userIndex);
+        System.out.println("userIndex = " + userIndex);
     }
 
 }

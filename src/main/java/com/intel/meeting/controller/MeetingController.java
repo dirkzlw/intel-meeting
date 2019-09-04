@@ -5,6 +5,7 @@ import com.intel.meeting.po.es.EsMeetingRoom;
 import com.intel.meeting.service.MeetingRoomService;
 import com.intel.meeting.service.es.EsMeetingRoomService;
 import com.intel.meeting.utils.EmrUtils;
+import com.intel.meeting.utils.UserUtils;
 import com.intel.meeting.vo.MRPage;
 import com.intel.meeting.vo.RtnIdInfo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
@@ -42,7 +44,8 @@ public class MeetingController {
      */
     @GetMapping("/to/control/meeting-manage")
     public String toMeetingManage(Model model,
-                                  @RequestParam(required = false) Integer page) {
+                                  @RequestParam(required = false) Integer page,
+                                  HttpServletRequest request) {
         if (page == null) {
             page = 0;
         }
@@ -53,6 +56,7 @@ public class MeetingController {
                 (int) mrPage.getTotalElements(),
                 2);
         model.addAttribute("mrPage", mrPageInfo);
+        UserUtils.setUserIndex(model, request);
         return "control/meeting-manage";
     }
 

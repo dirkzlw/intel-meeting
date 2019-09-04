@@ -34,4 +34,11 @@ public class UserIndex {
         this.userId = userId;
     }
 
+    @Override
+    public String toString() {
+        return "UserIndex{" +
+                "userId=" + userId +
+                ", headImgUrl='" + headImgUrl + '\'' +
+                '}';
+    }
 }

@@ -21,4 +21,6 @@ public interface UserService {
     String delUser(Integer userId);
 
     User findUserByUsernameOrEmailAndPassword(String usernameoremail, String password);
+
+    User findUserById(Integer userId);
 }

@@ -5,9 +5,11 @@ import com.intel.meeting.po.ReserveMeeting;
 import com.intel.meeting.po.User;
 import com.intel.meeting.service.MeetingRoomService;
 import com.intel.meeting.service.ReserveMeetingService;
+import com.intel.meeting.service.UserService;
 import com.intel.meeting.utils.DateUtils;
 import com.intel.meeting.vo.MainMr;
 import com.intel.meeting.vo.RtnIdInfo;
+import com.intel.meeting.vo.SessionUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -28,6 +30,8 @@ public class ReserveMeetingController {
 
     @Autowired
     private MeetingRoomService mrService;
+    @Autowired
+    private UserService userService;
 
     @Autowired
     private ReserveMeetingService rmService;
@@ -49,7 +53,8 @@ public class ReserveMeetingController {
                                  String startTime,
                                  String endTime,
                                  HttpServletRequest request) {
-        User user = (User) request.getSession().getAttribute("sessionUser");
+        SessionUser sessionUser = (SessionUser) request.getSession().getAttribute("sessionUser");
+        User user = userService.findUserById(sessionUser.getUserId());
         MeetingRoom meetingRoom = mrService.findMrById(meetingId);
         ReserveMeeting reserveMeeting = new ReserveMeeting(user,
                 meetingRoom,
