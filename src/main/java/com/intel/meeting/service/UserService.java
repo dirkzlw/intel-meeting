@@ -19,4 +19,6 @@ public interface UserService {
     Page<User> findUserByPage(Integer page, Integer size);
 
     String delUser(Integer userId);
+
+    User findUserByUsernameOrEmailAndPassword(String usernameoremail, String password);
 }

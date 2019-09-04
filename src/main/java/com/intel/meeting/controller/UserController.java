@@ -17,6 +17,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -114,8 +118,30 @@ public class UserController {
      */
     @PostMapping("/user/login")
     @ResponseBody
-    public RtnIdInfo login(String usernameoremail,String password){
+    public RtnIdInfo login(String usernameoremail, String password,
+                           HttpServletRequest request,
+                           HttpServletResponse response){
         String result = userService.login(usernameoremail, password);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                if("success".equals(result)){
+                    User user = userService.findUserByUsernameOrEmailAndPassword(usernameoremail, password);
+                    if (user !=null){
+                        //将JSESSIONID存于本地cookie中
+                        Cookie cookiesessionid = new Cookie("JSESSIONID", request.getSession().getId());
+                        cookiesessionid.setMaxAge(24 * 60 * 60);
+                        response.addCookie(cookiesessionid);
+
+                        //存Session
+                        //根据用户角色，设置用户权限
+                        HttpSession session = request.getSession();
+                        session.setAttribute("sessionUser", user);
+                        session.setMaxInactiveInterval(3 * 24 * 60);    //设置session生存时间
+                    }
+                }
+            }
+        }).start();
         return new RtnIdInfo(result,0);
     }
 

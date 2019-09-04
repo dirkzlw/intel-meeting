@@ -16,7 +16,25 @@
         </div>
         <!--登录/注册-->
         <div style="display: inline;margin-left: 90%;position: relative ;top: -55px">
-            <a th:href="@{/to/user/login}"style="font-size: 25px">登录</a>
+            <a th:if="${user.userId} == null" th:href="@{/to/user/login}"style="font-size: 25px">登录</a>
+            <a th:if="${user.userId} != null" th:href="@{/to/user/manage(userId=${user.userId})}">
+                <img style="
+                    position: relative;
+                    top: -8px;
+                    display: inline;
+                    width: 34px;
+                    height: 34px;
+                    /*display: flex;*/
+                    border-radius: 50%;
+                    align-items: center;
+                    justify-content: center;
+                    overflow: hidden;
+                    cursor: pointer;"
+                    alt="头像"
+                    class="round_icon"
+                    title="账户管理"
+                    th:src="${user.headImgUrl}">
+            </a>
         </div>
 
     </div>

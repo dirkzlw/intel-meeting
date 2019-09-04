@@ -50,10 +50,6 @@ public class ReserveMeetingController {
                                  String endTime,
                                  HttpServletRequest request) {
         User user = (User) request.getSession().getAttribute("sessionUser");
-        if (user == null) {
-            user = new User(null, null, null, null, null, null, null, null, null, null);
-            user.setUserId(1);
-        }
         MeetingRoom meetingRoom = mrService.findMrById(meetingId);
         ReserveMeeting reserveMeeting = new ReserveMeeting(user,
                 meetingRoom,

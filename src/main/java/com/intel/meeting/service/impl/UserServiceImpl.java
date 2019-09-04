@@ -100,9 +100,6 @@ public class UserServiceImpl implements UserService {
     @Override
     public String login(String usernameoremail, String password){
 
-        System.out.println("usernameoremail = " + usernameoremail);
-        System.out.println("password = " + password);
-
         List<User> userList = userRepository.findDistinctByUsernameOrEmail(usernameoremail,usernameoremail);
         if(userList == null){
             return "NotExist";
@@ -164,5 +161,26 @@ public class UserServiceImpl implements UserService {
     public String delUser(Integer userId) {
         userRepository.delete(userId);
         return "del";
+    }
+
+    /**
+     * 根据用户名或者邮箱和密码获取用户
+     * @param usernameoremail
+     * @param password
+     * @return
+     */
+    @Override
+    public User findUserByUsernameOrEmailAndPassword(String usernameoremail, String password) {
+        List<User> userList = userRepository.findDistinctByUsernameOrEmail(usernameoremail,usernameoremail);
+        if(userList == null){
+            return null;
+        }else {
+            for (User user : userList) {
+                if (user.getPassword().equals(MD5Utils.md5(password))){
+                    return user;
+                }
+            }
+        }
+        return null;
     }
 }

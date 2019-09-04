@@ -3,6 +3,7 @@ package com.intel.meeting.controller;
 import com.intel.meeting.po.MeetingRoom;
 import com.intel.meeting.service.MeetingRoomService;
 import com.intel.meeting.utils.MainMrUtils;
+import com.intel.meeting.utils.UserUtils;
 import com.intel.meeting.vo.MRPage;
 import com.intel.meeting.vo.MainMr;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
@@ -36,7 +38,8 @@ public class MainController {
      */
     @GetMapping("/index")
     public String toIndex(Model model,
-                      @RequestParam(required = false) Integer page){
+                          @RequestParam(required = false) Integer page,
+                          HttpServletRequest request){
         if (page == null) {
             page = 0;
         }
@@ -48,6 +51,7 @@ public class MainController {
                 (int) mrPage.getTotalElements(),
                 2);
         model.addAttribute("mainMrPage", mrPageInfo);
+        UserUtils.setUserIndex(model, request);
         return "index/index";
     }
 
