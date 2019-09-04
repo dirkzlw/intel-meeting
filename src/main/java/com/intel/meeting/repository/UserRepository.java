@@ -12,8 +12,10 @@ import java.util.List;
  */
 public interface UserRepository extends JpaRepository<User, Integer> {
 
-    List<User> findDistinctByUsernameOrEmail(String username,String email);
+
+
     User findByEmail(String email);
     User findByUsername(String username);
+    List<User> findDistinctByUsernameOrEmail(String username,String email);
 
 }
