@@ -4,7 +4,6 @@ import com.intel.meeting.po.Role;
 import com.intel.meeting.po.User;
 import com.intel.meeting.service.RoleService;
 import com.intel.meeting.service.UserService;
-import com.intel.meeting.utils.MD5Utils;
 import com.intel.meeting.vo.MRPage;
 import com.intel.meeting.vo.RtnIdInfo;
 import com.intel.meeting.vo.UserInfo;
@@ -18,7 +17,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -128,17 +126,30 @@ public class UserController {
      */
     @PostMapping("/usermgn/user/save")
     @ResponseBody
-    public UserInfo saveUser(User user,String roleName){
+    public RtnIdInfo saveUser(User user, String roleName){
 //        System.out.println(roleName);
         Role role=roleService.findByRoleName(roleName);
         user.setRole(role);
         System.out.println("user:"+user);
        String result = userService.saveUser(user);
 
-//        return new RtnIdInfo(result,user.getUserId());
-//        System.out.println("user = " + user);
-        UserInfo userInfo=new UserInfo(user.getUsername(),"******",user.getEmail(),user.getRole().getRoleName());
-        userInfo.setUserId(user.getUserId());
-        return userInfo;
+        return new RtnIdInfo(result,user.getUserId());
+}
+
+    /**
+     * 删除用户
+     *
+     * @return
+     */
+    @PostMapping("/usermgn/user/del")
+    @ResponseBody
+    public String delMeeting(Integer userId) {
+
+        String result = userService.delUser(userId);
+
+//        //同步es
+//        emrService.delEsMeetingRoomById(meetingId);
+
+        return result;
     }
 }
