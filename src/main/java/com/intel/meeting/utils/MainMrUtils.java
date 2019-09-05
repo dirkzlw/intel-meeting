@@ -10,14 +10,12 @@ import java.util.Set;
 
 /**
  * 转换主页显示的List
- *
  * @author Ranger
  * @create 2019-09-03 20:00
  */
 public class MainMrUtils {
     public static List<MainMr> mrListToMainMrList(List<MeetingRoom> mrList){
         List<MainMr> mainMrList = new ArrayList<>();
-
         for (MeetingRoom mr : mrList) {
             //判定预约状态和预约时间
             Set<ReserveMeeting> reserveSet = mr.getReserveSet();

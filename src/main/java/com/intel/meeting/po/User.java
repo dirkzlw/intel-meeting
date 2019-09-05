@@ -158,13 +158,15 @@ public class User {
         return "User{" +
                 "userId=" + userId +
                 ", username='" + username + '\'' +
-                ", password=" + password +
+                ", password='" + password + '\'' +
                 ", email='" + email + '\'' +
-                ", role='" + role + '\'' +
+                ", role=" + role +
                 ", headUrl='" + headUrl + '\'' +
                 ", status=" + status +
                 ", warnNum=" + warnNum +
                 ", untilTime=" + untilTime +
+                ", userAuth=" + userAuth +
+                ", reserveSet=" + reserveSet +
                 '}';
     }
 }

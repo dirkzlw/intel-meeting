@@ -6,6 +6,15 @@ $(function () {  //jquery里的,是当文档载入完毕就执行的意思
 
     $('#show_tbody').on('click', '.edit', function () {
         editMeetingId = this.id
+        var aTitle = document.getElementById(editMeetingId).title
+        if("会议室故障" == aTitle){
+            bootbox.alert({
+                title: "来自智能会议室的提示",
+                message: "会议室故障，暂停服务",
+                closeButton: false
+            })
+            return
+        }
         trIndex = $('.edit', '#show_tbody').index($(this));
         addEnter = true;
         $(this).parents('tr').addClass('has_case');
@@ -30,13 +39,9 @@ $(function () {  //jquery里的,是当文档载入完毕就执行的意思
 
 var editMeetingId,
     addEnter = true,
-    noRepeat = false,
-    tdStr = '',
     xtdStr = '',
     trIndex,
     hasNullMes = false,
-    tarInp = $('#xztb input'),
-    tarSel = $('#xztb select'),
     xtarInp = $('#xxztb input'),
     xtarSel = $('#xxztb select');
 
@@ -74,7 +79,7 @@ var methods = {
                     if (rtn == "reserve") {
                         bootbox.alert({
                             title: "来自智能会议室的提示",
-                            message: "会议室预定成功",
+                            message: "会议室预定成功，请在会议开始五分钟内进行签到！",
                             closeButton: false
                         })
                         xtdStr = "      \n" +

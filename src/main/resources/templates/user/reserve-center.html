@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="utf-8"/>
+    <title>智能会议管理--预定中心</title>
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no"/>
+    <!-- add styles -->
+    <link href="/index/css/main.css" rel="stylesheet" type="text/css" />
+
+    <link rel="stylesheet" type="text/css" href="/user/reserve-table/css/style.css"/>
+
+    <link rel="stylesheet" type="text/css"
+          href="https://cdn.bootcss.com/twitter-bootstrap/4.2.1/css/bootstrap.min.css"/>
+
+    <script src="/user/reserve-table/js/jquery.min.js"></script>
+    <script src="/user/reserve-table/js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="/user/reserve-table/js/bootbox.min.js"></script>
+
+    <style type="text/css">
+        a:hover {
+            text-decoration: none;
+        }
+    </style>
+
+</head>
+<body>
+
+<!--头部-->
+<div th:replace="~{fragments/header :: header}"></div>
+
+<div class="box" style="position: relative;top: -42px;">
+    <div class="content">
+        <div style="height: 70px">
+
+        </div>
+        <!--添加按钮及bootstrap的模态框-->
+        <div class="export">
+            <div class="modal fade" id="xrenyuan">
+                <div class="modal-dialog modal-lg modal_position">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title">取消预定</h4>
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        </div>
+                        <div class="modal-body">
+                            <table id="xxztb" class="table">
+                                <!--修改会议弹窗的样式-->
+                                <tbody>
+                                <tr>
+                                    <td class="tb_bg">
+                                        <label style="font-size: 34px; color: red;">确定取消预定？</label>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="tb_bg"><label><font
+                                            style="font-size: 14px; color: red;">*</font>注意：会议开始无法取消</label>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                            <button id="xadd_btn" type="button" class="btn btn-secondary">确定</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade" id="xxrenyuan">
+                <div class="modal-dialog modal-lg modal_position">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title">提前结束会议</h4>
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        </div>
+                        <div class="modal-body">
+                            <table id="xxxztb" class="table">
+                                <!--提前结束弹窗的样式-->
+                                <tbody>
+                                <tr>
+                                    <td class="tb_bg">
+                                        <label style="font-size: 34px; color: red;">确定提前结束？</label>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="tb_bg"><label><font
+                                            style="font-size: 14px; color: red;">*</font>注意：会议室至少使用5分钟方可提前结束</label>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                            <button id="xxadd_btn" type="button" class="btn btn-secondary">确定</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--表格列表-->
+        <table id="tb" class="table">
+            <thead>
+            <tr>
+                <th>会议室</th>
+                <th>容纳人数</th>
+                <th>预约日期</th>
+                <th>开始时间</th>
+                <th>结束时间</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody id="show_tbody">
+            <tr th:each="rmi : ${rmiList}">
+                <td th:text="${rmi.meetingName}"></td>
+                <td th:text="${rmi.containNum}"></td>
+                <td th:text="${rmi.reserveDay}"></td>
+                <td th:utext="${rmi.startTime}"></td>
+                <td th:utext="${rmi.endTime}"></td>
+                <td>
+                    <a th:if="${rmi.signStatus} == 1">已签</a>
+                    <a th:if="${rmi.signStatus} == 2" th:id="${rmi.reserveId}" href="#" class="sign"
+                       th:title="${rmi.reserveDay} +' '+ ${rmi.startTime}">签到</a>
+                    &nbsp;&nbsp;
+                    <a th:id="${rmi.reserveId}" href="#" class="edit"
+                       th:title="${rmi.reserveDay} +' '+ ${rmi.startTime}">取消预定</a>
+                    <a th:if="${rmi.endStatus} == 1" class="end">会议结束</a>
+                    <a th:if="${rmi.endStatus} == 2"
+                       th:id="${rmi.reserveId}" href="#" class="end"
+                       th:title="${rmi.reserveDay} +' '+ ${rmi.endTime}">结束会议</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script src="/user/reserve-table/js/mejs.js"></script>
+</body>
+</html>

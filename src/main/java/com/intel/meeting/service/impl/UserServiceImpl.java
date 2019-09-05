@@ -1,5 +1,6 @@
 package com.intel.meeting.service.impl;
 
+import com.intel.meeting.po.Role;
 import com.intel.meeting.po.User;
 import com.intel.meeting.repository.UserRepository;
 import com.intel.meeting.service.UserService;
@@ -31,10 +32,19 @@ public class UserServiceImpl implements UserService {
     //注入javaMail发送器
     @Autowired
     private JavaMailSender mailSender;
+
+    @Autowired
+    private RedisOperations<String, String> redisTemplate;
+
     //邮件发送者
     @Value("${spring.mail.username}")
     private String fromEmail;
-    private RedisOperations<String, String> redisTemplate;
+    //用户初始密码
+    @Value("${USER_INIT_PASSWORD}")
+    private String USER_INIT_PASSWORD;
+    //用户初始头像
+    @Value("${USER_INIT_HEAD_URL}")
+    private String USER_INIT_HEAD_URL;
 
     @Override
     public String getVCode(String username,String email){
@@ -79,6 +89,12 @@ public class UserServiceImpl implements UserService {
         return "success";
     }
 
+    /**
+     * 注册
+     * @param user
+     * @param vcode
+     * @return
+     */
     @Override
     public String register(User user, String vcode) {
 
@@ -88,6 +104,7 @@ public class UserServiceImpl implements UserService {
         if (code==null){
             return "NotMatch";
         }else if (code.equals(vcode)){
+            user.setHeadUrl(USER_INIT_HEAD_URL);
             user.setPassword(MD5Utils.md5(user.getPassword()));
             userRepository.save(user);
             redisTemplate.delete(key);

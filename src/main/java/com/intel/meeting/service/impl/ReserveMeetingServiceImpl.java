@@ -12,7 +12,10 @@ import org.springframework.stereotype.Service;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
+
+import static org.aspectj.bridge.Version.getTime;
 
 /**
  * @author ranger
@@ -82,5 +85,70 @@ public class ReserveMeetingServiceImpl implements ReserveMeetingService {
                 "存在预约",
                 reserveTime,
                 "reserve");
+    }
+
+    /**
+     * 根据id删除预定 --取消预定
+     * 同时对比数据库中预定时间和当前时间
+     * 再次校验是否正常取消
+     * 尚未实现删除
+     * @param reserveId
+     * @return
+     */
+    @Override
+    public String delReserveMeetingById(Integer reserveId) {
+        ReserveMeeting reserveMeeting = rmRepository.getOne(reserveId);
+        String startString = reserveMeeting.getStartTime();
+        long nowTime = new Date().getTime();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm");
+        long startTime = DateUtils.stringToDate(sdf, startString).getTime();
+        if(nowTime - startTime >0 ){
+            return "started";
+        }
+        return "success";
+    }
+
+    /**
+     * 会议室预定  --签到
+     * @param reserveId
+     * @return
+     */
+    @Override
+    public String signReserveMeeting(Integer reserveId) {
+        ReserveMeeting reserveMeeting = rmRepository.getOne(reserveId);
+        String startString = reserveMeeting.getStartTime();
+        Date nowDate = new Date();
+        long nowTime = nowDate.getTime();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm");
+        long startTime = DateUtils.stringToDate(sdf, startString).getTime();
+        if(nowTime - startTime >300000 || nowTime -startTime <0  ){
+            return "exceed";
+        }else {
+            String signTime = sdf.format(nowDate);
+            reserveMeeting.setSignTime(signTime);
+            rmRepository.save(reserveMeeting);
+            return "success";
+        }
+    }
+
+    /**
+     * 提前结束使用
+     * 尚未实现删除
+     * @param reserveId
+     * @return
+     */
+    @Override
+    public String overReserveMeeting(Integer reserveId) {
+        ReserveMeeting reserveMeeting = rmRepository.getOne(reserveId);
+        System.out.println("reserveMeeting = " + reserveMeeting);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm");
+        long startTime = DateUtils.stringToDate(sdf, reserveMeeting.getStartTime()).getTime();
+        long endTime = DateUtils.stringToDate(sdf, reserveMeeting.getEndTime()).getTime();
+        long nowTime = new Date().getTime();
+        if (nowTime - startTime > 300000 && nowTime < endTime){
+            return "success";
+        }else {
+            return "exceed";
+        }
     }
 }

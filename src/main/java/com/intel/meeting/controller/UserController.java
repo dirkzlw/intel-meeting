@@ -4,6 +4,7 @@ import com.intel.meeting.po.Role;
 import com.intel.meeting.po.User;
 import com.intel.meeting.service.RoleService;
 import com.intel.meeting.service.UserService;
+import com.intel.meeting.utils.SessionUtils;
 import com.intel.meeting.utils.UserUtils;
 import com.intel.meeting.vo.MRPage;
 import com.intel.meeting.vo.RtnIdInfo;
@@ -38,10 +39,10 @@ public class UserController {
     private RoleService roleService;
     @Autowired
     private UserService userService;
+
+    //用户初始角色
     @Value("${USER_INIT_ROLE}")
     private String USER_INIT_ROLE;
-    @Value("${USER_INIT_PASSWORD}")
-    private String USER_INIT_PASSWORD;
 
     /**
      * 跳转到查询用户界面
@@ -105,12 +106,18 @@ public class UserController {
      */
     @PostMapping("/user/register")
     @ResponseBody
-    public RtnIdInfo register(User user,String code){
+    public RtnIdInfo register(User user,String code,
+                              HttpServletRequest request,
+                              HttpServletResponse response){
         Role role = null;
         role = roleService.findByRoleName(new String(USER_INIT_ROLE));
         user.setRole(role);
-
         String result = userService.register(user,code);
+        if ("success".equals(result)){
+            //将User转换为SessionUser
+            SessionUser sessionUser = userToSessionUser(user);
+            SessionUtils.saveObjectToSession(request, response, sessionUser, "sessionUser");
+        }
         return new RtnIdInfo(result,0);
     }
 
@@ -128,30 +135,12 @@ public class UserController {
         String result = userService.login(usernameoremail, password);
         if("success".equals(result)){
             User user = userService.findUserByUsernameOrEmailAndPassword(usernameoremail, password);
-            System.out.println("user = " + user);
             if (user !=null){
-                //将JSESSIONID存于本地cookie中
-                Cookie cookiesessionid = new Cookie("JSESSIONID", request.getSession().getId());
-                cookiesessionid.setMaxAge(24 * 60 * 60);
-                response.addCookie(cookiesessionid);
-
-                //存Session
-                //根据用户角色，设置用户权限
-                HttpSession session = request.getSession();
                 //将User转换为SessionUser
-                SessionUser sessionUser = new SessionUser(user.getUserId(),
-                        user.getUsername(),
-                        user.getRole().getRoleName(),
-                        user.getHeadUrl());
-                session.setAttribute("sessionUser", sessionUser);
-                session.setMaxInactiveInterval(3 * 24 * 60);    //设置session生存时间
-                System.out.println("result1 = " + result);
-                return result;
+                SessionUser sessionUser = userToSessionUser(user);
+                SessionUtils.saveObjectToSession(request, response, sessionUser, "sessionUser");
             }
-            System.out.println("result2 = " + result);
-            return result;
         }
-        System.out.println("result3 = " + result);
         return result;
     }
 
@@ -188,4 +177,19 @@ public class UserController {
 
         return result;
     }
+
+    /**
+     * 将User转换为SessionUser
+     * @param user
+     * @return
+     */
+    private static SessionUser userToSessionUser(User user){
+        SessionUser sessionUser = new SessionUser(user.getUserId(),
+                user.getUsername(),
+                user.getRole().getRoleName(),
+                user.getHeadUrl());
+        return sessionUser;
+    }
+
+
 }

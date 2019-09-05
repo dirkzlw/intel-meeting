@@ -49,7 +49,7 @@ public class MeetingController {
         if (page == null) {
             page = 0;
         }
-        Page<MeetingRoom> mrPage = mrService.findMeetingRoomByPage(page, 10);
+        Page<MeetingRoom> mrPage = mrService.findMeetingRoomByPage(page, 9);
         MRPage mrPageInfo = new MRPage(mrPage.getContent(),
                 page + 1,
                 mrPage.getTotalPages(),

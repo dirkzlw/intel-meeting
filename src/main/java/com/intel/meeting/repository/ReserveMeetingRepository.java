@@ -2,6 +2,9 @@ package com.intel.meeting.repository;
 
 import com.intel.meeting.po.ReserveMeeting;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+
+import java.util.List;
 
 /**
  * @author ranger

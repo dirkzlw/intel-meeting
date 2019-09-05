@@ -23,7 +23,6 @@ public class UserUtils {
             userIndex = new UserIndex(null, null);
         }
         model.addAttribute("user", userIndex);
-        System.out.println("userIndex = " + userIndex);
     }
 
 }
