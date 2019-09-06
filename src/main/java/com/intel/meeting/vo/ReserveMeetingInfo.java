@@ -1,10 +1,12 @@
 package com.intel.meeting.vo;
 
+import com.intel.meeting.utils.DateUtils;
+
 /**
  * @author Ranger
  * @create 2019-09-05 16:08
  */
-public class ReserveMeetingInfo implements Comparable<ReserveMeetingInfo>{
+public class ReserveMeetingInfo implements Comparable<ReserveMeetingInfo> {
     private Integer reserveId;
     private Integer userId;
     private Integer meetingId;
@@ -125,11 +127,15 @@ public class ReserveMeetingInfo implements Comparable<ReserveMeetingInfo>{
 
     /**
      * List 排序
+     * 根据预约日期排序
+     *
      * @param o
      * @return
      */
     @Override
     public int compareTo(ReserveMeetingInfo o) {
-        return this.reserveId - o.reserveId;
+        long l1 = DateUtils.stringToTime(this.getReserveDay() + " " + this.getStartTime());
+        long l2 = DateUtils.stringToTime(o.getReserveDay() + " " + o.getStartTime());
+        return (int) ((int) l1 - l2);
     }
 }

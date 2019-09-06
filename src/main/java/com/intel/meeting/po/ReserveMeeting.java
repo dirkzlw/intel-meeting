@@ -1,5 +1,7 @@
 package com.intel.meeting.po;
 
+import com.intel.meeting.utils.DateUtils;
+
 import javax.persistence.*;
 
 /**
@@ -8,7 +10,7 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name="reserve_meeting")
-public class ReserveMeeting {
+public class ReserveMeeting implements Comparable<ReserveMeeting>{
     //预订ID
     @Id
     @Column(length = 10)
@@ -113,5 +115,12 @@ public class ReserveMeeting {
                 ", usageStatus=" + usageStatus +
                 ", signTime=" + signTime +
                 '}';
+    }
+
+    @Override
+    public int compareTo(ReserveMeeting o) {
+        long l1 = DateUtils.stringToTime(this.getStartTime());
+        long l2 = DateUtils.stringToTime(o.getStartTime());
+        return (int) ((int) l1 - l2);
     }
 }

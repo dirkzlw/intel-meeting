@@ -63,7 +63,6 @@ public class ReserveMeetingController {
         //根据预定顺序排序
         Collections.sort(rmiList);
         model.addAttribute("rmiList", rmiList);
-        System.out.println("rmiList.size() = " + rmiList.size());
         UserUtils.setUserIndex(model, request);
 
         return "user/reserve-center";
@@ -133,6 +132,4 @@ public class ReserveMeetingController {
 
         return result;
     }
-
-
 }

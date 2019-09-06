@@ -41,14 +41,14 @@ $(function () {  //jquery里的,是当文档载入完毕就执行的意思
                 closeButton: false
             })
             return
-        }else if (nowTime - reserveTime > 300000) {
+        } else if (nowTime - reserveTime > 300000) {
             bootbox.alert({
                 title: "来自智能会议室的提示",
                 message: "签到已过期，禁止签到",
                 closeButton: false
             })
             return
-        }else {
+        } else {
             //签到
             $.ajax({
                 type: "POST",
@@ -66,7 +66,7 @@ $(function () {  //jquery里的,是当文档载入完毕就执行的意思
                         })
                         $('#show_tbody tr').eq(trIndex).empty();
                         $('#xrenyuan').modal('hide');
-                    }else if("exceed" == json){
+                    } else if ("exceed" == json) {
                         bootbox.alert({
                             title: "来自智能会议室的提示",
                             message: "签到时间有误，请检查",
@@ -124,13 +124,13 @@ $(function () {  //jquery里的,是当文档载入完毕就执行的意思
         $('#Ktext').val(' ');
         methods.resectList();
     })
+})
 
 var trTag,
     reserveId,
     addEnter = true,
     trIndex,
     hasNullMes = false;
-
 var methods = {
 
     xaddHandle: function (the_index) {

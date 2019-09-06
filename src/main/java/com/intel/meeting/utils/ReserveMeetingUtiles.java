@@ -37,8 +37,7 @@ public class ReserveMeetingUtiles {
             }else {
                 signStatus = 1;
             }
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm");
-            long endTime2 = DateUtils.stringToDate(sdf, rm.getEndTime()).getTime();
+            long endTime2 = DateUtils.stringToTime(rm.getEndTime());
             long nowTime = new Date().getTime();
             Integer endStatus;
             if(nowTime -endTime2 > 0){

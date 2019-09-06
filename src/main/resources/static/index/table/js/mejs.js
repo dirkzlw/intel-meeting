@@ -7,7 +7,7 @@ $(function () {  //jquery里的,是当文档载入完毕就执行的意思
     $('#show_tbody').on('click', '.edit', function () {
         editMeetingId = this.id
         var aTitle = document.getElementById(editMeetingId).title
-        if("会议室故障" == aTitle){
+        if ("会议室故障" == aTitle) {
             bootbox.alert({
                 title: "来自智能会议室的提示",
                 message: "会议室故障，暂停服务",
@@ -26,11 +26,9 @@ $(function () {  //jquery里的,是当文档载入完毕就执行的意思
         methods.resectList();
     })
 
-    $('#renyuan').on('hide.bs.modal', function () {
+    $('#xrenyuan').on('hide.bs.modal', function () {
         addEnter = true;
         $('#show_tbody tr').removeClass('has_case');
-        $('#xztb input').val(' ');
-        $('#xztb select').find('option:first').prop('selected', true)
         $('#xxztb input').val(' ');
         $('#xxztb select').find('option:first').prop('selected', true)
     });
@@ -83,12 +81,12 @@ var methods = {
                             closeButton: false
                         })
                         xtdStr = "      \n" +
-                            "                <td>"+meetingName+"</td>\n" +
-                            "                <td>"+containNum+"</td>\n" +
-                            "                <td>"+reserveStatus+"</td>\n" +
-                            "                <td>"+reserveTime+"</td>\n" +
+                            "                <td>" + meetingName + "</td>\n" +
+                            "                <td>" + containNum + "</td>\n" +
+                            "                <td>" + reserveStatus + "</td>\n" +
+                            "                <td>" + reserveTime + "</td>\n" +
                             "                <td>\n" +
-                            "                    <a id="+meetingId+" href='#' class='edit'>预约</a>" +
+                            "                    <a id=" + meetingId + " href='#' class='edit'>预约</a>" +
                             "               </td>" +
                             "           ";
                         $('#show_tbody tr').eq(trIndex).empty().append(xtdStr);
@@ -139,23 +137,29 @@ var methods = {
     xcheckMustMes: function () {
 
         //确定预约三日内会议室
-        var reserveDay = new Date($('.reserveDay').val().trim())
-        var datems = new Date().getTime()
-        var day1 = reserveDay.getDay()
-        var currentTime = new Date();
-        var day2 = currentTime.getDay()
-        var ds = day1 - day2
-        if (reserveDay-datems > 230400000 || reserveDay-datems <0) {
+        var reserveStr = $('.reserveDay').val().trim()
+        var startStr = $('.startTime').val().trim()
+        var endStr = $('.endTime').val().trim()
+        var reserveArr = reserveStr.split("-")
+        var startArr = startStr.split(":")
+        var endArr = endStr.split(":")
+        var reserveTime = new Date(reserveArr[0] * 1,
+            reserveArr[1] - 1,
+            reserveArr[2] * 1,
+            startArr[0] * 1,
+            startArr[1] * 1).getTime()
+        var nowTime = new Date().getTime()
+        if (reserveTime - nowTime > 230400000 || reserveTime - nowTime < 0) {
             bootbox.alert({
                 title: "来自智能会议室的提示",
-                message: "以当前时间开始，请预约在三日内",
+                message: "以今天开始，请预约在三日内",
                 closeButton: false
             })
             hasNullMes = true;
             return
         }
 
-        if (reserveDay === '') {
+        if (reserveStr === '') {
             bootbox.alert({
                 title: "来自智能会议室的提示",
                 message: "预定日期为必选项，请填写",
@@ -166,12 +170,10 @@ var methods = {
         }
 
         //确定预约时间在8:00--21:00
-        var startTime = $('.startTime').val().trim()
-        var hour1 = startTime.split(":")[0]
-        var sec1 = startTime.split(":")[1]
-        var endTime = $('.endTime').val().trim();
-        var hour2 = endTime.split(":")[0]
-        var min2 = endTime.split(":")[1]
+        var hour1 = startArr[0]
+        var sec1 = startArr[1]
+        var hour2 = endArr[0]
+        var min2 = endArr[1]
         if (hour1 < 8 || hour2 > 21 || hour2 - hour1 < 0) {
             bootbox.alert({
                 title: "来自智能会议室的提示",
@@ -190,21 +192,7 @@ var methods = {
             hasNullMes = true;
             return
         }
-
-        var nowTime = new Date();
-        var nowHour = nowTime.getHours();
-        var nowMin = nowTime.getMinutes();
-        if (ds == 0 && (hour1 < nowHour || (hour1 == nowHour && sec1 < nowMin))) {
-            bootbox.alert({
-                title: "来自智能会议室的提示",
-                message: "开始时间应为未来时间",
-                closeButton: false
-            })
-            hasNullMes = true;
-            return
-        }
-
-        if (startTime === '') {
+        if (startStr === '') {
             bootbox.alert({
                 title: "来自智能会议室的提示",
                 message: "开始时间为必选项，请填写",
@@ -213,7 +201,7 @@ var methods = {
             hasNullMes = true;
             return
         }
-        if (endTime === '') {
+        if (endStr === '') {
             bootbox.alert({
                 title: "来自智能会议室的提示",
                 message: "结束为必选项，请填写",

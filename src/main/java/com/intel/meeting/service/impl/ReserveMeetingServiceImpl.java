@@ -37,8 +37,6 @@ public class ReserveMeetingServiceImpl implements ReserveMeetingService {
     @Override
     public MainMr save(ReserveMeeting reserveMeeting) {
 
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm");
-
         Set<ReserveMeeting> reserveSet = reserveMeeting.getMeetingRoom().getReserveSet();
         String reserveTime = "";
         //判断预定的会议室时间是否冲突
@@ -48,28 +46,31 @@ public class ReserveMeetingServiceImpl implements ReserveMeetingService {
                         +"--"
                         + meeting.getEndTime().split(" ")[1]
                         +"<br/>";
-                Long start1 = DateUtils.stringToDate(sdf, meeting.getStartTime()).getTime();
-                Long end1 = DateUtils.stringToDate(sdf, meeting.getEndTime()).getTime();
-                Long start2 = DateUtils.stringToDate(sdf, reserveMeeting.getStartTime()).getTime();
-                Long end2 = DateUtils.stringToDate(sdf, reserveMeeting.getEndTime()).getTime();
+                long start1 = DateUtils.stringToTime(meeting.getStartTime());
+                long end1 = DateUtils.stringToTime(meeting.getEndTime());
+                long start2 = DateUtils.stringToTime(reserveMeeting.getStartTime());
+                long end2 = DateUtils.stringToTime(reserveMeeting.getEndTime());
 
+                //时间不冲突
                 if (end2 <= start1 || start2 >= end1) {
-                    rmRepository.save(reserveMeeting);
-                    reserveTime+=reserveMeeting.getStartTime()
-                            +"--"
-                            + reserveMeeting.getEndTime().split(" ")[1]
-                            +"<br/>";
-                    MeetingRoom meetingRoom = reserveMeeting.getMeetingRoom();
-                    return new MainMr(meetingRoom.getMeetingId(),
-                            meetingRoom.getMeetingName(),
-                            meetingRoom.getContainNum(),
-                            "存在预约",
-                            reserveTime,
-                            "reserve");
+                    continue;
                 }else {
                     return new MainMr("timeError");
                 }
             }
+            //时间不冲突，添加预定
+            rmRepository.save(reserveMeeting);
+            reserveTime+=reserveMeeting.getStartTime()
+                    +"--"
+                    + reserveMeeting.getEndTime().split(" ")[1]
+                    +"<br/>";
+            MeetingRoom meetingRoom = reserveMeeting.getMeetingRoom();
+            return new MainMr(meetingRoom.getMeetingId(),
+                    meetingRoom.getMeetingName(),
+                    meetingRoom.getContainNum(),
+                    "存在预约",
+                    reserveTime,
+                    "reserve");
         }else {
             //此会议室没有预约，直接保存
             rmRepository.save(reserveMeeting);
@@ -100,8 +101,7 @@ public class ReserveMeetingServiceImpl implements ReserveMeetingService {
         ReserveMeeting reserveMeeting = rmRepository.getOne(reserveId);
         String startString = reserveMeeting.getStartTime();
         long nowTime = new Date().getTime();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm");
-        long startTime = DateUtils.stringToDate(sdf, startString).getTime();
+        long startTime = DateUtils.stringToTime(startString);
         if(nowTime - startTime >0 ){
             return "started";
         }
@@ -119,12 +119,11 @@ public class ReserveMeetingServiceImpl implements ReserveMeetingService {
         String startString = reserveMeeting.getStartTime();
         Date nowDate = new Date();
         long nowTime = nowDate.getTime();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm");
-        long startTime = DateUtils.stringToDate(sdf, startString).getTime();
+        long startTime = DateUtils.stringToTime(startString);
         if(nowTime - startTime >300000 || nowTime -startTime <0  ){
             return "exceed";
         }else {
-            String signTime = sdf.format(nowDate);
+            String signTime = DateUtils.sdf.format(nowDate);
             reserveMeeting.setSignTime(signTime);
             rmRepository.save(reserveMeeting);
             return "success";
@@ -141,9 +140,8 @@ public class ReserveMeetingServiceImpl implements ReserveMeetingService {
     public String overReserveMeeting(Integer reserveId) {
         ReserveMeeting reserveMeeting = rmRepository.getOne(reserveId);
         System.out.println("reserveMeeting = " + reserveMeeting);
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm");
-        long startTime = DateUtils.stringToDate(sdf, reserveMeeting.getStartTime()).getTime();
-        long endTime = DateUtils.stringToDate(sdf, reserveMeeting.getEndTime()).getTime();
+        long startTime = DateUtils.stringToTime(reserveMeeting.getStartTime());
+        long endTime = DateUtils.stringToTime(reserveMeeting.getEndTime());
         long nowTime = new Date().getTime();
         if (nowTime - startTime > 300000 && nowTime < endTime){
             return "success";
