@@ -230,6 +230,38 @@
         });
     }
 
+    //重置密码
+    function resetPsw(email) {
+        alert(email);
+        $.ajax({
+            type: "POST",
+            url: "/usermgn/user/resetPsw",
+            data: {'email': email},
+            dataType: "text", //return dataType: text or json
+            success: function (json) {
+                if (json == "success") {
+                    bootbox.alert({
+                        title: "来自智能会议室的提示",
+                        message: "重置密码邮件发送成功，请注意查收",
+                        closeButton: false
+                    })
+                }
+            },
+            error: function (json) {
+                bootbox.alert({
+                    title: "来自智能会议室的提示",
+                    message: "邮件发送失败，请检查网络",
+                    closeButton: false
+                })
+                return
+            }
+        });
+
+
+    }
+
+
+
     //页面跳转
     function toSkip() {
         var toPage = document.getElementById("toPage").value * 1 - 1;
@@ -246,10 +278,6 @@
         }
     }
 
-    //重置密码
-    function resetPwd(email){
-
-    }
 
     //查询
     $('#search_btn').click(function () {

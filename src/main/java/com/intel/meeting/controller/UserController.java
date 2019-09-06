@@ -46,7 +46,8 @@ public class UserController {
     private String USER_INIT_ROLE;
     @Value("123456")
     private String USER_INIT_PASSWORD;
-
+    @Value("http://39.107.249.220/group1/M00/00/00/rBgo6l1wgf6ACAM5AAA5pzR1Lu8411.jpg")
+    private String USER_INIT_HEAD_URL;
     /**
      * 跳转到用户管理主页
      *
@@ -197,6 +198,17 @@ public class UserController {
 //        //同步es
 //        emrService.delEsMeetingRoomById(meetingId);
 
+        return result;
+    }
+
+    /**
+     * 重置密码
+     */
+    @PostMapping("/usermgn/user/resetPsw")
+    @ResponseBody
+    public String resetPsw(String email){
+        System.out.println("email:"+email);
+        String result = userService.sendMail(email);
         return result;
     }
 

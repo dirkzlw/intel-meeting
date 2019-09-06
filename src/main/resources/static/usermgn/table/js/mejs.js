@@ -53,7 +53,6 @@ var methods = {
         }
         if (addEnter) {
             var username = $('.username').val().trim();
-            // alert(username);
             // var password = $('.password').val().trim();
             var email = $('.email').val().trim();
             var role = $("#role option:selected").val();
@@ -61,7 +60,7 @@ var methods = {
             $.ajax({
                 type: "POST",
                 url: "/usermgn/user/save",
-                data: {'username': username,  'email': email, 'roleName': role},
+                data: {'username': username, 'email': email, 'roleName': role},
                 dataType: "text", //return dataType: text or json
                 success: function (json) {
                     json = eval('(' + json + ')');

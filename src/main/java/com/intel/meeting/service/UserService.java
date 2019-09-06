@@ -15,6 +15,9 @@ public interface UserService {
     String getVCode(String username,String email);
     String register(User user,String vcode);
 
+    //发送邮件
+    String sendMail(String email);
+
     String login(String usernameoremail, String password);
     Page<User> findUserByPage(Integer page, Integer size);
 
