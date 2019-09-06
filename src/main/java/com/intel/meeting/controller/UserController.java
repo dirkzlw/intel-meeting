@@ -111,7 +111,7 @@ public class UserController {
      */
     @PostMapping("/user/register")
     @ResponseBody
-    public RtnIdInfo register(User user, String code,
+    public String register(User user, String code,
                               HttpServletRequest request,
                               HttpServletResponse response) {
         Role role = null;
@@ -123,7 +123,7 @@ public class UserController {
             SessionUser sessionUser = userToSessionUser(user);
             SessionUtils.saveObjectToSession(request, response, sessionUser, "sessionUser");
         }
-        return new RtnIdInfo(result, 0);
+        return result;
     }
 
     /**

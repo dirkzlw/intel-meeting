@@ -186,17 +186,14 @@
                 data: {'username': userid, 'email': email, 'password': pwd, 'code': code},
                 dataType: "text", //return dataType: text or json
                 success: function (json) {
-                    json = eval('(' + json + ')');
-                    var status = json.rtn;
-                    // var meetingIdTr = meetingId * 1 + 1;
-                    if (status == "CodeError") {
+                    if (json == "CodeError") {
                         narn("warn", "验证码错误")
                         return
 
-                    } else if (status == "NotMatch") {
+                    } else if (json == "NotMatch") {
                         narn("warn", "注册信息被修改，请确认注册信息是否为初始输入信息")
                         return
-                    } else if (status == "success") {
+                    } else if (json == "success") {
                         narn("success", "注册成功,页面即将跳转,请稍候")
                         setTimeout(function () {
                             window.location.href = 'http://localhost/index';
@@ -227,9 +224,7 @@
         } else {
             $.ajax({
                 type: "POST",
-                url: "/user/login" + "?&" + new Date().getTime(),
-                // async : false,
-                // contentType:"application/x-www-form-urlencoded",
+                url: "/user/login",
                 data: {'usernameoremail': usernameoremail, 'password': pwd},
                 dataType: "text", //return dataType: text or json
                 success: function (json) {

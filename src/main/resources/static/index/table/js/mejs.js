@@ -140,7 +140,7 @@ var methods = {
 
         //确定预约三日内会议室
         var reserveDay = new Date($('.reserveDay').val().trim())
-        var datems = new Date("2019-09-04").getTime()
+        var datems = new Date().getTime()
         var day1 = reserveDay.getDay()
         var currentTime = new Date();
         var day2 = currentTime.getDay()
