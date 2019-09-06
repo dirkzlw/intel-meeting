@@ -69,18 +69,18 @@
                                     </td>
                                     <td><input class="username" id="username" name="username" type="text"
                                                placeholder="请输入用户名"/></td>
-                                    <td class="tb_bg"><label for="password"><font
-                                            style="font-size: 14px; color: red;">*</font>密码</label>
-                                    </td>
-                                    <td><input class="password" id="password" name="password" type="password"
-                                               placeholder="请输入密码"/></td>
-                                </tr>
-                                <tr>
+                                    <!--<td class="tb_bg"><label for="password"><font-->
+                                            <!--style="font-size: 14px; color: red;">*</font>密码</label>-->
+                                    <!--</td>-->
+                                    <!--<td><input class="password" id="password" name="password" type="password"-->
+                                               <!--placeholder="请输入密码"/></td>-->
                                     <td class="tb_bg"><label for="email"><font
                                             style="font-size: 14px; color: red;">*</font>邮箱</label>
                                     </td>
                                     <td><input class="email" id="email" name="email" type="text"
                                                placeholder="请输入邮箱"/></td>
+                                </tr>
+                                <tr>
                                     <td class="tb_bg"><label for="role">角色</label></td>
                                     <td>
                                         <select id="role" name="role" class="form-control select_down"
@@ -116,18 +116,18 @@
                                     </td>
                                     <td><input class="xusername" id="xusername" name="xusername" type="text"
                                                placeholder="请输入用户名"/></td>
-                                    <td class="tb_bg"><label for="xpassword"><font
-                                            style="font-size: 14px; color: red;">*</font>密码</label>
-                                    </td>
-                                    <td><input class="xpassword" id="xpassword" name="xpassword" type="password"
-                                               placeholder="请输入密码"/></td>
-                                </tr>
-                                <tr>
+                                    <!--<td class="tb_bg"><label for="xpassword"><font-->
+                                            <!--style="font-size: 14px; color: red;">*</font>密码</label>-->
+                                    <!--</td>-->
+                                    <!--<td><input class="xpassword" id="xpassword" name="xpassword" type="password"-->
+                                               <!--placeholder="请输入密码"/></td>-->
                                     <td class="tb_bg"><label for="xemail"><font
                                             style="font-size: 14px; color: red;">*</font>邮箱</label>
                                     </td>
                                     <td><input class="xemail" id="xemail" name="xemail" type="text"
                                                placeholder="请输入邮箱"/></td>
+                                </tr>
+                                <tr>
                                     <td class="tb_bg"><label for="xrole">角色</label></td>
                                     <td>
                                         <select id="xrole" name="xrole"
@@ -152,7 +152,7 @@
             <thead>
             <tr>
                 <th>用户名</th>
-                <th>密码</th>
+                <!--<th>密码</th>-->
                 <th>邮箱</th>
                 <th>角色</th>
                 <th>操作</th>
@@ -161,7 +161,7 @@
             <tbody id="show_tbody">
             <tr th:each="user : ${userPage.mrList}" th:id="${user.userId} + 1">
                 <td th:text="${user.username}"></td>
-                <td th:text="${user.password}"></td>
+                <!--<td th:text="${user.password}"></td>-->
                 <td th:text="${user.email}"></td>
                 <td th:text="${user.role}"></td>
                 <td>
@@ -201,8 +201,9 @@
 <script src="/usermgn/table/js/mejs.js"></script>
 <script type="text/javascript">
     function delUser(userId) {
+        // alert(userId)
         var aTag = document.getElementById(userId * 1 + 1);
-        // ajax 新增会议
+        // ajax 删除用户
         $.ajax({
             type: "POST",
             url: "/usermgn/user/del",
@@ -243,6 +244,11 @@
                 closeButton: false
             })
         }
+    }
+
+    //重置密码
+    function resetPwd(email){
+
     }
 
     //查询

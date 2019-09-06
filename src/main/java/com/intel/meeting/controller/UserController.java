@@ -44,9 +44,11 @@ public class UserController {
     //用户初始角色
     @Value("${USER_INIT_ROLE}")
     private String USER_INIT_ROLE;
+    @Value("123456")
+    private String USER_INIT_PASSWORD;
 
     /**
-     * 跳转到查询用户界面
+     * 跳转到用户管理主页
      *
      * @return
      */
@@ -55,7 +57,7 @@ public class UserController {
                                @RequestParam(required = false) Integer page,
                                HttpServletRequest request) {
         List<Role> roleList = roleService.findAllRoles();
-        System.out.println("roleList = " + roleList);
+//        System.out.println("roleList = " + roleList);
         if (page == null) {
             page = 0;
         }
@@ -63,7 +65,7 @@ public class UserController {
         List<User> userList = userPage.getContent();
         List<UserInfo> userInfoList = new ArrayList<>();
         for (User user : userList) {
-            UserInfo userInfo = new UserInfo(user.getUsername(), "******", user.getEmail(), user.getRole().getRoleName());
+            UserInfo userInfo = new UserInfo(user.getUsername(),user.getEmail(), user.getRole().getRoleName());
             userInfo.setUserId(user.getUserId());
             userInfoList.add(userInfo);
         }
@@ -169,15 +171,17 @@ public class UserController {
      */
     @PostMapping("/usermgn/user/save")
     @ResponseBody
-    public RtnIdInfo saveUser(User user, String roleName) {
+    public UserInfo saveUser(User user, String roleName) {
 //        System.out.println(roleName);
         Role role = roleService.findByRoleName(roleName);
         user.setRole(role);
+        user.setPassword(USER_INIT_PASSWORD);
         System.out.println("user:" + user);
         String result = userService.saveUser(user);
-
-        return new RtnIdInfo(result, user.getUserId());
-    }
+        UserInfo userInfo =new UserInfo(user.getUsername(),user.getEmail(),user.getRole().getRoleName(),result);
+        userInfo.setUserId(user.getUserId());
+        return userInfo;
+}
 
     /**
      * 删除用户
@@ -209,6 +213,5 @@ public class UserController {
                 user.getHeadUrl());
         return sessionUser;
     }
-
 
 }

@@ -53,24 +53,25 @@ var methods = {
         }
         if (addEnter) {
             var username = $('.username').val().trim();
-            var password = $('.password').val().trim();
+            // alert(username);
+            // var password = $('.password').val().trim();
             var email = $('.email').val().trim();
             var role = $("#role option:selected").val();
             // ajax 新增用户
             $.ajax({
                 type: "POST",
                 url: "/usermgn/user/save",
-                data: {'username': username, 'password': password, 'email': email, 'roleName': role},
+                data: {'username': username,  'email': email, 'roleName': role},
                 dataType: "text", //return dataType: text or json
                 success: function (json) {
                     json = eval('(' + json + ')');
                     var userId=json.userId;
                     var username=json.username;
-                    var password=json.password;
+                    // var password=json.password;
                     var email=json.email;
                     var role=json.role;
                     var status = json.rtn;
-                    alert(status)
+                    // alert(status)
                     // var userId = json.rtnId;
                     var userIdTr = userId * 1 + 1;
                     if (status == "save") {
@@ -81,11 +82,11 @@ var methods = {
                         })
                         tdStr = "      \n" +
                             "                <td>"+username+"</td>\n" +
-                            "                <td>"+password+"</td>\n" +
                             "                <td>"+email+"</td>\n" +
                             "                <td>"+role+"</td>\n" +
                             "                <td>\n" +
                             "                    <a id='" + userId + "' href='#' class='edit'>编辑</a> <a id='" + userId + "' href='#' class='del' onclick='delUser(this.id)'>删除</a>" +
+                            "                    <a id='" + userId + "' href='#' class='del' onclick='delUser(this.id)'>重置密码</a>"+
                             "               </td>" +
                             "           ";
                         // $('#show_tbody tr').eq(trIndex).empty().append(xtdStr);
@@ -129,7 +130,7 @@ var methods = {
         }
         if (addEnter) {
             var xusername = $('.xusername').val().trim();
-            var xpassword = $('.xpassword').val().trim();
+            // var xpassword = $('.xpassword').val().trim();
             var xemail = $('.xemail').val().trim();
             var xrole = $("#xrole option:selected").val();
             // ajax 修改会议
@@ -139,23 +140,34 @@ var methods = {
                 data: {
                     'userId': editUserId,
                     'username': xusername,
-                    'password': xpassword,
                     'email': xemail,
                     'roleName': xrole
                 },
                 dataType: "text", //return dataType: text or json
                 success: function (json) {
                     json = eval('(' + json + ')');
+                    var userId=json.userId;
+                    var username=json.username;
+                    var email=json.email;
+                    var role=json.role;
                     var status = json.rtn;
-                    var userId = json.rtnId;
                     if (status == "save") {
                         bootbox.alert({
                             title: "来自智能会议室的提示",
                             message: "用户信息修改成功",
                             closeButton: false
                         })
-                        methods.xsetStr();
-                        xtdStr += "<td><a id='" + userId + "' href='#' class='edit'>编辑</a> <a id='" + userId + "' href='#' class='del' onclick='delUser(this.id)'>删除</a></td>";
+                        xtdStr = "      \n" +
+                            "                <td>"+username+"</td>\n" +
+                            "                <td>"+email+"</td>\n" +
+                            "                <td>"+role+"</td>\n" +
+                            "                <td>\n" +
+                            "                    <a id='" + userId + "' href='#' class='edit'>编辑</a> <a id='" + userId + "' href='#' class='del' onclick='delUser(this.id)'>删除</a>" +
+                            "                    <a id='" + userId + "' href='#' class='${title:this.email}' onclick='resetPwd(title)'>重置密码</a>"+
+                            "               </td>" +
+                            "           ";
+                        // methods.xsetStr();
+                        // xtdStr += "<td><a id='" + userId + "' href='#' class='edit'>编辑</a> <a id='" + userId + "' href='#' class='del' onclick='delUser(this.id)'>删除</a></td>";
                         $('#show_tbody tr').eq(trIndex).empty().append(xtdStr);
                         $('#xrenyuan').modal('hide');
                     } else if (status == "exist") {
@@ -233,17 +245,29 @@ var methods = {
             })
             hasNullMes = true;
             return
+        }else{
+                var emreg = /^[a-zA-Z0-9]([a-zA-Z0-9_]{2,20})@([a-z0-9]{1,10})([.]{1})([a-z]{2,4})$/;
+                var email = $('.xusername').val();
+            if (emreg.test(email) == true) {
+                bootbox.alert({
+                    title: "来自智能会议室的提示",
+                    message: "用户名格式不正确，请重新添加",
+                    closeButton: false
+                })
+                hasNullMes = true;
+                return
+            }
         }
-        if ($('.xpassword').val().trim() === '') {
-            bootbox.alert({
-                title: "来自智能会议室的提示",
-                message: "密码为必选项，请填写",
-                closeButton: false
-            })
-            hasNullMes = true;
-            return
-        }
-        if ($('.xemail').val().trim() === '') {
+        // if ($('.xpassword').val().trim() === '') {
+        //     bootbox.alert({
+        //         title: "来自智能会议室的提示",
+        //         message: "密码为必选项，请填写",
+        //         closeButton: false
+        //     })
+        //     hasNullMes = true;
+        //     return
+        // }
+        if ($('.xemail').val().trim() == '') {
             bootbox.alert({
                 title: "来自智能会议室的提示",
                 message: "邮箱为必选项，请填写",
@@ -251,11 +275,23 @@ var methods = {
             })
             hasNullMes = true;
             return
+        }else{
+            var emreg = /^[a-zA-Z0-9]([a-zA-Z0-9_]{2,20})@([a-z0-9]{1,10})([.]{1})([a-z]{2,4})$/;
+            var email = $('.xemail').val();
+            if (emreg.test(email) == false) {
+                bootbox.alert({
+                    title: "来自智能会议室的提示",
+                    message: "邮箱格式不正确，请重新填写",
+                    closeButton: false
+                })
+                hasNullMes = true;
+                return
+            }
         }
     },
     checkMustMes: function () {
 
-        if ($('.username').val().trim() === '') {
+        if ($('.username').val().trim() == '') {
             bootbox.alert({
                 title: "来自智能会议室的提示",
                 message: "用户名为必选项，请填写",
@@ -263,16 +299,28 @@ var methods = {
             })
             hasNullMes = true;
             return
+        }else{
+            var emreg = /^[a-zA-Z0-9]([a-zA-Z0-9_]{2,20})@([a-z0-9]{1,10})([.]{1})([a-z]{2,4})$/;
+            var email = $('.username').val();
+            if (emreg.test(email) == true) {
+                bootbox.alert({
+                    title: "来自智能会议室的提示",
+                    message: "用户名格式不正确，请重新填写",
+                    closeButton: false
+                })
+                hasNullMes = true;
+                return
+            }
         }
-        if ($('.password').val().trim() === '') {
-            bootbox.alert({
-                title: "来自智能会议室的提示",
-                message: "密码为必选项，请填写",
-                closeButton: false
-            })
-            hasNullMes = true;
-            return
-        }
+        // if ($('.password').val().trim() === '') {
+        //     bootbox.alert({
+        //         title: "来自智能会议室的提示",
+        //         message: "密码为必选项，请填写",
+        //         closeButton: false
+        //     })
+        //     hasNullMes = true;
+        //     return
+        // }
         if ($('.email').val().trim() === '') {
             bootbox.alert({
                 title: "来自智能会议室的提示",
@@ -281,6 +329,18 @@ var methods = {
             })
             hasNullMes = true;
             return
+        }else{
+            var emreg = /^[a-zA-Z0-9]([a-zA-Z0-9_]{2,20})@([a-z0-9]{1,10})([.]{1})([a-z]{2,4})$/;
+            var email = $('.email').val();
+            if (emreg.test(email) == false) {
+                bootbox.alert({
+                    title: "来自智能会议室的提示",
+                    message: "邮箱格式不正确，请重新填写",
+                    closeButton: false
+                })
+                hasNullMes = true;
+                return
+            }
         }
     },
 }

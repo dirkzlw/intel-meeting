@@ -146,11 +146,15 @@ public class UserServiceImpl implements UserService {
         List<User> userList = userRepository.findDistinctByUsernameOrEmail(user.getUsername(), user.getEmail());
         if (user.getUserId() == null || "".equals(user.getUserId())) {
             for (User user1 : userList) {
-                if (user1.getUsername().equals(user.getUsername()) || user1.getEmail().equals(user.getEmail()))
+                if (user1.getUsername().equals(user.getUsername()) )
                     //1. 判断该用户是否存在
-                    return "exist";
+                    return "userNameExist";
+                else if(user1.getEmail().equals(user.getEmail())){
+                    return "emailExist";
+                }
             }
-            user.setPassword(MD5Utils.md5(user.getPassword()));
+            user.setPassword(MD5Utils.md5(USER_INIT_PASSWORD));
+            user.setHeadUrl(USER_INIT_HEAD_URL);
             User save = userRepository.save(user);
             System.out.println("save = " + save);
             return "save";
