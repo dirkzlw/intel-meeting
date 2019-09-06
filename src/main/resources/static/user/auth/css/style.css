@@ -1,0 +1,341 @@
+@charset "utf-8";
+
+/*等待条*/
+
+#loading {
+	width: 100%;
+	height: 100%;
+	background: url(../img/wsload.gif) no-repeat center center #FFF;
+	background-size: 10%;
+	position: fixed;
+	top: 0;
+	left: 0;
+	z-index: 999;
+}
+
+/*==============================================================浮层内容*/
+
+#tip {
+	background: rgba(0, 0, 0, 0.3);
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	display: none;
+	z-index: 9999;
+}
+
+#tip .pack {
+	width: 80%;
+	min-height: 100px;
+	margin: 0 auto;
+	background: #FFF;
+	margin-top: 30%;
+	position: relative;
+	overflow: hidden;
+	padding-bottom: 60px;
+}
+#tip .pack img{
+	margin: 70px auto 20px;
+	display: block;
+}
+#tip .pack h1 {
+	font-size: 14px;
+	text-align: center;
+	color: #666666;
+	line-height: 36px;
+	margin-top: 20px;
+
+}
+
+#tip .pack a {
+	display: block;
+	width: 100%;
+	position: absolute;
+	bottom: 0px;
+	font-size: 16px;
+	color: #c8161d;
+	height:40px;
+	line-height: 40px;
+	text-align: center;
+	border-top: 1px solid #d6d6d6;
+}
+
+
+/*登录界面*/
+.acc_login ul li h2{
+	font-size: 18px;
+	height: 36px;
+	line-height: 36px;
+}
+
+.acc_login ul li .acc_input{
+	width: 100%;
+	display: block;
+	height: 36px;
+	line-height: 36px;
+	border: 0;
+	border-top: 1px solid #d6d6d6;
+}
+
+.acc_login ul li .login_icon{
+	display: block;
+	height: 36px;
+	line-height: 36px;
+	background-color: #f8f8f8;
+	color: #d6d6d6;
+}
+
+.acc_login ul li .login_iconon{
+	color: #fff;
+	background-color: #c8161d;
+}
+
+/*账户迁移申请*/
+
+.acc_head div{
+	position: relative;
+}
+.acc_head div .out_icon{
+	position: absolute;
+	right: 10px;
+	top: 10px;
+	
+}
+
+.acc_head div h1{
+	line-height: 40px;
+	font-size: 20px;
+}
+
+.acc_apply ul li{
+	width: 100%;
+	display: block;
+	/*height: 36px;*/
+	line-height: 36px;
+	border-top: 1px solid #d6d6d6;
+}
+
+.acc_apply ul li input{
+	border: 0;
+}
+.acc_apply ul li label{
+	margin-left: 10px;
+	color: #323232;
+}
+.acc_apply ul li .acc_five{
+	margin-right: 14px;
+}
+.acc_apply ul li .acc_four{
+	margin-right: 28px;
+}
+
+/*上传照片*/
+.acc_apply ul li .acc_img{
+	width:80%;
+	margin: 0 auto;
+	/*margin-bottom: 60px;*/
+}
+
+.acc_apply ul li .acc_imgin{
+	width: 100%;
+}
+.acc_sc{
+	position: relative;
+	height: 36px;
+	margin: 10px 0;
+	
+}
+.acc_sc .ph08{
+	opacity: 0;
+	z-index: 10;
+	position: absolute;
+	top: 0;
+	left: 0;
+	height: 36px;
+	width: 100%;
+}
+
+.acc_sc .acc_scicon{
+	display: block;
+	color: #b2b2b2;
+	background-color: #f7f7f7;
+}
+
+
+
+.acc_img p{
+	color: #b2b2b2;
+}
+
+.acc_img .ph09{
+	font-size: 10px!important;
+	line-height: 18px;
+	
+}
+
+.acc_foot{
+	width: 100%;
+	height: 36px;
+	position: fixed;
+	bottom: 0;
+	line-height: 36px;
+}
+
+.acc_foot a{
+	width: 50%;
+	display: block;
+}
+
+.acc_foot .acc_cancel{
+	color: #b2b2b2;
+	background-color: #f7f7f7;
+}
+
+
+.acc_foot .acc_sure{
+	color: #fff;
+	background-color: #c8161d;
+}
+
+
+/*英伦*/
+
+.yingLun ul li{
+	margin-top: -1px;
+}
+.yingLun ul li img{
+	width: 100%;
+}
+
+.yingLun ul .yl_txt{
+	background: url(../img/yl2_06.jpg) no-repeat center top ;
+	background-size: cover;
+	padding: 10px 30px 50px 30px;
+}
+
+.yingLun ul .yl_txt h2 img {
+	width: 292px;
+	
+}
+.yingLun ul .yl_txt ul li{
+	padding-left: 30px;
+	background: url(../img/ly_02.png) no-repeat left center;
+	margin-top: 10px;
+	font-size: 23px;
+}
+
+.yingLun ul .yl_txt ul .active{
+	background: url(../img/ly_02_1.png) no-repeat left center;
+}
+
+.yingLun ul .yl_txt ul li span{
+	background-color: rgba(0,0,0,0.3);
+	color: #fff;
+	padding: 0 7px;
+	border-radius: 50px;
+	display: block;
+}
+.yingLun ul .yl_txt .ly_xx {
+	margin: 0 auto;
+	width: 553px;
+	margin-top: 20px;
+	
+}
+.yingLun ul .yl_txt .ly_xx .ly_ph{
+	background: url(../img/ly_04.png) no-repeat left center;
+	background-size: 100%;
+	width: 345px;
+	height: 57px;
+	line-height: 57px;
+	border: 0;
+	padding-left: 10px;
+	font-size: 24px;
+}
+.yingLun ul .yl_txt .ly_xx .btn_lq img{
+	width: 152px;
+	display: inline-block;
+	height: 57px;
+	
+}
+/*弹出框增加*/
+#tip .pack_yl{
+	min-height: 200px;
+	margin-top: 45%;
+}
+
+#tip .pack_yl h1 {
+    font-size: 24px;
+    margin-bottom:30px;
+}
+
+#tip .pack_yl p {
+    font-size: 24px;
+    padding: 10px;
+    padding-bottom: 80px;
+}
+
+#tip .pack_yl a {
+    display: block;
+    width: 100%;
+    position: absolute;
+    bottom: 0px;
+    font-size: 24px;
+    color: #c8161d;
+    height: 80px;
+    line-height: 80px;
+    text-align: center;
+    border-top: 1px solid #d6d6d6;
+}
+.header {
+    width: 100%;
+    height: 60px;
+    border-bottom: 1px solid #b3b3b3;
+    text-align: left;
+    cursor: pointer;
+    position: relative;
+    background-color: #FFF;
+}
+
+
+
+/*新增*/
+
+
+.acc_login ul li .acc_input{
+	border-bottom: 1px solid #d6d6d6;
+}
+
+.axc_yzm .axc_yzm01{
+	border: 0;
+	border-right: 1px solid #d6d6d6;
+	height: 36px;
+	line-height: 36px;
+	padding-left: 5%;
+	display: block;
+	width: 60%;
+	
+}
+
+.axc_yzm .axc_yzm02{
+	border: 0;
+	height: 36px;
+	line-height: 36px;
+	display: block;
+	width: 34%;
+	text-align: center;
+	background-color: #fff;
+	color: #c8161d;
+	
+}
+
+.acc_login ul li .login_iconon01{
+	background-color: #d6d6d6;
+	color: #323232;
+}
+
+
+
+
+

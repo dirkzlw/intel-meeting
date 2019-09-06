@@ -56,6 +56,13 @@ public class MainController {
         return "index/index";
     }
 
+    @GetMapping("/to/user/auth")
+    public String toUserAuth(Model model,
+                             HttpServletRequest request){
+        UserUtils.setUserIndex(model, request);
+        return "user/user-auth";
+    }
+
     /**
      * 接收URL:http://www.intel.com/to/control
      * 跳转至页面control/index.html

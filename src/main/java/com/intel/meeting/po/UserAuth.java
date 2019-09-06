@@ -19,7 +19,7 @@ public class UserAuth {
     private String realName;
     //工号
     @Column(length = 20)
-    private String jobName;
+    private String jobNum;
     // 认证资质
     @Column(length = 100)
     private String authUrl;
@@ -27,8 +27,8 @@ public class UserAuth {
     public UserAuth(){
     }
 
-    public UserAuth(String jobName,String realName, String authUrl) {
-        this.jobName = jobName;
+    public UserAuth(String jobNum,String realName, String authUrl) {
+        this.jobNum = jobNum;
         this.realName = realName;
         this.authUrl = authUrl;
     }
@@ -41,8 +41,12 @@ public class UserAuth {
         return realName;
     }
 
-    public String getJobName() {
-        return jobName;
+    public String getJobNum() {
+        return jobNum;
+    }
+
+    public void setJobNum(String jobNum) {
+        this.jobNum = jobNum;
     }
 
     public String getAuthUrl() {
@@ -53,9 +57,6 @@ public class UserAuth {
         this.authUrl = authUrl;
     }
 
-    public void setJobName(String jobName) {
-        this.jobName = jobName;
-    }
 
     public void setRealName(String realName) {
         this.realName = realName;
@@ -70,7 +71,7 @@ public class UserAuth {
         return "UserAuth{" +
                 "authId=" + authId +
                 ", realName='" + realName + '\'' +
-                ", jobName='" + jobName + '\'' +
+                ", jobNum='" + jobNum + '\'' +
                 ", authUrl='" + authUrl + '\'' +
                 '}';
     }
