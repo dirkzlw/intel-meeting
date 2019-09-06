@@ -19,6 +19,9 @@
         Vbutton {
             cursor: pointer;
         }
+        a {
+            cursor: pointer;
+        }
     </style>
 </head>
 
@@ -36,7 +39,7 @@
             <!--<ion-icon name="logo-linkedin"></ion-icon>-->
             <!--</a> </div>-->
             <div class="left">
-                <input id="userid" type="text" placeholder="用户名">
+                <input id="userid" type="text" placeholder="用户名" onblur="checkuserid()">
                 <input id="email" type="email" placeholder="邮箱" onblur="checkemail()">
                 <input id="pwd" type="password" placeholder="密码">
                 <input id="confirm" type="password" placeholder="确认密码" onblur="checkpwd()">
@@ -57,9 +60,12 @@
             <!--<ion-icon name="logo-linkedin"></ion-icon>-->
             <!--</a> </div>-->
             <!--<span>或用邮箱登录</span>-->
-            <input id="usernameoremail" type="text" placeholder="用户名或邮箱">
-            <input id="pwd1" type="password" placeholder="密码">
-            <button onclick="login()">登录</button>
+            <div class="left">
+                <input id="usernameoremail" type="text" placeholder="用户名或邮箱">
+                <input id="pwd1" style="width:205px;display: inline;" type="password" placeholder="密码">
+                <a style="display: inline" onclick="resetpwd()">忘记密码？</a>
+            </div>
+                <button onclick="login()">登录</button>
         </form>
     </div>
     <div class="overlay-container">
@@ -88,6 +94,14 @@
         var email = document.getElementById("email").value
         if (emreg.test(email) == false) {
             narn("warn", "邮箱格式不正确")
+        }
+    }
+
+    function checkuserid() {
+        var emreg = /^[a-zA-Z0-9]([a-zA-Z0-9_]{2,20})@([a-z0-9]{1,10})([.]{1})([a-z]{2,4})$/;
+        var email = document.getElementById("userid").value
+        if (emreg.test(userid) == ture) {
+            narn("warn", "用户名不可为邮箱格式，请修改")
         }
     }
 
@@ -126,17 +140,15 @@
                 data: {'username': userid, 'email': email},
                 dataType: "text", //return dataType: text or json
                 success: function (json) {
-                    json = eval('(' + json + ')');
-                    var status = json.rtn;
                     // var meetingIdTr = meetingId * 1 + 1;
-                    if (status == "emailExist") {
+                    if (json == "emailExist") {
                         narn("warn", "邮箱已被注册")
                         return
 
-                    } else if (status == "userNameExist") {
+                    } else if (json == "userNameExist") {
                         narn("warn", "用户名已存在")
                         return
-                    } else if (status == "success") {
+                    } else if (json == "success") {
                         narn("success", "验证码已成功发送至邮箱，有效期十分钟")
                         return
                     }
@@ -252,6 +264,40 @@
         }
     }
 
+
+
+
+    function resetpwd() {
+        var emreg = /^[a-zA-Z0-9]([a-zA-Z0-9_]{2,20})@([a-z0-9]{1,10})([.]{1})([a-z]{2,4})$/;
+        var usernameoremail = document.getElementById("usernameoremail").value.trim()
+        if(usernameoremail == ""){
+            narn("warn","邮箱为空，若要重置密码，请重新输入邮箱后，点击忘记密码")
+            return
+        } else if(usernameoremail == false){
+            narn("warn","邮箱格式不正确，若要重置密码，请重新输入邮箱后，点击忘记密码")
+            return
+        } else {
+            $.ajax({
+                type: "post",
+                url: "/user/resetpwd",
+                data: {'email': usernameoremail},
+                dataType: "text",
+                success: function (json) {
+                    if(json == "NotFound") {
+                        narn("warn","邮箱未找到，请检查输入邮箱正确性")
+                        return
+                    } else if(json == "success" ){
+                        narn("success","密码重置成功！请及时查看邮箱获取新密码，有效期为10分钟")
+                        return
+                    }
+                },
+                error: function (json) {
+                    narn("warn", "登录出错，请检查网络")
+                    return
+                },
+            });
+        }
+    }
 
     /**
      * 弹出对话框

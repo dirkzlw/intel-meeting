@@ -97,10 +97,21 @@ public class UserController {
      */
     @PostMapping("/user/getcode")
     @ResponseBody
-    public RtnIdInfo getVCode(String username, String email) {
+    public String getVCode(String username, String email) {
         String result = userService.getVCode(username, email);
-        return new RtnIdInfo(result, 0);
+        return result;
     }
+
+
+    @PostMapping("/user/resetpwd")
+    @ResponseBody
+    public  String reSetPwd(String email){
+        //String result = userService.reSetPwd(email);
+        return "success";
+    }
+
+
+
 
     /**
      * 注册功能
