@@ -123,8 +123,13 @@ public class ReserveMeetingInfo implements Comparable<ReserveMeetingInfo>{
         this.endStatus = endStatus;
     }
 
+    /**
+     * List 排序
+     * @param o
+     * @return
+     */
     @Override
     public int compareTo(ReserveMeetingInfo o) {
-        return this.meetingId - o.meetingId;
+        return this.reserveId - o.reserveId;
     }
 }

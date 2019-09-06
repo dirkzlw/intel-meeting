@@ -29,6 +29,7 @@ import java.util.List;
 
 /**
  * 处理关于用户的请求
+ *
  * @author Ranger
  * @create 2019-09-02 21:56
  */
@@ -46,22 +47,23 @@ public class UserController {
 
     /**
      * 跳转到查询用户界面
+     *
      * @return
      */
     @GetMapping("/to/usermgn/user-manage")
     public String toUserManage(Model model,
                                @RequestParam(required = false) Integer page,
-                               HttpServletRequest request){
+                               HttpServletRequest request) {
         List<Role> roleList = roleService.findAllRoles();
         System.out.println("roleList = " + roleList);
         if (page == null) {
             page = 0;
         }
-        Page<User> userPage =userService.findUserByPage(page, 10);
-        List<User> userList=userPage.getContent();
-        List<UserInfo> userInfoList=new ArrayList<>();
-        for(User user:userList){
-            UserInfo userInfo=new UserInfo(user.getUsername(),"******",user.getEmail(),user.getRole().getRoleName());
+        Page<User> userPage = userService.findUserByPage(page, 10);
+        List<User> userList = userPage.getContent();
+        List<UserInfo> userInfoList = new ArrayList<>();
+        for (User user : userList) {
+            UserInfo userInfo = new UserInfo(user.getUsername(), "******", user.getEmail(), user.getRole().getRoleName());
             userInfo.setUserId(user.getUserId());
             userInfoList.add(userInfo);
         }
@@ -70,59 +72,63 @@ public class UserController {
                 userPage.getTotalPages(),
                 (int) userPage.getTotalElements(),
                 2);
-       model.addAttribute("userPage", userPageInfo);
-       model.addAttribute("roleList", roleList);
+        model.addAttribute("userPage", userPageInfo);
+        model.addAttribute("roleList", roleList);
         UserUtils.setUserIndex(model, request);
-       return "usermgn/user-manage";
+        return "usermgn/user-manage";
     }
 
     /**
      * 跳转到登陆界面
+     *
      * @return
      */
     @GetMapping("/to/user/login")
-    public String toUserLogin(){
+    public String toUserLogin() {
         return "user/login";
     }
 
     /**
      * 验证用户名和邮箱的重复性
+     *
      * @param username
      * @param email
      * @return
      */
     @PostMapping("/user/getcode")
     @ResponseBody
-    public RtnIdInfo getVCode(String username,String email){
-        String result = userService.getVCode(username,email);
-        return new RtnIdInfo(result,0);
+    public RtnIdInfo getVCode(String username, String email) {
+        String result = userService.getVCode(username, email);
+        return new RtnIdInfo(result, 0);
     }
 
     /**
      * 注册功能
+     *
      * @param user
      * @param code
      * @return
      */
     @PostMapping("/user/register")
     @ResponseBody
-    public RtnIdInfo register(User user,String code,
+    public RtnIdInfo register(User user, String code,
                               HttpServletRequest request,
-                              HttpServletResponse response){
+                              HttpServletResponse response) {
         Role role = null;
         role = roleService.findByRoleName(new String(USER_INIT_ROLE));
         user.setRole(role);
-        String result = userService.register(user,code);
-        if ("success".equals(result)){
+        String result = userService.register(user, code);
+        if ("success".equals(result)) {
             //将User转换为SessionUser
             SessionUser sessionUser = userToSessionUser(user);
             SessionUtils.saveObjectToSession(request, response, sessionUser, "sessionUser");
         }
-        return new RtnIdInfo(result,0);
+        return new RtnIdInfo(result, 0);
     }
 
     /**
      * 登陆功能
+     *
      * @param usernameoremail
      * @param password
      * @return
@@ -130,12 +136,12 @@ public class UserController {
     @PostMapping("/user/login")
     @ResponseBody
     public String login(String usernameoremail, String password,
-                           HttpServletRequest request,
-                           HttpServletResponse response){
+                        HttpServletRequest request,
+                        HttpServletResponse response) {
         String result = userService.login(usernameoremail, password);
-        if("success".equals(result)){
+        if ("success".equals(result)) {
             User user = userService.findUserByUsernameOrEmailAndPassword(usernameoremail, password);
-            if (user !=null){
+            if (user != null) {
                 //将User转换为SessionUser
                 SessionUser sessionUser = userToSessionUser(user);
                 SessionUtils.saveObjectToSession(request, response, sessionUser, "sessionUser");
@@ -146,20 +152,21 @@ public class UserController {
 
     /**
      * 管理员添加用户功能
+     *
      * @param user
      * @return
      */
     @PostMapping("/usermgn/user/save")
     @ResponseBody
-    public RtnIdInfo saveUser(User user, String roleName){
+    public RtnIdInfo saveUser(User user, String roleName) {
 //        System.out.println(roleName);
-        Role role=roleService.findByRoleName(roleName);
+        Role role = roleService.findByRoleName(roleName);
         user.setRole(role);
-        System.out.println("user:"+user);
-       String result = userService.saveUser(user);
+        System.out.println("user:" + user);
+        String result = userService.saveUser(user);
 
-        return new RtnIdInfo(result,user.getUserId());
-}
+        return new RtnIdInfo(result, user.getUserId());
+    }
 
     /**
      * 删除用户
@@ -180,10 +187,11 @@ public class UserController {
 
     /**
      * 将User转换为SessionUser
+     *
      * @param user
      * @return
      */
-    private static SessionUser userToSessionUser(User user){
+    private static SessionUser userToSessionUser(User user) {
         SessionUser sessionUser = new SessionUser(user.getUserId(),
                 user.getUsername(),
                 user.getRole().getRoleName(),
