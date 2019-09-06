@@ -143,13 +143,18 @@ var methods = {
         var reserveArr = reserveStr.split("-")
         var startArr = startStr.split(":")
         var endArr = endStr.split(":")
-        var reserveTime = new Date(reserveArr[0] * 1,
+        var startTime = new Date(reserveArr[0] * 1,
             reserveArr[1] - 1,
             reserveArr[2] * 1,
             startArr[0] * 1,
             startArr[1] * 1).getTime()
+        var endTime = new Date(reserveArr[0] * 1,
+            reserveArr[1] - 1,
+            reserveArr[2] * 1,
+            endArr[0] * 1,
+            endArr[1] * 1).getTime()
         var nowTime = new Date().getTime()
-        if (reserveTime - nowTime > 230400000 || reserveTime - nowTime < 0) {
+        if (startTime - nowTime > 230400000 || startTime - nowTime < 0) {
             bootbox.alert({
                 title: "来自智能会议室的提示",
                 message: "以今天开始，请预约在三日内",
@@ -171,7 +176,6 @@ var methods = {
 
         //确定预约时间在8:00--21:00
         var hour1 = startArr[0]
-        var sec1 = startArr[1]
         var hour2 = endArr[0]
         var min2 = endArr[1]
         if (hour1 < 8 || hour2 > 21 || hour2 - hour1 < 0) {
@@ -183,10 +187,21 @@ var methods = {
             hasNullMes = true;
             return
         }
+        //预约结束时间不能超过21:00
         if (hour2 == 21 && min2 > 0) {
             bootbox.alert({
                 title: "来自智能会议室的提示",
                 message: "预约时间不能超过21:00",
+                closeButton: false
+            })
+            hasNullMes = true;
+            return
+        }
+        //至少预约半小时
+        if(endTime - startTime <1800000){
+            bootbox.alert({
+                title: "来自智能会议室的提示",
+                message: "预约时长至少半小时",
                 closeButton: false
             })
             hasNullMes = true;

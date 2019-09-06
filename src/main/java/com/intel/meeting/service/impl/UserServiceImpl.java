@@ -5,6 +5,7 @@ import com.intel.meeting.po.User;
 import com.intel.meeting.repository.UserRepository;
 import com.intel.meeting.service.UserService;
 import com.intel.meeting.utils.MD5Utils;
+import com.intel.meeting.utils.MailUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
@@ -45,6 +46,8 @@ public class UserServiceImpl implements UserService {
     //用户初始头像
     @Value("${USER_INIT_HEAD_URL}")
     private String USER_INIT_HEAD_URL;
+    @Value("${INTEL_MAIL_SUBJECT}")
+    private String INTEL_MAIL_SUBJECT;
 
     @Override
     public String getVCode(String username,String email){
@@ -73,14 +76,10 @@ public class UserServiceImpl implements UserService {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                SimpleMailMessage message = new SimpleMailMessage();
-
-                message.setFrom(fromEmail);
-                message.setTo(email);
-
-                message.setSubject("来自IntelMeeting的消息");
-                message.setText("您的验证码为:" + vcode + ".\n请及时填写验证码，有效期为十分钟.\n");
-
+                SimpleMailMessage message = MailUtils.getMailMessage(fromEmail,
+                        email,
+                        INTEL_MAIL_SUBJECT,
+                        "您的验证码是" + vcode + ",有效期为10分钟。\n");
                 //发送
                 mailSender.send(message);
             }

@@ -104,7 +104,8 @@ public class MeetingController {
      * @return
      */
     @GetMapping("/to/control/meeting/search")
-    private String searchMeeting(String mrkey,Model model){
+    private String searchMeeting(String mrkey,Model model,
+                                 HttpServletRequest request){
         List<EsMeetingRoom> emrList = emrService.findEsMeetingRoomByMeetingName(mrkey);
         List<MeetingRoom> mrList = EmrUtils.emrListToMrList(emrList);
         MRPage mrPage = new MRPage(mrList,
@@ -113,6 +114,7 @@ public class MeetingController {
                 mrList.size(),
                 1);
         model.addAttribute("mrPage", mrPage);
+        UserUtils.setUserIndex(model, request);
         return "control/meeting-manage";
     }
 
