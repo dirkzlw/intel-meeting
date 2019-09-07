@@ -7,6 +7,7 @@ import org.csource.fastdfs.StorageServer;
 import org.csource.fastdfs.TrackerClient;
 import org.csource.fastdfs.TrackerServer;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -26,15 +27,15 @@ public class FastDFSUtils {
      * @param file
      * @return
      */
-    public static String uploadFile(String FDFS_CLIENT_PAHT, String FTP_ADDRESS, MultipartFile file) {
+    public static String uploadFile(String FDFSDFS_CLIENT_PAHT, String FDFSDFS_ADDRESS, MultipartFile file) {
 
-        File fdfsConfFile = new File(FDFS_CLIENT_PAHT);
         String fileName = file.getOriginalFilename();
         String ext = fileName.substring(fileName.lastIndexOf(".") + 1);
 
         String imgUrl = null;
         try {
-            ClientGlobal.init(fdfsConfFile.getPath());
+            ClassPathResource cpr = new ClassPathResource(FDFSDFS_CLIENT_PAHT);
+            ClientGlobal.init(cpr.getClassLoader().getResource(FDFSDFS_CLIENT_PAHT).getPath());
 
             TrackerClient tracker = new TrackerClient();
             TrackerServer trackerServer = tracker.getConnection();
@@ -49,7 +50,7 @@ public class FastDFSUtils {
             };
             String fileIds[] = storageClient.upload_file(file.getBytes(), ext, nvp);
 
-            imgUrl = "http://" + FTP_ADDRESS + "/" + fileIds[0] + "/" + fileIds[1];
+            imgUrl = "http://" + FDFSDFS_ADDRESS + "/" + fileIds[0] + "/" + fileIds[1];
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();

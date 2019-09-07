@@ -8,7 +8,7 @@ import java.util.Date;
  * @author Ranger
  * @create 2019-09-03 21:43
  */
-public class Test {
+public class SETest {
     public static void main(String[] args) {
         //获取三天后时间
         String s1 = "2019-09-07 12:01";

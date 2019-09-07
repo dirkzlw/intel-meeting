@@ -21,7 +21,7 @@ import java.util.List;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes = IntelMeetingApplication.class)
-public class TestEsMR {
+public class EsMRTest {
     @Autowired
     private MeetingRoomService mrService;
     @Autowired

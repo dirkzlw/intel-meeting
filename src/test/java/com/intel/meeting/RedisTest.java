@@ -15,7 +15,7 @@ import java.util.concurrent.TimeUnit;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes = IntelMeetingApplication.class)
-public class TestRedis {
+public class RedisTest {
 
     @Autowired
     private RedisTemplate<String,String> redisTemplate;

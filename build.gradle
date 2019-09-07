@@ -56,7 +56,7 @@ dependencies {
     //javaMail
     compile 'org.springframework.boot:spring-boot-starter-mail'
     //fastdfs_client
-    compile files('lib/fastdfs_client_v1.20.jar')
+    compile files('lib/fastdfs-client-java-1.27-SNAPSHOT.jar')
     //Scheduled 定时任务
     compile 'org.springframework:spring-context-support'
 //    使用lombok   出现bug  spring MVC不能将参数封装成对象
