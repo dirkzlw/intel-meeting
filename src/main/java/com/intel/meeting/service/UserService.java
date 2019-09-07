@@ -29,4 +29,5 @@ public interface UserService {
 
     void doNoSign(User reserveUser);
 
+    void saveUserAuth(User user);
 }

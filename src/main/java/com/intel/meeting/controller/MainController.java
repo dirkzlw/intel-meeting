@@ -2,6 +2,7 @@ package com.intel.meeting.controller;
 
 import com.intel.meeting.po.MeetingRoom;
 import com.intel.meeting.service.MeetingRoomService;
+import com.intel.meeting.service.UserAuthService;
 import com.intel.meeting.utils.MainMrUtils;
 import com.intel.meeting.utils.UserUtils;
 import com.intel.meeting.vo.MRPage;
@@ -25,6 +26,8 @@ public class MainController {
 
     @Autowired
     private MeetingRoomService mrService;
+    @Autowired
+    private UserAuthService userAuthService;
 
     @GetMapping("/")
     public String toI(){
@@ -56,13 +59,6 @@ public class MainController {
         return "index/index";
     }
 
-    @GetMapping("/to/user/auth")
-    public String toUserAuth(Model model,
-                             HttpServletRequest request){
-        UserUtils.setUserIndex(model, request);
-        return "user/user-auth";
-    }
-
     /**
      * 接收URL:http://www.intel.com/to/control
      * 跳转至页面control/index.html
@@ -83,6 +79,9 @@ public class MainController {
     @GetMapping("/to/usermgn")
     public String toUsermgn(Model model,
                             HttpServletRequest request){
+
+        Integer num = userAuthService.findUsersNotAuth(2);
+        model.addAttribute("notAuthNum", num);
         UserUtils.setUserIndex(model, request);
         return "usermgn/index";
     }

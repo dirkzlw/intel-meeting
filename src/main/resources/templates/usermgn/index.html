@@ -36,15 +36,14 @@
             <span class="icon">Z</span>
             <div class="text">
                 <h2><a th:href="@{/to/usermgn/user-manage}">账户管理</a></h2>
-                <h3>manage</h3>
             </div>
         </li>
         <li>
             <div class="border"></div>
             <span class="icon">B</span>
             <div class="text">
-                <h2><a th:href="@{/}">认证审核</a></h2>
-                <h3>auth</h3>
+                <h2><a th:href="@{/to/usermgn/auth-check}">认证审核</a></h2>
+                <h3 th:text="'剩余'+${notAuthNum}+'人未审核'"></h3>
             </div>
         </li>
     </ul>

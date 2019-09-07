@@ -90,6 +90,13 @@ public class UserController {
         return "user/login";
     }
 
+    @GetMapping("/to/user/auth")
+    public String toUserAuth(Model model,
+                             HttpServletRequest request){
+        UserUtils.setUserIndex(model, request);
+        return "user/user-auth";
+    }
+
     /**
      * 验证用户名和邮箱的重复性
      *

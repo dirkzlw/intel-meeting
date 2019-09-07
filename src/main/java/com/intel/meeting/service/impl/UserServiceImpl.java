@@ -287,9 +287,17 @@ public class UserServiceImpl implements UserService {
         //达到未签到上限
         if (reserveUser.getWarnNum() >= 5) {
             reserveUser.setUntilTime(DateUtils.getAfterThreeDate());
-        }else {
-            //未达到上限直接保存
-            userRepository.save(reserveUser);
+            reserveUser.setWarnNum(0);
         }
+        userRepository.save(reserveUser);
+    }
+
+    /**
+     * 保存用户认证
+     * @param user
+     */
+    @Override
+    public void saveUserAuth(User user) {
+        userRepository.save(user);
     }
 }

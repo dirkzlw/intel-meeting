@@ -3,6 +3,7 @@ package com.intel.meeting.utils;
 import org.springframework.mail.SimpleMailMessage;
 
 /**
+ * 发送邮件
  * @author Ranger
  * @create 2019-09-06 14:53
  */

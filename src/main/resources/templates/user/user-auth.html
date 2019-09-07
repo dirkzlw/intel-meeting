@@ -139,7 +139,7 @@
 </script>
 <script type="text/javascript">
     function submitF() {
-        var realName = document.getElementById("realname").value.trim();
+        var realname = document.getElementById("realname").value.trim();
         var jobNum = document.getElementById("jobNum").value.trim();
         var authImg = document.getElementById("file0").files[0];
 
@@ -152,7 +152,7 @@
         } else {
             narn("success", "正在上传，请稍后！")
             var formData = new FormData();
-            formData.append("realName", realName)
+            formData.append("realname", realname)
             formData.append("jobNum", jobNum)
             formData.append("authImg", authImg)
             $.ajax({
@@ -163,7 +163,7 @@
                 processData: false,
                 contentType: false,
                 success: function (json) {
-                    if ("seccess" == json) {
+                    if ("success" == json) {
                         narn("success", "上传成功，请等待审核！")
                     } else if ("fail" == json) {
                         narn("warn", "上传失败，请检查网络！")

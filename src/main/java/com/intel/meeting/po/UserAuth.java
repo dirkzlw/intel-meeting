@@ -25,21 +25,27 @@ public class UserAuth {
     private Integer authId;
     //姓名
     @Column(length = 30)
-    private String realName;
+    private String realname;
     //工号
     @Column(length = 20)
     private String jobNum;
-    // 认证资质
+    // 认证资质Url
     @Column(length = 100)
     private String authUrl;
+    // 状态 1--通过  2--审核  3--未通过
+    @Column(length = 10)
+    private Integer authStatus;
+    @OneToOne(mappedBy = "userAuth")
+    private User user;
 
     protected UserAuth(){
     }
 
-    public UserAuth(String jobNum,String realName, String authUrl) {
+    public UserAuth(String realname, String jobNum, String authUrl, Integer authStatus, User user) {
+        this.realname = realname;
         this.jobNum = jobNum;
-        this.realName = realName;
         this.authUrl = authUrl;
+        this.authStatus = authStatus;
+        this.user = user;
     }
-
 }
