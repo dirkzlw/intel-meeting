@@ -58,7 +58,6 @@ public class UserController {
                                @RequestParam(required = false) Integer page,
                                HttpServletRequest request) {
         List<Role> roleList = roleService.findAllRoles();
-//        System.out.println("roleList = " + roleList);
         if (page == null) {
             page = 0;
         }
@@ -112,9 +111,6 @@ public class UserController {
         //String result = userService.reSetPwd(email);
         return "success";
     }
-
-
-
 
     /**
      * 注册功能
@@ -173,7 +169,6 @@ public class UserController {
     @PostMapping("/usermgn/user/save")
     @ResponseBody
     public UserInfo saveUser(User user, String roleName) {
-//        System.out.println(roleName);
         Role role = roleService.findByRoleName(roleName);
         user.setRole(role);
         user.setPassword(USER_INIT_PASSWORD);
@@ -182,7 +177,7 @@ public class UserController {
         UserInfo userInfo =new UserInfo(user.getUsername(),user.getEmail(),user.getRole().getRoleName(),result);
         userInfo.setUserId(user.getUserId());
         return userInfo;
-}
+    }
 
     /**
      * 删除用户

@@ -28,6 +28,30 @@ public class ReserveMeetingServiceImpl implements ReserveMeetingService {
     private ReserveMeetingRepository rmRepository;
 
     /**
+     * 根据id查询预定
+     * @param reserveId
+     * @return
+     */
+    @Override
+    public ReserveMeeting findOneById(Integer reserveId) {
+        return rmRepository.findOne(reserveId);
+    }
+
+    /**
+     * 根据id删除预定
+     * @param reserveId
+     */
+    @Override
+    public void delReserveMeetingById(Integer reserveId) {
+        rmRepository.delete(reserveId);
+    }
+
+    @Override
+    public List<ReserveMeeting> finAllReserveMeeting() {
+        return rmRepository.findAll();
+    }
+
+    /**
      * 保存预定
      * 没有判定冲突
      *
@@ -89,7 +113,7 @@ public class ReserveMeetingServiceImpl implements ReserveMeetingService {
     }
 
     /**
-     * 根据id删除预定 --取消预定
+     * 取消预定
      * 同时对比数据库中预定时间和当前时间
      * 再次校验是否正常取消
      * 尚未实现删除
@@ -97,14 +121,18 @@ public class ReserveMeetingServiceImpl implements ReserveMeetingService {
      * @return
      */
     @Override
-    public String delReserveMeetingById(Integer reserveId) {
+    public String cancelReserveMeeting(Integer reserveId) {
         ReserveMeeting reserveMeeting = rmRepository.getOne(reserveId);
         String startString = reserveMeeting.getStartTime();
         long nowTime = new Date().getTime();
         long startTime = DateUtils.stringToTime(startString);
-        if(nowTime - startTime >0 ){
+        if(nowTime >startTime ){
             return "started";
         }
+        ReserveMeeting one = rmRepository.findOne(reserveId);
+        //使用状态改为2
+        one.setUsageStatus(2);
+        rmRepository.save(one);
         return "success";
     }
 
@@ -149,4 +177,5 @@ public class ReserveMeetingServiceImpl implements ReserveMeetingService {
             return "exceed";
         }
     }
+
 }

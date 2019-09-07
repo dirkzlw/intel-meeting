@@ -1,7 +1,7 @@
 package com.intel.meeting;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import com.intel.meeting.utils.DateUtils;
+
 import java.util.Date;
 
 /**
@@ -9,9 +9,17 @@ import java.util.Date;
  * @create 2019-09-03 21:43
  */
 public class Test {
-    public static void main(String[] args) throws ParseException {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm");
-        Date date1 = sdf.parse("2019-05-06 05:05");
-        System.out.println("date1 = " + date1);
+    public static void main(String[] args) {
+        //获取三天后时间
+        String s1 = "2019-09-07 12:01";
+        String s2 = "2019-09-07 24:00";
+        long l1 = DateUtils.stringToTime(s1);
+        Date d1 = DateUtils.stringToDate(s1);
+        System.out.println("d1 = " + d1);
+        System.out.println("l1 = " + l1);
+        long l2 = DateUtils.stringToTime(s2);
+        Date d2= DateUtils.stringToDate(s2);
+        System.out.println("d2 = " + d2);
+        System.out.println("l2 = " + l2);
     }
 }

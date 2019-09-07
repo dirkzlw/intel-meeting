@@ -19,6 +19,7 @@ public class ReserveMeetingUtiles {
     /**
      * 通过中间表（预定记录表），整合用户、会议室、预定三张信息
      * 展示在用户预定中心
+     *
      * @param reserveSet
      * @return
      */
@@ -32,18 +33,18 @@ public class ReserveMeetingUtiles {
             String endTime = rm.getEndTime().split(" ")[1];
             String signDay = rm.getSignTime().split(" ")[0];
             Integer signStatus;
-            if("0000-00-00".equals(signDay)){
+            if ("0000-00-00".equals(signDay)) {
                 signStatus = 2;
-            }else {
+            } else {
                 signStatus = 1;
             }
             long endTime2 = DateUtils.stringToTime(rm.getEndTime());
             long nowTime = new Date().getTime();
             Integer endStatus;
-            if(nowTime -endTime2 > 0){
-                endStatus=1;
-            }else {
-                endStatus=2;
+            if (nowTime - endTime2 > 0) {
+                endStatus = 1;
+            } else {
+                endStatus = 2;
             }
             rmiList.add(
                     new ReserveMeetingInfo(rm.getReserveId(),

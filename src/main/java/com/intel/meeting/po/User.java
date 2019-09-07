@@ -1,7 +1,6 @@
 package com.intel.meeting.po;
 
 import javax.persistence.*;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -40,7 +39,8 @@ public class User {
     @Column(length = 10)
     private Integer warnNum;
     // 封号截止时间
-    private Date untilTime;
+    @Column(length = 40)
+    private String untilTime;
     // 用户认证
     @OneToOne
     @JoinColumn(name = "authId")
@@ -52,7 +52,7 @@ public class User {
     protected User() {
     }
 
-    public User(String username, String password, String email, Role role, String headUrl, Integer status, Integer warnNum, Date untilTime, UserAuth userAuth, Set<ReserveMeeting> reserveSet) {
+    public User(String username, String password, String email, Role role, String headUrl, Integer status, Integer warnNum, String untilTime, UserAuth userAuth, Set<ReserveMeeting> reserveSet) {
         this.username = username;
         this.password = password;
         this.email = email;
@@ -129,11 +129,11 @@ public class User {
         this.warnNum = warnNum;
     }
 
-    public Date getUntilTime() {
+    public String getUntilTime() {
         return untilTime;
     }
 
-    public void setUntilTime(Date untilTime) {
+    public void setUntilTime(String untilTime) {
         this.untilTime = untilTime;
     }
 

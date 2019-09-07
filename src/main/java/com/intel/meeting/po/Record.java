@@ -29,16 +29,20 @@ public class Record {
     // 签到时间
     @Column(length = 40)
     private String signTime;
+    //会议室使用状态  1--使用  2--取消
+    private Integer usageStatus;
 
-    public Record(){
+    protected Record(){
     }
 
-    public Record(String userName, String meetingAddress, String startTime, String endTime, String signTime) {
+
+    public Record(String userName, String meetingAddress, String startTime, String endTime, String signTime, Integer usageStatus) {
         this.userName = userName;
         this.meetingAddress = meetingAddress;
         this.startTime = startTime;
         this.endTime = endTime;
         this.signTime = signTime;
+        this.usageStatus = usageStatus;
     }
 
     public Integer getRecordId() {
@@ -87,6 +91,14 @@ public class Record {
 
     public void setSignTime(String signTime) {
         this.signTime = signTime;
+    }
+
+    public Integer getUsageStatus() {
+        return usageStatus;
+    }
+
+    public void setUsageStatus(Integer usageStatus) {
+        this.usageStatus = usageStatus;
     }
 
     @Override

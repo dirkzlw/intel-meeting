@@ -4,6 +4,7 @@ import com.intel.meeting.po.Role;
 import com.intel.meeting.po.User;
 import com.intel.meeting.repository.UserRepository;
 import com.intel.meeting.service.UserService;
+import com.intel.meeting.utils.DateUtils;
 import com.intel.meeting.utils.MD5Utils;
 import com.intel.meeting.utils.MailUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,13 +52,13 @@ public class UserServiceImpl implements UserService {
     private String INTEL_MAIL_SUBJECT;
 
     @Override
-    public String getVCode(String username,String email){
+    public String getVCode(String username, String email) {
         User user1 = userRepository.findByUsername(username);
-        if (user1!=null){
+        if (user1 != null) {
             return "userNameExist";
         }
         User user = userRepository.findByEmail(email);
-        if(user!=null){
+        if (user != null) {
             return "emailExist";
         }
 
@@ -92,6 +93,7 @@ public class UserServiceImpl implements UserService {
 
     /**
      * 注册
+     *
      * @param user
      * @param vcode
      * @return
@@ -102,9 +104,9 @@ public class UserServiceImpl implements UserService {
         String key = user.getUsername() + "-" + user.getEmail();
         String code = redisTemplate.opsForValue().get(key);
 
-        if (code==null){
+        if (code == null) {
             return "NotMatch";
-        }else if (code.equals(vcode)){
+        } else if (code.equals(vcode)) {
             user.setHeadUrl(USER_INIT_HEAD_URL);
             user.setPassword(MD5Utils.md5(user.getPassword()));
             userRepository.save(user);
@@ -117,20 +119,21 @@ public class UserServiceImpl implements UserService {
 
     /**
      * 登录
+     *
      * @param usernameoremail
      * @param password
      * @return
      */
     @Override
-    public String login(String usernameoremail, String password){
+    public String login(String usernameoremail, String password) {
         System.out.println("usernameoremail = " + usernameoremail);
         System.out.println("password = " + password);
-        List<User> userList = userRepository.findDistinctByUsernameOrEmail(usernameoremail,usernameoremail);
-        if(userList == null){
+        List<User> userList = userRepository.findDistinctByUsernameOrEmail(usernameoremail, usernameoremail);
+        if (userList == null) {
             return "NotExist";
-        }else {
+        } else {
             for (User user : userList) {
-                 if (user.getPassword().equals(MD5Utils.md5(password))){
+                if (user.getPassword().equals(MD5Utils.md5(password))) {
                     return "success";
                 }
             }
@@ -170,6 +173,7 @@ public class UserServiceImpl implements UserService {
 
     /**
      * 保存用户
+     *
      * @param user
      * @return
      */
@@ -211,19 +215,21 @@ public class UserServiceImpl implements UserService {
 
     /**
      * 分页查询用户
+     *
      * @param page
      * @param size
      * @return
      */
-   @Override
+    @Override
     public Page<User> findUserByPage(Integer page, Integer size) {
-        Pageable pageable = new PageRequest(page, size, new Sort(Sort.Direction.ASC,"username"));
+        Pageable pageable = new PageRequest(page, size, new Sort(Sort.Direction.ASC, "username"));
         Page<User> userPage = userRepository.findAll(pageable);
         return userPage;
     }
 
     /**
      * 根据id删除用户
+     *
      * @param userId
      * @return
      */
@@ -235,18 +241,19 @@ public class UserServiceImpl implements UserService {
 
     /**
      * 根据用户名或者邮箱和密码获取用户
+     *
      * @param usernameoremail
      * @param password
      * @return
      */
     @Override
     public User findUserByUsernameOrEmailAndPassword(String usernameoremail, String password) {
-        List<User> userList = userRepository.findDistinctByUsernameOrEmail(usernameoremail,usernameoremail);
-        if(userList == null){
+        List<User> userList = userRepository.findDistinctByUsernameOrEmail(usernameoremail, usernameoremail);
+        if (userList == null) {
             return null;
-        }else {
+        } else {
             for (User user : userList) {
-                if (user.getPassword().equals(MD5Utils.md5(password))){
+                if (user.getPassword().equals(MD5Utils.md5(password))) {
                     return user;
                 }
             }
@@ -256,11 +263,33 @@ public class UserServiceImpl implements UserService {
 
     /**
      * 根据id查询用户
+     *
      * @param userId
      * @return
      */
     @Override
     public User findUserById(Integer userId) {
         return userRepository.findOne(userId);
+    }
+
+    /**
+     * 处理没有签到
+     *
+     * @param reserveUser
+     */
+    @Override
+    public void doNoSign(User reserveUser) {
+        Integer warnNum = reserveUser.getWarnNum();
+        if (warnNum == null) {
+            warnNum = 0;
+        }
+        reserveUser.setWarnNum(warnNum + 1);
+        //达到未签到上限
+        if (reserveUser.getWarnNum() >= 5) {
+            reserveUser.setUntilTime(DateUtils.getAfterThreeDate());
+        }else {
+            //未达到上限直接保存
+            userRepository.save(reserveUser);
+        }
     }
 }

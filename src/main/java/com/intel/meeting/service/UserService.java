@@ -26,4 +26,7 @@ public interface UserService {
     User findUserByUsernameOrEmailAndPassword(String usernameoremail, String password);
 
     User findUserById(Integer userId);
+
+    void doNoSign(User reserveUser);
+
 }

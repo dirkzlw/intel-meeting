@@ -12,10 +12,15 @@ import java.util.List;
 public interface ReserveMeetingService {
     MainMr save(ReserveMeeting reserveMeeting);
 
-    String delReserveMeetingById(Integer reserveId);
+    String cancelReserveMeeting(Integer reserveId);
 
     String signReserveMeeting(Integer reserveId);
 
     String overReserveMeeting(Integer reserveId);
 
+    ReserveMeeting findOneById(Integer reserveId);
+
+    void delReserveMeetingById(Integer reserveId);
+
+    List<ReserveMeeting> finAllReserveMeeting();
 }
