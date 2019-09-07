@@ -1,5 +1,9 @@
 package com.intel.meeting.po;
 
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
 import javax.persistence.*;
 
 /**
@@ -8,6 +12,9 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name="t_record")
+@Getter
+@Setter
+@ToString
 public class Record {
     //记录ID
     @Id
@@ -45,71 +52,4 @@ public class Record {
         this.usageStatus = usageStatus;
     }
 
-    public Integer getRecordId() {
-        return recordId;
-    }
-
-    public void setRecordId(Integer recordId) {
-        this.recordId = recordId;
-    }
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
-    public String getMeetingAddress() {
-        return meetingAddress;
-    }
-
-    public void setMeetingAddress(String meetingAddress) {
-        this.meetingAddress = meetingAddress;
-    }
-
-    public String getStartTime() {
-        return startTime;
-    }
-
-    public void setStartTime(String startTime) {
-        this.startTime = startTime;
-    }
-
-    public String getEndTime() {
-        return endTime;
-    }
-
-    public void setEndTime(String endTime) {
-        this.endTime = endTime;
-    }
-
-    public String getSignTime() {
-        return signTime;
-    }
-
-    public void setSignTime(String signTime) {
-        this.signTime = signTime;
-    }
-
-    public Integer getUsageStatus() {
-        return usageStatus;
-    }
-
-    public void setUsageStatus(Integer usageStatus) {
-        this.usageStatus = usageStatus;
-    }
-
-    @Override
-    public String toString() {
-        return "Record{" +
-                "recordId=" + recordId +
-                ", userName='" + userName + '\'' +
-                ", meetingAddress='" + meetingAddress + '\'' +
-                ", startTime=" + startTime +
-                ", endTime=" + endTime +
-                ", signTime=" + signTime +
-                '}';
-    }
 }

@@ -1,5 +1,11 @@
 package com.intel.meeting.po;
 
+
+
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
 import javax.persistence.*;
 
 /**
@@ -8,6 +14,9 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name="user_auth")
+@Getter
+@Setter
+@ToString
 public class UserAuth {
     //认证ID
     @Id
@@ -24,7 +33,7 @@ public class UserAuth {
     @Column(length = 100)
     private String authUrl;
 
-    public UserAuth(){
+    protected UserAuth(){
     }
 
     public UserAuth(String jobNum,String realName, String authUrl) {
@@ -33,46 +42,4 @@ public class UserAuth {
         this.authUrl = authUrl;
     }
 
-    public Integer getAuthId() {
-        return authId;
-    }
-
-    public String getRealName() {
-        return realName;
-    }
-
-    public String getJobNum() {
-        return jobNum;
-    }
-
-    public void setJobNum(String jobNum) {
-        this.jobNum = jobNum;
-    }
-
-    public String getAuthUrl() {
-        return authUrl;
-    }
-
-    public void setAuthUrl(String authUrl) {
-        this.authUrl = authUrl;
-    }
-
-
-    public void setRealName(String realName) {
-        this.realName = realName;
-    }
-
-    public void setAuthId(Integer authId) {
-        this.authId = authId;
-    }
-
-    @Override
-    public String toString() {
-        return "UserAuth{" +
-                "authId=" + authId +
-                ", realName='" + realName + '\'' +
-                ", jobNum='" + jobNum + '\'' +
-                ", authUrl='" + authUrl + '\'' +
-                '}';
-    }
 }

@@ -1,11 +1,15 @@
 package com.intel.meeting.vo;
 
 import com.intel.meeting.utils.DateUtils;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * @author Ranger
  * @create 2019-09-05 16:08
  */
+@Getter
+@Setter
 public class ReserveMeetingInfo implements Comparable<ReserveMeetingInfo> {
     private Integer reserveId;
     private Integer userId;
@@ -42,86 +46,6 @@ public class ReserveMeetingInfo implements Comparable<ReserveMeetingInfo> {
         this.startTime = startTime;
         this.endTime = endTime;
         this.signStatus = signStatus;
-        this.endStatus = endStatus;
-    }
-
-    public Integer getReserveId() {
-        return reserveId;
-    }
-
-    public void setReserveId(Integer reserveId) {
-        this.reserveId = reserveId;
-    }
-
-    public Integer getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Integer userId) {
-        this.userId = userId;
-    }
-
-    public Integer getMeetingId() {
-        return meetingId;
-    }
-
-    public void setMeetingId(Integer meetingId) {
-        this.meetingId = meetingId;
-    }
-
-    public String getMeetingName() {
-        return meetingName;
-    }
-
-    public void setMeetingName(String meetingName) {
-        this.meetingName = meetingName;
-    }
-
-    public Integer getContainNum() {
-        return containNum;
-    }
-
-    public void setContainNum(Integer containNum) {
-        this.containNum = containNum;
-    }
-
-    public String getReserveDay() {
-        return reserveDay;
-    }
-
-    public void setReserveDay(String reserveDay) {
-        this.reserveDay = reserveDay;
-    }
-
-    public String getStartTime() {
-        return startTime;
-    }
-
-    public void setStartTime(String startTime) {
-        this.startTime = startTime;
-    }
-
-    public String getEndTime() {
-        return endTime;
-    }
-
-    public void setEndTime(String endTime) {
-        this.endTime = endTime;
-    }
-
-    public Integer getSignStatus() {
-        return signStatus;
-    }
-
-    public void setSignStatus(Integer signStatus) {
-        this.signStatus = signStatus;
-    }
-
-    public Integer getEndStatus() {
-        return endStatus;
-    }
-
-    public void setEndStatus(Integer endStatus) {
         this.endStatus = endStatus;
     }
 

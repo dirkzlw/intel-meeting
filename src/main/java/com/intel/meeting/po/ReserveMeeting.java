@@ -1,6 +1,9 @@
 package com.intel.meeting.po;
 
 import com.intel.meeting.utils.DateUtils;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.*;
 
@@ -10,6 +13,9 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name="reserve_meeting")
+@Getter
+@Setter
+@ToString
 public class ReserveMeeting implements Comparable<ReserveMeeting>{
     //预订ID
     @Id
@@ -49,74 +55,11 @@ public class ReserveMeeting implements Comparable<ReserveMeeting>{
         this.signTime = signTime;
     }
 
-    public Integer getReserveId() {
-        return reserveId;
-    }
-
-
-    public String getStartTime() {
-        return startTime;
-    }
-
-    public String getEndTime() {
-        return endTime;
-    }
-
-    public Integer getUsageStatus() {
-        return usageStatus;
-    }
-
-    public String getSignTime() {
-        return signTime;
-    }
-
-    public void setSignTime(String signTime) {
-        this.signTime = signTime;
-    }
-
-    public void setUsageStatus(Integer usageStatus) {
-        this.usageStatus = usageStatus;
-    }
-
-    public void setEndTime(String endTime) {
-        this.endTime = endTime;
-    }
-
-    public void setStartTime(String startTime) {
-        this.startTime = startTime;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public MeetingRoom getMeetingRoom() {
-        return meetingRoom;
-    }
-
-    public void setMeetingRoom(MeetingRoom meetingRoom) {
-        this.meetingRoom = meetingRoom;
-    }
-
-    public void setReserveId(Integer reserveId) {
-        this.reserveId = reserveId;
-    }
-
-    @Override
-    public String toString() {
-        return "ReserveMeeting{" +
-                "reserveId=" + reserveId +
-                ", startTime=" + startTime +
-                ", endTime=" + endTime +
-                ", usageStatus=" + usageStatus +
-                ", signTime=" + signTime +
-                '}';
-    }
-
+    /**
+     * 根据预约时间排序
+     * @param o
+     * @return
+     */
     @Override
     public int compareTo(ReserveMeeting o) {
         long l1 = DateUtils.stringToTime(this.getStartTime());

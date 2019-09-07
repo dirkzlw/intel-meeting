@@ -1,5 +1,9 @@
 package com.intel.meeting.po;
 
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -16,6 +20,9 @@ import java.util.Set;
  */
 @Entity
 @Table(name="meeting_room")
+@Getter
+@Setter
+@ToString
 public class MeetingRoom {
     //会议室ID
     @Id
@@ -35,7 +42,7 @@ public class MeetingRoom {
     @OneToMany(mappedBy = "meetingRoom")
     private Set<ReserveMeeting> reserveSet = new HashSet<>();
 
-    public MeetingRoom() {
+    protected MeetingRoom() {
     }
 
     public MeetingRoom(String meetingName, Integer containNum, String enableStatus) {
@@ -49,55 +56,5 @@ public class MeetingRoom {
         this.containNum = containNum;
         this.enableStatus = enableStatus;
         this.reserveSet = reserveSet;
-    }
-
-    public Integer getMeetingId() {
-        return meetingId;
-    }
-
-    public String getMeetingName() {
-        return meetingName;
-    }
-
-    public Integer getContainNum() {
-        return containNum;
-    }
-
-    public String getEnableStatus() {
-        return enableStatus;
-    }
-
-    public void setMeetingId(Integer meetingId) {
-        this.meetingId = meetingId;
-    }
-
-    public void setMeetingName(String meetingName) {
-        this.meetingName = meetingName;
-    }
-
-    public void setContainNum(Integer containNum) {
-        this.containNum = containNum;
-    }
-
-    public void setEnableStatus(String enableStatus) {
-        this.enableStatus = enableStatus;
-    }
-
-    public Set<ReserveMeeting> getReserveSet() {
-        return reserveSet;
-    }
-
-    public void setReserveSet(Set<ReserveMeeting> reserveSet) {
-        this.reserveSet = reserveSet;
-    }
-
-    @Override
-    public String toString() {
-        return "MeetingRoom{" +
-                "meetingId=" + meetingId +
-                ", containNum=" + containNum +
-                ", meetingName='" + meetingName + '\'' +
-                ", enableStatus=" + enableStatus +
-                '}';
     }
 }

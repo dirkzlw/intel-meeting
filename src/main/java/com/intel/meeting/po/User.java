@@ -1,5 +1,9 @@
 package com.intel.meeting.po;
 
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
@@ -10,6 +14,9 @@ import java.util.Set;
  */
 @Entity
 @Table(name = "t_user")
+@Getter
+@Setter
+@ToString
 public class User {
     //用户ID
     @Id
@@ -65,108 +72,4 @@ public class User {
         this.reserveSet = reserveSet;
     }
 
-    public Integer getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Integer userId) {
-        this.userId = userId;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public Role getRole() {
-        return role;
-    }
-
-    public void setRole(Role role) {
-        this.role = role;
-    }
-
-    public String getHeadUrl() {
-        return headUrl;
-    }
-
-    public void setHeadUrl(String headUrl) {
-        this.headUrl = headUrl;
-    }
-
-    public Integer getStatus() {
-        return status;
-    }
-
-    public void setStatus(Integer status) {
-        this.status = status;
-    }
-
-    public Integer getWarnNum() {
-        return warnNum;
-    }
-
-    public void setWarnNum(Integer warnNum) {
-        this.warnNum = warnNum;
-    }
-
-    public String getUntilTime() {
-        return untilTime;
-    }
-
-    public void setUntilTime(String untilTime) {
-        this.untilTime = untilTime;
-    }
-
-    public UserAuth getUserAuth() {
-        return userAuth;
-    }
-
-    public void setUserAuth(UserAuth userAuth) {
-        this.userAuth = userAuth;
-    }
-
-    public Set<ReserveMeeting> getReserveSet() {
-        return reserveSet;
-    }
-
-    public void setReserveSet(Set<ReserveMeeting> reserveSet) {
-        this.reserveSet = reserveSet;
-    }
-
-    @Override
-    public String toString() {
-        return "User{" +
-                "userId=" + userId +
-                ", username='" + username + '\'' +
-                ", password='" + password + '\'' +
-                ", email='" + email + '\'' +
-                ", role=" + role +
-                ", headUrl='" + headUrl + '\'' +
-                ", status=" + status +
-                ", warnNum=" + warnNum +
-                ", untilTime=" + untilTime +
-                ", userAuth=" + userAuth +
-                ", reserveSet=" + reserveSet +
-                '}';
-    }
 }

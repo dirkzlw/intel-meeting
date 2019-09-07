@@ -1,6 +1,9 @@
 package com.intel.meeting.vo;
 
 import com.intel.meeting.po.ReserveMeeting;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -11,6 +14,8 @@ import java.util.Set;
  * @author Ranger
  * @create 2019-09-03 20:13
  */
+@Getter
+@Setter
 public class MainMr {
 
     //会议室ID
@@ -47,51 +52,4 @@ public class MainMr {
         this.rtn = rtn;
     }
 
-    public Integer getMeetingId() {
-        return meetingId;
-    }
-
-    public void setMeetingId(Integer meetingId) {
-        this.meetingId = meetingId;
-    }
-
-    public String getMeetingName() {
-        return meetingName;
-    }
-
-    public void setMeetingName(String meetingName) {
-        this.meetingName = meetingName;
-    }
-
-    public Integer getContainNum() {
-        return containNum;
-    }
-
-    public void setContainNum(Integer containNum) {
-        this.containNum = containNum;
-    }
-
-    public String getReserveStatus() {
-        return reserveStatus;
-    }
-
-    public void setReserveStatus(String reserveStatus) {
-        this.reserveStatus = reserveStatus;
-    }
-
-    public String getReserveTime() {
-        return reserveTime;
-    }
-
-    public void setReserveTime(String reserveTime) {
-        this.reserveTime = reserveTime;
-    }
-
-    public String getRtn() {
-        return rtn;
-    }
-
-    public void setRtn(String rtn) {
-        this.rtn = rtn;
-    }
 }

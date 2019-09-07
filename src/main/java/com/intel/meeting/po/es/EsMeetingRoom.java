@@ -1,5 +1,8 @@
 package com.intel.meeting.po.es;
 
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
 
@@ -10,6 +13,9 @@ import javax.persistence.Column;
  * @create 2019-09-02 18:53
  */
 @Document(indexName = "meeting_room_index",type = "meeting_room")
+@Getter
+@Setter
+@ToString
 public class EsMeetingRoom {
     //会议室ID
     @Id
@@ -29,47 +35,5 @@ public class EsMeetingRoom {
         this.meetingName = meetingName;
         this.containNum = containNum;
         this.enableStatus = enableStatus;
-    }
-
-    public Integer getMeetingId() {
-        return meetingId;
-    }
-
-    public void setMeetingId(Integer meetingId) {
-        this.meetingId = meetingId;
-    }
-
-    public String getMeetingName() {
-        return meetingName;
-    }
-
-    public void setMeetingName(String meetingName) {
-        this.meetingName = meetingName;
-    }
-
-    public Integer getContainNum() {
-        return containNum;
-    }
-
-    public void setContainNum(Integer containNum) {
-        this.containNum = containNum;
-    }
-
-    public String getEnableStatus() {
-        return enableStatus;
-    }
-
-    public void setEnableStatus(String enableStatus) {
-        this.enableStatus = enableStatus;
-    }
-
-    @Override
-    public String toString() {
-        return "EsMeetingRoom{" +
-                "meetingId=" + meetingId +
-                ", meetingName='" + meetingName + '\'' +
-                ", containNum=" + containNum +
-                ", enableStatus='" + enableStatus + '\'' +
-                '}';
     }
 }

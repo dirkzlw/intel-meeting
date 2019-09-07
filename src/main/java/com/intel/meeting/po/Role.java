@@ -1,5 +1,9 @@
 package com.intel.meeting.po;
 
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -12,6 +16,9 @@ import java.util.Set;
 
 @Entity
 @Table(name="t_role")
+@Getter
+@Setter
+@ToString
 public class Role {
 
     //角色ID
@@ -27,34 +34,7 @@ public class Role {
     @OneToMany(mappedBy = "role")
     private Set<User> users = new HashSet<>();
 
-    public Role() {
+    protected Role() {
     }
 
-    public Role(String roleName) {
-        this.roleName = roleName;
-    }
-
-    public Integer getRoleId() {
-        return roleId;
-    }
-
-    public String getRoleName() {
-        return roleName;
-    }
-
-    public void setRoleName(String roleName) {
-        this.roleName = roleName;
-    }
-
-    public void setRoleId(Integer roleId) {
-        this.roleId = roleId;
-    }
-
-    @Override
-    public String toString() {
-        return "Role{" +
-                "roleId=" + roleId +
-                ", roleName='" + roleName + '\'' +
-                '}';
-    }
 }

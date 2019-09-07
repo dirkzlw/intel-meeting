@@ -1,5 +1,6 @@
 package com.intel.meeting.controller;
 
+import com.intel.meeting.po.UserAuth;
 import com.intel.meeting.utils.FastDFSUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -19,23 +20,23 @@ public class UserAuthController {
     @Value("${FDFSDFS_ADDRESS}")
     private String FDFSDFS_ADDRESS;
 
-    @PostMapping("/user/auth")
+    @PostMapping("/he/user/auth")
     @ResponseBody
-    public String userAuth(String realname,
-                           String jobNum,
+    public String userAuth(UserAuth userAuth,
                            MultipartFile authImg) {
-        System.out.println("realname = " + realname);
-        System.out.println("jobNum = " + jobNum);
-        System.out.println("authImg = " + authImg);
         try {
-            String s = FastDFSUtils.uploadFile(FDFSDFS_CLIENT_PAHT,
+            String authUrl = FastDFSUtils.uploadFile(FDFSDFS_CLIENT_PAHT,
                     FDFSDFS_ADDRESS,
                     authImg);
-            System.out.println("s = " + s);
+            System.out.println("authUrl = " + authUrl);
+            userAuth.setAuthUrl(authUrl);
+
         }catch (Exception e){
             e.printStackTrace();
             return "fail";
         }
+
+        System.out.println("userAuth = " + userAuth);
 
         return "success";
     }

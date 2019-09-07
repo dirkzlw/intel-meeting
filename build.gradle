@@ -55,10 +55,14 @@ dependencies {
     compile 'org.springframework.boot:spring-boot-starter-data-redis'
     //javaMail
     compile 'org.springframework.boot:spring-boot-starter-mail'
-    //fastdfs_client
-    compile files('lib/fastdfs-client-java-1.27-SNAPSHOT.jar')
     //Scheduled 定时任务
     compile 'org.springframework:spring-context-support'
-//    使用lombok   出现bug  spring MVC不能将参数封装成对象
-//    compile 'org.projectlombok:lombok:1.18.2'
+    /**
+     *使用lombok 找不到符号
+     *  解决：file--setting--build,xx--compiler--annotation processors
+     *  勾上enable annotation processing
+     */
+    compile 'org.projectlombok:lombok:1.16.6'
+    //fastdfs_client
+    compile files('lib/fastdfs-client-java-1.27-SNAPSHOT.jar')
 }
