@@ -1,6 +1,7 @@
 package com.intel.meeting.service;
 
 import com.intel.meeting.po.Record;
+import org.springframework.data.domain.Page;
 
 /**
  * @author ranger
@@ -8,4 +9,6 @@ import com.intel.meeting.po.Record;
  */
 public interface RecordService {
     String saveRecord(Record record);
+
+    Page<Record> findRecordByPage(Integer page, int size);
 }

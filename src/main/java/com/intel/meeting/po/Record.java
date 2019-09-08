@@ -23,7 +23,7 @@ public class Record {
     private Integer recordId;
     //预订人
     @Column(length = 20)
-    private String userName;
+    private String username;
     //预订的会议室
     @Column(length = 30)
     private String meetingAddress;
@@ -43,8 +43,8 @@ public class Record {
     }
 
 
-    public Record(String userName, String meetingAddress, String startTime, String endTime, String signTime, Integer usageStatus) {
-        this.userName = userName;
+    public Record(String username, String meetingAddress, String startTime, String endTime, String signTime, Integer usageStatus) {
+        this.username = username;
         this.meetingAddress = meetingAddress;
         this.startTime = startTime;
         this.endTime = endTime;
