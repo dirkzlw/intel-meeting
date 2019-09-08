@@ -11,4 +11,6 @@ import java.util.List;
  */
 public interface MeetingRoomRepository extends JpaRepository<MeetingRoom, Integer> {
     List<MeetingRoom> findDistinctByMeetingName(String meetingName);
+
+    int countByEnableStatus(String status);
 }

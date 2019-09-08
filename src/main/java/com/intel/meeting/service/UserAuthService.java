@@ -12,7 +12,14 @@ import java.util.List;
 public interface UserAuthService {
     void saveUserAuth(UserAuth userAuth);
 
-    Integer findUsersNotAuth(Integer i);
+    int countUserAuthStatus(int i);
 
     Page<UserAuth> findUserAuthByPage(Integer page, Integer size);
+
+    UserAuth findUserAuthById(Integer authId);
+
+    String authPass(Integer authId);
+
+    String authNoPass(Integer authId, String noPassReason);
+
 }

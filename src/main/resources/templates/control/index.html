@@ -12,7 +12,7 @@
     <link href="/control/css/move.css" type="text/css" rel="stylesheet"/>
 
     <style type="text/css">
-        a    {
+        a {
             cursor: pointer;
         }
     </style>
@@ -52,7 +52,7 @@
             <span class="icon">B</span>
             <div class="text">
                 <h2><a th:href="@{/to/control/meeting-manage}">管理会议室</a></h2>
-                <h3>应急调控</h3>
+                <h3 th:text="'空闲:'+${freeNum}+' 故障:'+${downNum}"></h3>
             </div>
         </li>
     </ul>

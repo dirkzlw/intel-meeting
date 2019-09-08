@@ -1,6 +1,5 @@
 package com.intel.meeting.service.impl;
 
-import com.intel.meeting.po.Role;
 import com.intel.meeting.po.User;
 import com.intel.meeting.repository.UserRepository;
 import com.intel.meeting.service.UserService;
@@ -14,7 +13,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.redis.core.RedisOperations;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
@@ -42,14 +40,15 @@ public class UserServiceImpl implements UserService {
     //邮件发送者
     @Value("${spring.mail.username}")
     private String fromEmail;
+    //邮件默认标题
+    @Value("${INTEL_MAIL_SUBJECT}")
+    private String INTEL_MAIL_SUBJECT;
     //用户初始密码
     @Value("${USER_INIT_PASSWORD}")
     private String USER_INIT_PASSWORD;
     //用户初始头像
     @Value("${USER_INIT_HEAD_URL}")
     private String USER_INIT_HEAD_URL;
-    @Value("${INTEL_MAIL_SUBJECT}")
-    private String INTEL_MAIL_SUBJECT;
 
     @Override
     public String getVCode(String username, String email) {
@@ -169,6 +168,15 @@ public class UserServiceImpl implements UserService {
             return "";
         }
 
+    }
+
+    /**
+     * 统计已注册人数
+     * @return
+     */
+    @Override
+    public int countRegistNum() {
+        return (int) userRepository.count();
     }
 
     /**

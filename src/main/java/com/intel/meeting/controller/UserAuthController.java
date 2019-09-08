@@ -40,23 +40,27 @@ public class UserAuthController {
     @Value("${FDFSDFS_ADDRESS}")
     private String FDFSDFS_ADDRESS;
 
-
-    @GetMapping("/to/usermgn/auth-check")
-    public String toAuthCheck(Model model,
-                              HttpServletRequest request,
-                              @RequestParam(required = false) Integer page){
-        if (page == null) {
-            page = 0;
-        }
-        Page<UserAuth> userAuthPage= userAuthService.findUserAuthByPage(page, 9);
-        MRPage mrPageInfo = new MRPage(userAuthPage.getContent(),
-                page + 1,
-                userAuthPage.getTotalPages(),
-                (int) userAuthPage.getTotalElements(),
-                2);
-        model.addAttribute("authPage", mrPageInfo);
+    /**
+     * 跳转至用户认证
+     *
+     * @param model
+     * @param request
+     * @return
+     */
+    @GetMapping("/to/user/auth")
+    public String toUserAuth(Model model,
+                             HttpServletRequest request) {
+        SessionUser sessionUser = (SessionUser) SessionUtils.getObjectFromSession(request, "sessionUser");
+        User user = userService.findUserById(sessionUser.getUserId());
         UserUtils.setUserIndex(model, request);
-        return "usermgn/auth-check";
+        if(user.getUserAuth() != null){
+            //获取认证状态 通过--审核--未通过
+            model.addAttribute("authStatus", user.getUserAuth().getAuthStatus());
+        }else{
+            //尚未提交认证
+            model.addAttribute("authStatus", 0);
+        }
+        return "user/user-auth";
     }
 
     /**
@@ -72,17 +76,24 @@ public class UserAuthController {
                            MultipartFile authImg,
                            HttpServletRequest request) {
         try {
-            String authUrl = FastDFSUtils.uploadFile(FDFSDFS_CLIENT_PAHT,
-                    FDFSDFS_ADDRESS,
-                    authImg);
-            userAuth.setAuthUrl(authUrl);
-            userAuth.setAuthStatus(2);
             //从session中获取当前用户，保存auth到当前用户
             SessionUser sessionUser = (SessionUser) SessionUtils.getObjectFromSession(request, "sessionUser");
             User user = userService.findUserById(sessionUser.getUserId());
-            //先保存认证，用户才能关联这条认证
-            userAuthService.saveUserAuth(userAuth);
-            user.setUserAuth(userAuth);
+            UserAuth exitAuth = user.getUserAuth();
+            String authUrl = FastDFSUtils.uploadFile(FDFSDFS_CLIENT_PAHT,
+                    FDFSDFS_ADDRESS,
+                    authImg);
+            if( exitAuth==null){
+                userAuth.setAuthUrl(authUrl);
+                userAuth.setAuthStatus(2);
+                user.setUserAuth(userAuth);
+                //先保存认证，用户才能关联这条认证
+                userAuthService.saveUserAuth(userAuth);
+            }else {
+                exitAuth.setAuthUrl(authUrl);
+                exitAuth.setAuthStatus(2);
+                user.setUserAuth(exitAuth);
+            }
             userService.saveUserAuth(user);
         } catch (Exception e) {
             e.printStackTrace();
@@ -91,4 +102,54 @@ public class UserAuthController {
         return "success";
     }
 
+    /**
+     * 跳转至认证审核界面
+     * @param model
+     * @param request
+     * @param page
+     * @return
+     */
+    @GetMapping("/to/usermgn/auth-check")
+    public String toAuthCheck(Model model,
+                              HttpServletRequest request,
+                              @RequestParam(required = false) Integer page) {
+        if (page == null) {
+            page = 0;
+        }
+        Page<UserAuth> userAuthPage = userAuthService.findUserAuthByPage(page, 9);
+        MRPage mrPageInfo = new MRPage(userAuthPage.getContent(),
+                page + 1,
+                userAuthPage.getTotalPages(),
+                (int) userAuthPage.getTotalElements(),
+                2);
+        model.addAttribute("authPage", mrPageInfo);
+        UserUtils.setUserIndex(model, request);
+        return "usermgn/auth-check";
+    }
+
+    /**
+     * 通过认证审核
+     * @param authId
+     * @return
+     */
+    @PostMapping("/user/auth/pass")
+    @ResponseBody
+    public String authPass(Integer authId){
+        String rtn = userAuthService.authPass(authId);
+        return rtn;
+    }
+
+    /**
+     * 认证不通过审核
+     * @param authId
+     * @param noPassReason
+     * @return
+     */
+    @PostMapping("/user/auth/nopass")
+    @ResponseBody
+    public String authNoPass(Integer authId,
+                             String noPassReason){
+        String rtn = userAuthService.authNoPass(authId,noPassReason);
+        return rtn;
+    }
 }

@@ -102,4 +102,14 @@ public class MeetingRoomServiceImpl implements MeetingRoomService {
     public MeetingRoom findMrById(Integer mrId) {
         return mrRepository.findOne(mrId);
     }
+
+    /**
+     * 统计会议室各状态的数量
+     * @param status
+     * @return
+     */
+    @Override
+    public int countByEnableStatus(String status) {
+        return mrRepository.countByEnableStatus(status);
+    }
 }

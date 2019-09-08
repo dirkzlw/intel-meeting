@@ -20,4 +20,6 @@ public interface MeetingRoomService {
     Page<MeetingRoom> findMeetingRoomByPage(Integer page, Integer size);
 
     MeetingRoom findMrById(Integer mrId);
+
+    int countByEnableStatus(String status);
 }

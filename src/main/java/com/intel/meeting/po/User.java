@@ -39,9 +39,6 @@ public class User {
     // 头像URL
     @Column(length = 100)
     private String headUrl;
-    // 账户状态 1-可用 2-黑名单
-    @Column(length = 10)
-    private Integer status;
     // 警告次数  5次禁用三天
     @Column(length = 10)
     private Integer warnNum;
@@ -59,13 +56,12 @@ public class User {
     protected User() {
     }
 
-    public User(String username, String password, String email, Role role, String headUrl, Integer status, Integer warnNum, String untilTime, UserAuth userAuth, Set<ReserveMeeting> reserveSet) {
+    public User(String username, String password, String email, Role role, String headUrl, Integer warnNum, String untilTime, UserAuth userAuth, Set<ReserveMeeting> reserveSet) {
         this.username = username;
         this.password = password;
         this.email = email;
         this.role = role;
         this.headUrl = headUrl;
-        this.status = status;
         this.warnNum = warnNum;
         this.untilTime = untilTime;
         this.userAuth = userAuth;

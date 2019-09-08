@@ -11,14 +11,19 @@ import org.springframework.data.domain.Page;
 
 public interface UserService {
 
+    int countRegistNum();
+
     String saveUser(User user);
-    String getVCode(String username,String email);
-    String register(User user,String vcode);
+
+    String getVCode(String username, String email);
+
+    String register(User user, String vcode);
 
     //发送邮件
     String sendMail(String email);
 
     String login(String usernameoremail, String password);
+
     Page<User> findUserByPage(Integer page, Integer size);
 
     String delUser(Integer userId);

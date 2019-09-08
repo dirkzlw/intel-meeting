@@ -11,6 +11,6 @@ import java.util.List;
  */
 public interface UserAuthRepository extends JpaRepository<UserAuth, Integer> {
 
-    Integer countByAuthStatus(Integer authStatus);
+    int countByAuthStatus(Integer authStatus);
 
 }
