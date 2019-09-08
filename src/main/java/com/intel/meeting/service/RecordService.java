@@ -11,4 +11,10 @@ public interface RecordService {
     String saveRecord(Record record);
 
     Page<Record> findRecordByPage(Integer page, int size);
+
+    String getUaeRage();
+
+    String getSignRate();
+
+    long getReserveNumOfWeek(int i);
 }

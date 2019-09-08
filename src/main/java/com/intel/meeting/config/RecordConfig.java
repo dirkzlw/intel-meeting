@@ -53,7 +53,8 @@ public class RecordConfig {
                         rm.getStartTime(),
                         rm.getEndTime(),
                         rm.getSignTime(),
-                        rm.getUsageStatus());
+                        rm.getUsageStatus(),
+                        DateUtils.getWeekOfTime(rm.getStartTime()));
                 if (INIT_SIGN_TIME.equals(rm.getSignTime())) {
                     //没有签到
                     userService.doNoSign(reserveUser);
