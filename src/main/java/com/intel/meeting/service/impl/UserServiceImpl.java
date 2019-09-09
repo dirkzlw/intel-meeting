@@ -26,7 +26,6 @@ import java.util.concurrent.TimeUnit;
  */
 @Service
 public class UserServiceImpl implements UserService {
-    String status = "";
     @Autowired
     private UserRepository userRepository;
 
@@ -158,16 +157,11 @@ public class UserServiceImpl implements UserService {
                 SimpleMailMessage message = MailUtils.getMailMessage(fromEmail,email,INTEL_MAIL_SUBJECT,"您重置后密码为:" + newPsw + ".\n");
                 //发送
                 mailSender.send(message);
-                status = "success";
 
             }
         }).start();
-        if(status=="success"){
-            return "success";
-        }else{
-            return "";
-        }
 
+        return "success";
     }
 
     /**
