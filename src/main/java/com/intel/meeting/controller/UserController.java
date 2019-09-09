@@ -25,7 +25,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 处理关于用户的请求
@@ -85,8 +87,9 @@ public class UserController {
                             HttpServletRequest request){
 
         SessionUser sessionUser = (SessionUser) SessionUtils.getObjectFromSession(request, "sessionUser");
-        User user = userService.findUserById(sessionUser.getUserId()):
-        model.addAllAttributes("user",user);
+        User user = userService.findUserById(sessionUser.getUserId());
+
+        model.addAttribute("user", user);
 
         UserUtils.setUserIndex(model,request);
 

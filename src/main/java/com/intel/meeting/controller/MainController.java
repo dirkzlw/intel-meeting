@@ -63,6 +63,33 @@ public class MainController {
     }
 
     /**
+     * 主页查询
+     * @param model
+     * @param request
+     * @param meetingName
+     * @param searchDay
+     * @param searchStart
+     * @param searchEnd
+     * @return
+     */
+    @GetMapping("/index/search")
+    public String indexSearch(Model model,
+                              HttpServletRequest request,
+                              String meetingName,
+                              String searchDay,
+                              String searchStart,
+                              String searchEnd){
+
+        System.out.println("meetingName = " + meetingName);
+
+        List<MeetingRoom> emrList = mrService.findMeetingRoomLikeName("%"+meetingName+"%");
+
+
+        UserUtils.setUserIndex(model, request);
+        return "redirect:/index";
+    }
+
+    /**
      * 接收URL:http://www.intel.com/to/control
      * 跳转至页面control/index.html
      *

@@ -112,4 +112,14 @@ public class MeetingRoomServiceImpl implements MeetingRoomService {
     public int countByEnableStatus(String status) {
         return mrRepository.countByEnableStatus(status);
     }
+
+    /**
+     * 根据会议室名称模糊查询
+     * @param meetingName
+     * @return
+     */
+    @Override
+    public List<MeetingRoom> findMeetingRoomLikeName(String meetingName) {
+        return mrRepository.findByMeetingNameLikeAndEnableStatus(meetingName,"空闲");
+    }
 }

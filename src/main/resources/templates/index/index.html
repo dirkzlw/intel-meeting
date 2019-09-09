@@ -9,7 +9,7 @@
     <meta name="viewport"
           content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no"/>
     <!-- add styles -->
-    <link href="/index/css/main.css" rel="stylesheet" type="text/css" />
+    <link href="/index/css/main.css" rel="stylesheet" type="text/css"/>
 
     <link rel="stylesheet" type="text/css" href="/table/css/style.css"/>
 
@@ -34,7 +34,6 @@
 
 <div class="container" style="position: relative;top: -20px;left: -200px">
     <ul class="menu">
-        <!--<li><a href="#">Home</a></li>-->
         <li>
             <a th:href="@{/to/reserve/center}">预定中心</a>
         </li>
@@ -56,14 +55,20 @@
         <div class="container content_width">
             <div class="person_search">
                 <div class="search_input">
-                    <div class="input-group mb-3">
+                    <div class="input-group mb-6">
                         <span>会议室：</span>
-                        <input id="smrn" type="text" class="form-control" placeholder="请输入会议室名称/状态">
+                        <input id="smrn" type="text" class="form-control" placeholder="会议室名称" style="width: 100px">
+                        <span>预定日期：</span>
+                        <input id="searchDay" type="date" class="form-control" style="width: 150px;">
+                        <span>开始时间：</span>
+                        <input id="searchStart" type="time" class="form-control" style="width: 90px">
+                        <span>结束时间：</span>
+                        <input id="searchEnd" type="time" class="form-control" style="width: 90px">
                     </div>
                 </div>
                 <div class="search_input">
-                    <button class="btn btn-primary search_btn" type="button" id="search_btn">查询</button>
-                    <!--<button th:if="${mainMrPage.isSearch == 1}" class="btn btn-primary search_btn" type="hidden" id="end_search_btn">结束查询</button>-->
+                    <button class="btn btn-primary search_btn" type="button" id="search_btn" onclick="searchR()">查询
+                    </button>
                 </div>
             </div>
             <div class="line"></div>
@@ -120,7 +125,7 @@
             </tr>
             </thead>
             <tbody id="show_tbody">
-            <tr th:each="mr : ${mainMrPage.mrList}" >
+            <tr th:each="mr : ${mainMrPage.mrList}">
                 <td th:text="${mr.meetingName}"></td>
                 <td th:text="${mr.containNum}"></td>
                 <td th:text="${mr.reserveStatus}"></td>
@@ -156,5 +161,26 @@
 </div>
 
 <script src="/index/js/mejs.js"></script>
+<script type="text/javascript">
+    //查询
+    function searchR() {
+        var meetingName = document.getElementById("smrn").value.trim();
+        var searchDay = document.getElementById("searchDay").value.trim();
+        var searchStart = document.getElementById("searchStart").value.trim();
+        var searchEnd = document.getElementById("searchEnd").value.trim();
+
+        if (meetingName == "" && searchDay == "") {
+            bootbox.alert({
+                title: "来自智能会议室的提示",
+                message: "查询时，会议室名称或预定日期不能为空",
+                closeButton: false
+            })
+            return
+        } else {
+            var href = "/index/search?meetingName=" + meetingName + "&searchDay=" + searchDay + "&searchStart=" + searchStart + "&searchEnd=" + searchEnd;
+            window.open(href, "_self");
+        }
+    }
+</script>
 </body>
 </html>

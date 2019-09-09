@@ -22,4 +22,6 @@ public interface MeetingRoomService {
     MeetingRoom findMrById(Integer mrId);
 
     int countByEnableStatus(String status);
+
+    List<MeetingRoom> findMeetingRoomLikeName(String meetingName);
 }
