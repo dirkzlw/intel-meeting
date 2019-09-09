@@ -30,25 +30,8 @@
 <!--头部-->
 <div th:replace="~{fragments/header :: header}"></div>
 
-<div th:if="${authStatus} == 1">
-    <p align="center" style="font-size: 30px">
-        您的认证已通过，是否<a style="color: #007bff" th:href="@{/to/user/auth/edit(userId=${user.userId})}">重新编辑</a>？<br>
-    </p>
-</div>
 
-<div th:if="${authStatus} == 2">
-    <p align="center" style="font-size: 30px">
-        您的认证正在审核中，请静候<br>
-    </p>
-</div>
-
-<div th:if="${authStatus} == 3">
-    <p align="center" style="font-size: 30px;color: #C24343">
-        您的认证未通过，请重新提交<br>
-    </p>
-</div>
-
-<header th:if="${authStatus} == 0 or ${authStatus}==3" class="acc_head">
+<header class="acc_head">
     <div class="clearfix">
         <h1 class="tc">个人信息认证表单</h1>
         <a href="#" class="out_icon" style="color: #C4302B;font-weight:bolder;font-size: 18px "
@@ -56,15 +39,15 @@
     </div>
 
 </header>
-<section th:if="${authStatus} == 0 or ${authStatus}==3" class="acc_apply">
+<section class="acc_apply">
     <ul>
         <li class="clearfix">
             <label class="tl acc_five">姓名：</label>
-            <input id="realname" autocomplete="off" placeholder="请输入姓名" class="" type="text"/>
+            <input th:value="${userAuth.realname}" id="realname" autocomplete="off" placeholder="请输入姓名" class="" type="text"/>
         </li>
         <li class="clearfix">
             <label class="tl acc_five">工号：</label>
-            <input id="jobNum" autocomplete="off" placeholder="请输入工号" class="" type="text"/>
+            <input th:value="${userAuth.jobNum}" id="jobNum" autocomplete="off" placeholder="请输入工号" class="" type="text"/>
         </li>
         <li class="clearfix">
             <label class="tl acc_four fl">证件照片：</label>
@@ -73,7 +56,7 @@
             <div class="acc_img">
                 <p class="tc">参考样例</p>
                 <div id="sss">
-                    <img class="acc_imgin" src="/user/auth/img/acc_img.png" id="img0">
+                    <img th:src="${userAuth.authUrl}" class="acc_imgin" id="img0">
                 </div>
                 <div class="acc_sc">
                     <a href="javascript:;" class="tc acc_scicon" style="color: black">选择图片</a>

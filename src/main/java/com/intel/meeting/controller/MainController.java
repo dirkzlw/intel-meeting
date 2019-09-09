@@ -4,6 +4,7 @@ import com.intel.meeting.po.MeetingRoom;
 import com.intel.meeting.service.MeetingRoomService;
 import com.intel.meeting.service.UserAuthService;
 import com.intel.meeting.service.UserService;
+import com.intel.meeting.utils.DateUtils;
 import com.intel.meeting.utils.MainMrUtils;
 import com.intel.meeting.utils.UserUtils;
 import com.intel.meeting.vo.MRPage;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -64,6 +66,7 @@ public class MainController {
 
     /**
      * 主页查询
+     *
      * @param model
      * @param request
      * @param meetingName
@@ -78,15 +81,29 @@ public class MainController {
                               String meetingName,
                               String searchDay,
                               String searchStart,
-                              String searchEnd){
+                              String searchEnd) {
 
         System.out.println("meetingName = " + meetingName);
 
-        List<MeetingRoom> emrList = mrService.findMeetingRoomLikeName("%"+meetingName+"%");
+        List<MeetingRoom> mrList = mrService.findMeetingRoomLikeName("%" + meetingName + "%");
+        List<MainMr> mainList;
 
+        if (!"".equals(searchDay) && !"".equals(searchStart) && !"".equals(searchEnd)) {
+            long searchStartL = DateUtils.stringToTime(searchDay + " " + searchStart);
+            long searchEndL = DateUtils.stringToTime(searchDay + " " + searchEnd);
+            mainList = MainMrUtils.indexSearch(mrList, searchStartL, searchEndL,searchDay);
+        } else {
+            mainList = MainMrUtils.mrListToMainMrList(mrList);
+        }
 
+        MRPage mrPageInfo = new MRPage(mainList,
+                1,
+                1,
+                mainList.size(),
+                1);
+        model.addAttribute("mainMrPage", mrPageInfo);
         UserUtils.setUserIndex(model, request);
-        return "redirect:/index";
+        return "index/index";
     }
 
     /**
@@ -121,7 +138,7 @@ public class MainController {
         //统计注册人数
         int rn = userService.countRegistNum();
         model.addAttribute("registNum", rn);
-        
+
         // 统计认证各状态的人数
         Integer n1 = userAuthService.countUserAuthStatus(1);
         Integer n2 = userAuthService.countUserAuthStatus(2);

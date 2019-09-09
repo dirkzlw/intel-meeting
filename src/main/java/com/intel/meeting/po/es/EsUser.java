@@ -10,7 +10,6 @@ import org.springframework.data.elasticsearch.annotations.Document;
 @Document(indexName = "user_index",type = "es_user")
 @Getter
 @Setter
-@ToString
 public class EsUser {
     @Id
     private Integer userId;

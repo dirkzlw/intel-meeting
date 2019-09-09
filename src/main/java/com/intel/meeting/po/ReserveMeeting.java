@@ -15,7 +15,6 @@ import javax.persistence.*;
 @Table(name="reserve_meeting")
 @Getter
 @Setter
-@ToString
 public class ReserveMeeting implements Comparable<ReserveMeeting>{
     //预订ID
     @Id

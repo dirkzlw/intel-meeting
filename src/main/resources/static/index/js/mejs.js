@@ -154,7 +154,7 @@ var methods = {
             endArr[0] * 1,
             endArr[1] * 1).getTime()
         var nowTime = new Date().getTime()
-        if (startTime - nowTime > 230400000 || startTime - nowTime < 0) {
+        if (startTime - nowTime > 219600000 || startTime - nowTime < 0) {
             bootbox.alert({
                 title: "来自智能会议室的提示",
                 message: "以今天开始，请预约在三日内",

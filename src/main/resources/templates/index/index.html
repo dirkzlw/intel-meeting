@@ -138,7 +138,7 @@
         </table>
     </div>
     <div class="content">
-        <div th:if="${mainMrPage != null}" style="display: inline;">
+        <div th:if="${mainMrPage != null} and ${mainMrPage.totalPage} ne 1" style="display: inline;">
             共<span id="totalPage" th:text="${mainMrPage.totalPage}"></span>页
             &nbsp;&nbsp;
             共<span th:text="${mainMrPage.totalNum}"></span>条
@@ -176,7 +176,15 @@
                 closeButton: false
             })
             return
-        } else {
+        }else if(searchDay !="" && (searchStart=="" || searchEnd == "")){
+            bootbox.alert({
+                title: "来自智能会议室的提示",
+                message: "选择日期时，开始/结束时间为必选项",
+                closeButton: false
+            })
+            return
+        }
+        else {
             var href = "/index/search?meetingName=" + meetingName + "&searchDay=" + searchDay + "&searchStart=" + searchStart + "&searchEnd=" + searchEnd;
             window.open(href, "_self");
         }

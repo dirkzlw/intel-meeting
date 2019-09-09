@@ -163,7 +163,7 @@
         </table>
     </div>
     <div class="content">
-        <div th:if="${mrPage != null}" style="display: inline;">
+        <div th:if="${mrPage != null} and ${mrPage.totalPage} ne 1" style="display: inline;">
             共<span id="totalPage" th:text="${mrPage.totalPage}"></span>页
             &nbsp;&nbsp;
             共<span th:text="${mrPage.totalNum}"></span>条

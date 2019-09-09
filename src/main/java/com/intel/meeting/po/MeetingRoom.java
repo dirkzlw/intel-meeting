@@ -22,7 +22,6 @@ import java.util.Set;
 @Table(name="meeting_room")
 @Getter
 @Setter
-@ToString
 public class MeetingRoom {
     //会议室ID
     @Id

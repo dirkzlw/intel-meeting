@@ -16,7 +16,6 @@ import java.util.Set;
 @Table(name = "t_user")
 @Getter
 @Setter
-@ToString
 public class User {
     //用户ID
     @Id

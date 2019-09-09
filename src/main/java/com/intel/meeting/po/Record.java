@@ -14,7 +14,6 @@ import javax.persistence.*;
 @Table(name="t_record")
 @Getter
 @Setter
-@ToString
 public class Record {
     //记录ID
     @Id

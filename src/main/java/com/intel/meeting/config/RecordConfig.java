@@ -39,8 +39,8 @@ public class RecordConfig {
      * 测试：每30秒钟执行一次
      * 上线：每3小时执行一次
      */
-//    @Scheduled(cron = "10 * * * * ?")
-    @Scheduled(cron = "0 0 */3 * * ?")
+    @Scheduled(cron = "0 0 * * * ?")
+//    @Scheduled(cron = "0 0 */3 * * ?")
     public void cleanReserveMeeting() {
         List<ReserveMeeting> rmList = rmService.finAllReserveMeeting();
         for (ReserveMeeting rm : rmList) {

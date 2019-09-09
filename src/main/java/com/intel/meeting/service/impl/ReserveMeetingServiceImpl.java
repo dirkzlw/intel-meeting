@@ -74,7 +74,6 @@ public class ReserveMeetingServiceImpl implements ReserveMeetingService {
                 long end1 = DateUtils.stringToTime(meeting.getEndTime());
                 long start2 = DateUtils.stringToTime(reserveMeeting.getStartTime());
                 long end2 = DateUtils.stringToTime(reserveMeeting.getEndTime());
-
                 //时间不冲突
                 if (end2 <= start1 || start2 >= end1) {
                     continue;

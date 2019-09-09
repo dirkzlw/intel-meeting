@@ -63,6 +63,17 @@ public class UserAuthController {
         return "user/user-auth";
     }
 
+    @GetMapping("/to/user/auth/edit")
+    public String userAuthEdit(Model model,
+                               HttpServletRequest request,
+                               Integer userId){
+        UserAuth userAuth = userService.findUserById(userId).getUserAuth();
+
+        model.addAttribute("userAuth", userAuth);
+        UserUtils.setUserIndex(model, request);
+        return "user/auth-edit";
+    }
+
     /**
      * 用户认证
      *
@@ -101,6 +112,45 @@ public class UserAuthController {
         }
         return "success";
     }
+
+//    /**
+//     * 用户认证再次编辑提交
+//     *
+//     * @param userAuth
+//     * @param authImg
+//     * @return
+//     */
+//    @PostMapping("/he/user/auth/reset")
+//    @ResponseBody
+//    public String userAuthReset(UserAuth userAuth,
+//                           MultipartFile authImg,
+//                           HttpServletRequest request) {
+//        try {
+//            //从session中获取当前用户，保存auth到当前用户
+//            SessionUser sessionUser = (SessionUser) SessionUtils.getObjectFromSession(request, "sessionUser");
+//            User user = userService.findUserById(sessionUser.getUserId());
+//            UserAuth exitAuth = user.getUserAuth();
+//            String authUrl = FastDFSUtils.uploadFile(FDFSDFS_CLIENT_PAHT,
+//                    FDFSDFS_ADDRESS,
+//                    authImg);
+//            if( exitAuth==null){
+//                userAuth.setAuthUrl(authUrl);
+//                userAuth.setAuthStatus(2);
+//                user.setUserAuth(userAuth);
+//                //先保存认证，用户才能关联这条认证
+//                userAuthService.saveUserAuth(userAuth);
+//            }else {
+//                exitAuth.setAuthUrl(authUrl);
+//                exitAuth.setAuthStatus(2);
+//                user.setUserAuth(exitAuth);
+//            }
+//            userService.saveUserAuth(user);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            return "fail";
+//        }
+//        return "success";
+//    }
 
     /**
      * 跳转至认证审核界面

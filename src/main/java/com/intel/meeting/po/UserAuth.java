@@ -16,7 +16,6 @@ import javax.persistence.*;
 @Table(name="user_auth")
 @Getter
 @Setter
-@ToString
 public class UserAuth {
     //认证ID
     @Id

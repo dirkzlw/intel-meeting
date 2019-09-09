@@ -15,7 +15,6 @@ import javax.persistence.Column;
 @Document(indexName = "meeting_room_index",type = "meeting_room")
 @Getter
 @Setter
-@ToString
 public class EsMeetingRoom {
     //会议室ID
     @Id
