@@ -40,35 +40,33 @@
                 <div class="modal-dialog modal-lg modal_position">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h4 class="modal-title">预约会议室</h4>
+                            <h4 class="modal-title">修改用户名</h4>
                             <button type="button" class="close" data-dismiss="modal">&times;</button>
                         </div>
                         <div class="modal-body">
-                            <table id="xxztb" class="table">
-                                <!--修改会议弹窗的样式-->
-                                <tbody>
-                                <tr>
-                                    <td class="tb_bg"><label for="reserveDay"><font
-                                            style="font-size: 14px; color: red;">*</font>预约日期</label>
-                                    </td>
-                                    <td><input class="reserveDay" id="reserveDay" name="reserveDay" type="date"/></td>
-                                </tr>
-                                <tr>
-                                    <td class="tb_bg"><label for="startTime"><font
-                                            style="font-size: 14px; color: red;">*</font>开始时间</label>
-                                    </td>
-                                    <td><input class="startTime" id="startTime" name="startTime" type="time"/></td>
-                                    <td class="tb_bg"><label for="endTime"><font
-                                            style="font-size: 14px; color: red;">*</font>结束时间</label>
-                                    </td>
-                                    <td><input class="endTime" id="endTime" name="endTime" type="time"/></td>
-                                </tr>
-                                </tbody>
-                            </table>
+                            <input type="text" class="newUsername" id="newUsername" name="newUsername" placeholder="请输入新的用户名" style="width: 100%"/>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
                             <button id="xadd_btn" type="button" class="btn btn-secondary">确定</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade" id="xrenyuan2">
+                <div class="modal-dialog modal-lg modal_position">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title">修改密码</h4>
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        </div>
+                        <div class="modal-body">
+                            <input type="text" class="newUserpwd" id="newUserpwd" name="newUserpwd" placeholder="请输入新的密码" style="width: 100%"/>
+                            <input type="text" class="newUserpwd2" id="newUserpwd2" name="newUserpwd2" placeholder="请再次输入新的密码" style="width: 100%"/>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                            <button id="xadd_btn2" type="button" class="btn btn-secondary">确定</button>
                         </div>
                     </div>
                 </div>
@@ -85,19 +83,70 @@
             </thead>
             <tbody id="show_tbody">
             <tr>
-                <!--<td th:text="${user}"></td>-->
-                <!--<td th:text="${mr.containNum}"></td>-->
-                <!--<td th:text="${mr.reserveStatus}"></td>-->
-                <!--<td th:utext="${mr.reserveTime}"></td>-->
-                <!--<td>-->
-                    <!--<a th:id="${mr.meetingId}" href="#" class="edit" th:title="${mr.reserveStatus}">预约</a>-->
-                <!--</td>-->
+                <td>用户名</td>
+                <td th:text="${umsg.username}"></td>
+                <td>
+                    <a th:id="${umsg.userId}" href="#" class="usernameEdit" >修改</a>
+                </td>
+            </tr>
+
+            <tr>
+                <td>密码</td>
+                <td>******</td>
+                <td>
+                    <a th:id="${umsg.userId}" href="#" class="userpwdEdit" >修改</a>
+                </td>
+            </tr>
+
+            <tr>
+                <td>邮箱</td>
+                <td th:text="${umsg.email}"></td>
+                <td>
+                    <a th:id="${umsg.userId}" href="#" class="edit" >修改</a>
+                </td>
+            </tr>
+
+            <tr>
+                <td>头像</td>
+                <td>
+                    <img style="
+                    position: relative;
+                    top: 4px;
+                    display: inline;
+                    width: 34px;
+                    height: 34px;
+                    /*display: flex;*/
+                    border-radius: 50%;
+                    align-items: center;
+                    justify-content: center;
+                    overflow: hidden;
+                    cursor: pointer;"
+                         alt="头像"
+                         th:src="${umsg.headUrl}">
+                </td>
+                <td>
+                    <a th:id="${umsg.userId}" href="#" class="edit" >修改</a>
+                </td>
             </tr>
             </tbody>
         </table>
+        <div class="search_input" style="align: right">
+            <button class="btn btn-primary search_btn" type="button" id="search_btn" onclick ="logout()">退出登录</button>
+            <!--<a th:href="@{/user/logout}">-->
+				<!--<span class="return">-->
+					<!--退出登录-->
+				<!--</span>-->
+            <!--<button th:if="${mainMrPage.isSearch == 1}" class="btn btn-primary search_btn" type="hidden" id="end_search_btn">结束查询</button>-->
+        </div>
     </div>
 </div>
 
 <script src="/user/user-msg/mejs.js"></script>
+<script type="text/javascript">
+    function logout() {
+        var href = "/user/logout"
+        window.open(href,"_self")
+    }
+</script>
 </body>
 </html>

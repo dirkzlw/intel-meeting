@@ -35,4 +35,6 @@ public interface UserService {
     void doNoSign(User reserveUser);
 
     void saveUserAuth(User user);
+
+    String userNameReset(Integer userId, String newUsername);
 }

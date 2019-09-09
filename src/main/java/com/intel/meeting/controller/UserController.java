@@ -25,9 +25,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * 处理关于用户的请求
@@ -88,8 +86,7 @@ public class UserController {
 
         SessionUser sessionUser = (SessionUser) SessionUtils.getObjectFromSession(request, "sessionUser");
         User user = userService.findUserById(sessionUser.getUserId());
-
-        model.addAttribute("user", user);
+        model.addAttribute("umsg",user);
 
         UserUtils.setUserIndex(model,request);
 
@@ -239,6 +236,49 @@ public class UserController {
                 user.getRole().getRoleName(),
                 user.getHeadUrl());
         return sessionUser;
+    }
+
+
+
+    @GetMapping("/user/logout")
+    public String logout(HttpServletRequest request) {
+        System.out.println("....");
+        //清除cookie和session
+        Cookie[] cookies = request.getCookies();
+        for (Cookie cookie : cookies) {
+            cookie.setMaxAge(0);
+        }
+
+        request.getSession().removeAttribute("sessionUser");
+
+        return "redirect:/index";
+    }
+
+    @PostMapping("/user/username/reset")
+    public String usernameReset(Integer userId,
+                                String newUsername){
+
+        System.out.println("userId = " + userId);
+        System.out.println("newUsername = " + newUsername);
+
+        String result = userService.userNameReset(userId,newUsername);
+        if ( "success".equals(result)){
+//            SessionUser sessionUser =
+//            SessionUser sessionUser = (SessionUser) SessionUtils.getObjectFromSession(request, "sessionUser");
+//            User user = userService.findUserById(sessionUser.getUserId());
+//            model.addAttribute("umsg",user);
+//
+//            UserUtils.setUserIndex(model,request);
+//
+//            return "user/user-msg";
+//            //将User转换为SessionUser
+//            SessionUser sessionUser = userToSessionUser(user);
+//
+//            SessionUtils.saveObjectToSession(request, response, sessionUser, "sessionUser");
+        }
+
+
+        return "redirect:/to/user/msg?userId="+userId;
     }
 
 }

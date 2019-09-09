@@ -69,6 +69,10 @@ a {
     text-align: left;
 }
 
+.right {
+    text-align: right;
+}
+
 .social-container {
     margin: 20px 0;
 }

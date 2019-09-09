@@ -248,10 +248,9 @@
                         narn("warn", "密码错误")
                         return
                     } else if (json == "success") {
-                        narn("success", "登陆成功,页面即将跳转,请稍候")
                         setTimeout(function () {
                             window.location.href = 'http://localhost/index';
-                        }, 300)
+                        }, 100)
                         return
                     }
                 },
@@ -263,9 +262,6 @@
             });
         }
     }
-
-
-
 
     function resetpwd() {
         var emreg = /^[a-zA-Z0-9]([a-zA-Z0-9_]{2,20})@([a-z0-9]{1,10})([.]{1})([a-z]{2,4})$/;

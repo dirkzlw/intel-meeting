@@ -306,4 +306,19 @@ public class UserServiceImpl implements UserService {
     public void saveUserAuth(User user) {
         userRepository.save(user);
     }
+
+    public String userNameReset(Integer userId, String newUsername){
+
+        User oldUser = userRepository.findOne(userId);
+        User user1 = userRepository.findByUsername(newUsername);
+
+        if (user1 == null){
+            oldUser.setUsername(newUsername);
+            userRepository.save(oldUser);
+        }
+        else {
+            return "userNameExist";
+        }
+        return "success";
+    }
 }
