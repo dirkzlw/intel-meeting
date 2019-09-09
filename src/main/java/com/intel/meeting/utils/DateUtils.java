@@ -62,4 +62,11 @@ public class DateUtils {
         Date rtnDate = c.getTime();
         return sdf.format(rtnDate);
     }
+
+    public static int getWeekOfTime(String time) {
+        Calendar c = Calendar.getInstance();
+        Date date = DateUtils.stringToDate(time);
+        c.setTime(date);
+        return c.get(Calendar.DAY_OF_WEEK) - 1;
+    }
 }

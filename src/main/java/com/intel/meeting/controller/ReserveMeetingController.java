@@ -200,7 +200,8 @@ public class ReserveMeetingController {
                 reserveMeeting.getStartTime(),
                 reserveMeeting.getEndTime(),
                 reserveMeeting.getSignTime(),
-                reserveMeeting.getUsageStatus());
+                reserveMeeting.getUsageStatus(),
+                DateUtils.getWeekOfTime(reserveMeeting.getStartTime()));
         if (INIT_SIGN_TIME.equals(reserveMeeting.getSignTime())) {
             //没有签到
             userService.doNoSign(reserveUser);

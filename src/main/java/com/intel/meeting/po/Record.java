@@ -37,19 +37,22 @@ public class Record {
     @Column(length = 40)
     private String signTime;
     //会议室使用状态  1--使用  2--取消
+    @Column(length = 10)
     private Integer usageStatus;
+    //预约是周几  1--7
+    @Column(length = 10)
+    private Integer week;
 
     protected Record(){
     }
 
-
-    public Record(String username, String meetingAddress, String startTime, String endTime, String signTime, Integer usageStatus) {
+    public Record(String username, String meetingAddress, String startTime, String endTime, String signTime, Integer usageStatus, Integer week) {
         this.username = username;
         this.meetingAddress = meetingAddress;
         this.startTime = startTime;
         this.endTime = endTime;
         this.signTime = signTime;
         this.usageStatus = usageStatus;
+        this.week = week;
     }
-
 }
