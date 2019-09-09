@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<!--suppress ALL-->
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="utf-8"/>
+    <title>智能会议管理</title>
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no"/>
+    <!-- add styles -->
+    <link href="/index/css/main.css" rel="stylesheet" type="text/css" />
+
+    <link rel="stylesheet" type="text/css" href="/table/css/style.css"/>
+
+    <link rel="stylesheet" type="text/css"
+          href="https://cdn.bootcss.com/twitter-bootstrap/4.2.1/css/bootstrap.min.css"/>
+
+    <script src="/table/js/jquery.min.js"></script>
+    <script src="/table/js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="/table/js/bootbox.min.js"></script>
+
+    <style type="text/css">
+        a:hover {
+            text-decoration: none;
+        }
+    </style>
+
+</head>
+<body>
+
+<!--头部-->
+<div th:replace="~{fragments/header :: header}"></div>
+
+<div class="box" style="position: relative;top: -42px;">
+    <div class="content">
+        <!--添加按钮及bootstrap的模态框-->
+        <div class="export">
+            <div class="modal fade" id="xrenyuan">
+                <div class="modal-dialog modal-lg modal_position">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title">预约会议室</h4>
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        </div>
+                        <div class="modal-body">
+                            <table id="xxztb" class="table">
+                                <!--修改会议弹窗的样式-->
+                                <tbody>
+                                <tr>
+                                    <td class="tb_bg"><label for="reserveDay"><font
+                                            style="font-size: 14px; color: red;">*</font>预约日期</label>
+                                    </td>
+                                    <td><input class="reserveDay" id="reserveDay" name="reserveDay" type="date"/></td>
+                                </tr>
+                                <tr>
+                                    <td class="tb_bg"><label for="startTime"><font
+                                            style="font-size: 14px; color: red;">*</font>开始时间</label>
+                                    </td>
+                                    <td><input class="startTime" id="startTime" name="startTime" type="time"/></td>
+                                    <td class="tb_bg"><label for="endTime"><font
+                                            style="font-size: 14px; color: red;">*</font>结束时间</label>
+                                    </td>
+                                    <td><input class="endTime" id="endTime" name="endTime" type="time"/></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                            <button id="xadd_btn" type="button" class="btn btn-secondary">确定</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--表格列表-->
+        <table id="tb" class="table">
+            <thead>
+            <tr>
+                <th>属性</th>
+                <th>信息</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody id="show_tbody">
+            <tr>
+                <!--<td th:text="${user}"></td>-->
+                <!--<td th:text="${mr.containNum}"></td>-->
+                <!--<td th:text="${mr.reserveStatus}"></td>-->
+                <!--<td th:utext="${mr.reserveTime}"></td>-->
+                <!--<td>-->
+                    <!--<a th:id="${mr.meetingId}" href="#" class="edit" th:title="${mr.reserveStatus}">预约</a>-->
+                <!--</td>-->
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script src="/user/user-msg/mejs.js"></script>
+</body>
+</html>

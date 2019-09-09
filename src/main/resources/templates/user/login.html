@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<!--suppress ALL-->
 <html lang="en">
 <head>
     <meta charset="UTF-8"/>
@@ -100,8 +99,8 @@
 
     function checkuserid() {
         var emreg = /^[a-zA-Z0-9]([a-zA-Z0-9_]{2,20})@([a-z0-9]{1,10})([.]{1})([a-z]{2,4})$/;
-        var username = document.getElementById("userid").value
-        if (emreg.test(username) == ture) {
+        var email = document.getElementById("userid").value
+        if (emreg.test(email) == true) {
             narn("warn", "用户名不可为邮箱格式，请修改")
         }
     }
@@ -252,7 +251,7 @@
                         narn("success", "登陆成功,页面即将跳转,请稍候")
                         setTimeout(function () {
                             window.location.href = 'http://localhost/index';
-                        }, 2500)
+                        }, 300)
                         return
                     }
                 },
@@ -264,6 +263,8 @@
             });
         }
     }
+
+
 
 
     function resetpwd() {

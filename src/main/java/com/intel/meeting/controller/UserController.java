@@ -80,6 +80,19 @@ public class UserController {
         return "usermgn/user-manage";
     }
 
+    @GetMapping("/to/user/msg")
+    public String toUserMsg(Model model,
+                            HttpServletRequest request){
+
+        SessionUser sessionUser = (SessionUser) SessionUtils.getObjectFromSession(request, "sessionUser");
+        User user = userService.findUserById(sessionUser.getUserId()):
+        model.addAllAttributes("user",user);
+
+        UserUtils.setUserIndex(model,request);
+
+        return "user/user-msg";
+    }
+
     /**
      * 跳转到登陆界面
      *
@@ -104,7 +117,11 @@ public class UserController {
         return result;
     }
 
-
+    /**
+     * 重置密码
+     * @param email
+     * @return
+     */
     @PostMapping("/user/resetpwd")
     @ResponseBody
     public  String reSetPwd(String email){
