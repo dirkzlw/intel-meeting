@@ -18,7 +18,6 @@ import java.util.Set;
 @Table(name="t_role")
 @Getter
 @Setter
-@ToString
 public class Role {
 
     //角色ID
@@ -37,4 +36,11 @@ public class Role {
     protected Role() {
     }
 
+    @Override
+    public String toString() {
+        return "Role{" +
+                "roleId=" + roleId +
+                ", roleName='" + roleName + '\'' +
+                '}';
+    }
 }

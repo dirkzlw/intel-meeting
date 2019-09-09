@@ -20,7 +20,7 @@ public interface UserService {
     String register(User user, String vcode);
 
     //发送邮件
-    String sendMail(String email);
+    String resetPwd(String email);
 
     String login(String usernameoremail, String password);
 

@@ -220,7 +220,7 @@ public class UserController {
     @ResponseBody
     public String resetPsw(String email){
         System.out.println("email:"+email);
-        String result = userService.sendMail(email);
+        String result = userService.resetPwd(email);
         return result;
     }
 

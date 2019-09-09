@@ -85,7 +85,7 @@ var methods = {
                             "                <td>"+role+"</td>\n" +
                             "                <td>\n" +
                             "                    <a id='" + userId + "' href='#' class='edit'>编辑</a> <a id='" + userId + "' href='#' class='del' onclick='delUser(this.id)'>删除</a>" +
-                            "                    <a id='" + userId + "' href='#' class='del' onclick='delUser(this.id)'>重置密码</a>"+
+                            "                    <a id='" + userId + "' href='#'  class='del' onclick='resetPsw(email)'>重置密码</a>"+
                             "               </td>" +
                             "           ";
                         // $('#show_tbody tr').eq(trIndex).empty().append(xtdStr);
@@ -250,7 +250,7 @@ var methods = {
             if (emreg.test(email) == true) {
                 bootbox.alert({
                     title: "来自智能会议室的提示",
-                    message: "用户名格式不正确，请重新添加",
+                    message: "用户名格式不可与邮箱格式相同，请重新添加",
                     closeButton: false
                 })
                 hasNullMes = true;

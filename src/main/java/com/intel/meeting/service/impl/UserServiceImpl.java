@@ -145,10 +145,13 @@ public class UserServiceImpl implements UserService {
      * @return
      */
     @Override
-    public String sendMail(String email) {
+    public String resetPwd(String email) {
 
         User user = userRepository.findByEmail(email);
         String newPsw = (int) ((Math.random() * 9 + 1) * 100000) + "";
+        user.setPassword(MD5Utils.md5(newPsw));
+        userRepository.save(user);
+
         System.out.println(email);
 
         new Thread(new Runnable() {
@@ -193,6 +196,7 @@ public class UserServiceImpl implements UserService {
             }
             user.setPassword(MD5Utils.md5(USER_INIT_PASSWORD));
             user.setHeadUrl(USER_INIT_HEAD_URL);
+            user.setPassword(MD5Utils.md5(USER_INIT_PASSWORD));
             User save = userRepository.save(user);
             System.out.println("save = " + save);
             return "save";
