@@ -3,6 +3,8 @@ package com.intel.meeting.service;
 import com.intel.meeting.po.User;
 import org.springframework.data.domain.Page;
 
+import java.util.List;
+
 /**
  * @author ranger
  * @create 2019-09 -03-13:53
@@ -35,6 +37,9 @@ public interface UserService {
     void doNoSign(User reserveUser);
 
     void saveUserAuth(User user);
+
+    List<User> findAllUser();
+
 
     String userNameReset(Integer userId, String newUsername);
 }

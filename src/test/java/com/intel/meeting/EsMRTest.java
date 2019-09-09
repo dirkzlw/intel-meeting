@@ -1,9 +1,13 @@
 package com.intel.meeting;
 
 import com.intel.meeting.po.MeetingRoom;
+import com.intel.meeting.po.User;
 import com.intel.meeting.po.es.EsMeetingRoom;
+import com.intel.meeting.po.es.EsUser;
 import com.intel.meeting.repository.es.EsMeetingRoomRepository;
+import com.intel.meeting.repository.es.EsUserRepository;
 import com.intel.meeting.service.MeetingRoomService;
+import com.intel.meeting.service.UserService;
 import com.intel.meeting.service.es.EsMeetingRoomService;
 import org.junit.Before;
 import org.junit.Test;

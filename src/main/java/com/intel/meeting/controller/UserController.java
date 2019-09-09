@@ -2,8 +2,10 @@ package com.intel.meeting.controller;
 
 import com.intel.meeting.po.Role;
 import com.intel.meeting.po.User;
+import com.intel.meeting.po.es.EsUser;
 import com.intel.meeting.service.RoleService;
 import com.intel.meeting.service.UserService;
+import com.intel.meeting.service.es.EsUserService;
 import com.intel.meeting.utils.SessionUtils;
 import com.intel.meeting.utils.UserUtils;
 import com.intel.meeting.vo.MRPage;
@@ -40,6 +42,8 @@ public class UserController {
     private RoleService roleService;
     @Autowired
     private UserService userService;
+    @Autowired
+    private EsUserService esUserService;
 
     //用户初始角色
     @Value("${USER_INIT_ROLE}")
@@ -193,6 +197,9 @@ public class UserController {
         String result = userService.saveUser(user);
         UserInfo userInfo =new UserInfo(user.getUsername(),user.getEmail(),user.getRole().getRoleName(),result);
         userInfo.setUserId(user.getUserId());
+        //同步搜索库
+        esUserService.save(new EsUser(user.getUserId(),user.getUsername(),user.getEmail(),user.getRole().getRoleName()));
+
         return userInfo;
     }
 
@@ -208,7 +215,7 @@ public class UserController {
         String result = userService.delUser(userId);
 
 //        //同步es
-//        emrService.delEsMeetingRoomById(meetingId);
+        esUserService.delEsUserById(userId);
 
         return result;
     }
@@ -223,6 +230,26 @@ public class UserController {
         String result = userService.resetPwd(email);
         return result;
     }
+
+    /**
+     * 根据用户名进行查询
+     */
+//    @GetMapping("/to/control/user/search")
+//    public String searchUser(String mrkey,Model model,
+//                        HttpServletRequest request){
+////        List<EsUser> esUserList = esUserService.findEsUserByUsername(mrkey);
+//////        List<User> userList = EuserUtils.esUserListToMrList(esUserList);
+////        UserPage userPage = new UserPage(userList,
+////                1,
+////                1,
+////                userList.size(),
+////                1);
+////        model.addAttribute("mrPage", userPage);
+////        UserUtils.setUserIndex(model, request);
+////        return "usermgn/user-manage";
+//
+//    }
+
 
     /**
      * 将User转换为SessionUser

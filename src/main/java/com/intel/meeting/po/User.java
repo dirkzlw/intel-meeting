@@ -68,4 +68,10 @@ public class User {
         this.reserveSet = reserveSet;
     }
 
+    public User(String username, String email, Role role) {
+        this.username = username;
+        this.email = email;
+        this.role = role;
+    }
+
 }

@@ -218,6 +218,13 @@ public class UserServiceImpl implements UserService {
             return "save";
         }
     }
+    /**
+     * 查询所有用户
+     */
+    @Override
+    public List<User> findAllUser() {
+        return userRepository.findAll();
+    }
 
     /**
      * 分页查询用户
