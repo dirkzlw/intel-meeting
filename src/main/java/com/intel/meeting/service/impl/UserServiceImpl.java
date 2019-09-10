@@ -340,6 +340,19 @@ public class UserServiceImpl implements UserService {
 
     /**
      * 修改密码
+     * @param user
+     * @return
+     */
+    @Override
+    public String userPwdReset(User user){
+
+        userRepository.save(user);
+
+        return "success";
+    }
+
+    /**
+     * 修改密码
      * @param userId
      * @param oldUserpwd
      * @param newUserpwd
@@ -357,7 +370,6 @@ public class UserServiceImpl implements UserService {
         }
         else { return "oldUserpwdFalse"; }
     }
-
     /**
      * 修改邮箱
      * @param userId

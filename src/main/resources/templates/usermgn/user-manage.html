@@ -168,7 +168,7 @@
                 <td>
                     <a th:id="${user.userId}" href="#" class="edit">编辑</a>
                     <a th:id="${user.userId}" href="#" class="del" onclick="delUser(this.id)">删除</a>
-                    <a th:id="${user.userId}" href="#" th:title="${user.email}" onclick="resetPsw(title)">重置密码</a>
+                    <a th:id="${user.userId}" href="#" th:title="${user.userId}" onclick="resetPwd(title)">重置密码</a>
                 </td>
             </tr>
             </tbody>
@@ -231,17 +231,18 @@
     }
 
     //重置密码
-    function resetPsw(email) {
+    function resetPwd(id) {
+        alert(id);
         $.ajax({
             type: "POST",
-            url: "/usermgn/user/resetPsw",
-            data: {'email': email},
+            url: "/usermgn/user/resetPwd",
+            data: {'userId': id},
             dataType: "text", //return dataType: text or json
             success: function (json) {
                 if (json == "success") {
                     bootbox.alert({
                         title: "来自智能会议室的提示",
-                        message: "重置密码邮件发送成功，请注意查收",
+                        message: "当前密码已重置为“123456”",
                         closeButton: false
                     })
                 }
@@ -249,7 +250,7 @@
             error: function (json) {
                 bootbox.alert({
                     title: "来自智能会议室的提示",
-                    message: "邮件发送失败，请检查网络",
+                    message: "重置密码失败，请检查网络",
                     closeButton: false
                 })
                 return

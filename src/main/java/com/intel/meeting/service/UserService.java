@@ -42,9 +42,11 @@ public interface UserService {
 
     String userNameReset(Integer userId, String newUsername);
 
+    String userPwdReset(User user);
 
     String userEmailReset(Integer userId, String newEmail);
 
     String HeadUrlReset(Integer userId, String newHeadUrl);
+
     String userPwdReset(Integer userId, String oldUserpwd, String newUserpwd);
 }

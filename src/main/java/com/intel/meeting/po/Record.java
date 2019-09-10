@@ -54,13 +54,5 @@ public class Record {
         this.usageStatus = usageStatus;
         this.week = week;
     }
-    public Record(String username, String meetingAddress, String startTime, String endTime, String signTime, Integer usageStatus) {
-        this.username = username;
-        this.meetingAddress = meetingAddress;
-        this.startTime = startTime;
-        this.endTime = endTime;
-        this.signTime = signTime;
-        this.usageStatus = usageStatus;
-    }
 
 }

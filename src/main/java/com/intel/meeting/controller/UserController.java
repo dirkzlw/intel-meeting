@@ -7,6 +7,7 @@ import com.intel.meeting.service.RoleService;
 import com.intel.meeting.service.UserService;
 import com.intel.meeting.service.es.EsUserService;
 import com.intel.meeting.utils.FastDFSUtils;
+import com.intel.meeting.utils.MD5Utils;
 import com.intel.meeting.utils.SessionUtils;
 import com.intel.meeting.utils.UserUtils;
 import com.intel.meeting.vo.*;
@@ -198,10 +199,20 @@ public class UserController {
     @PostMapping("/usermgn/user/save")
     @ResponseBody
     public UserInfo saveUser(User user, String roleName) {
-        Role role = roleService.findByRoleName(roleName);
-        user.setRole(role);
-        user.setPassword(USER_INIT_PASSWORD);
-        String result = userService.saveUser(user);
+        String result;
+        if(user.getUserId()==null){
+            // 添加
+            Role role = roleService.findByRoleName(roleName);
+            user.setRole(role);
+            user.setPassword(MD5Utils.md5(USER_INIT_PASSWORD));
+            user.setHeadUrl(USER_INIT_HEAD_URL);
+            result = userService.saveUser(user);
+        }else{
+            //修改
+            Role role = roleService.findByRoleName(roleName);
+            user.setRole(role);
+            result = userService.saveUser(user);
+        }
         UserInfo userInfo =new UserInfo(user.getUsername(),user.getEmail(),user.getRole().getRoleName(),result);
         userInfo.setUserId(user.getUserId());
         //同步搜索库
@@ -221,8 +232,21 @@ public class UserController {
 
         String result = userService.delUser(userId);
 
-       //同步es
+//        //同步es
         esUserService.delEsUserById(userId);
+
+        return result;
+    }
+
+    /**
+     * 重置密码
+     */
+    @PostMapping("/usermgn/user/resetPwd")
+    @ResponseBody
+    public String resetPwd(Integer userId){
+        User user=userService.findUserById(userId);
+        user.setPassword(MD5Utils.md5(USER_INIT_PASSWORD));
+        String result = userService.userPwdReset(user);
 
         return result;
     }

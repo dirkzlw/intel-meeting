@@ -5,11 +5,16 @@ import com.intel.meeting.repository.RecordRepository;
 import com.intel.meeting.service.RecordService;
 import com.intel.meeting.utils.MailUtils;
 import com.intel.meeting.utils.MathUtils;
+import com.intel.meeting.vo.GraphInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * @author ranger
