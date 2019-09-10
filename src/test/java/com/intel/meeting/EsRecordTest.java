@@ -31,7 +31,7 @@ public class EsRecordTest {
         for (Record record:recordList){
             esRecord.setRecordId(record.getRecordId());
             esRecord.setUsername(record.getUsername());
-            esRecord.setMeetingName(record.getMeetingAddress());
+            esRecord.setMeetingAddress(record.getMeetingAddress());
             esRecord.setStartTime(record.getStartTime());
             esRecord.setEndTime(record.getEndTime());
             esRecord.setSignTime(record.getSignTime());
@@ -42,7 +42,7 @@ public class EsRecordTest {
 
     @Test
     public  void testA(){
-        List<EsRecord> esRecordList = esRecordRepository.findDistinctByUsernameContainingOrMeetingNameContaining("slp","slp",new Sort(Sort.Direction.ASC,"meetingName"));
+        List<EsRecord> esRecordList = esRecordRepository.findDistinctByUsernameContainingOrMeetingAddressContaining("zlw","zlw");
         for(EsRecord esRecord: esRecordList){
             System.out.println(esRecord);
         }

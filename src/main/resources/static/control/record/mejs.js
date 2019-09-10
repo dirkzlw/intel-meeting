@@ -1,16 +1,5 @@
 $(function () {
 
-    $('#add_btn').click(function () {
-        methods.addHandle()
-    })
-
-    $('#show_tbody').on('click','.edit', function () {
-        trIndex = $('.edit', '#show_tbody').index($(this));
-        addEnter = false;
-        $(this).parents('tr').addClass('has_case');
-        methods.editHandle(trIndex);
-    })
-
     $('#search_btn').click(function () {
         methods.seachName();
     })
@@ -20,16 +9,6 @@ $(function () {
         methods.resectList();
     })
 
-    $('.del').click(function () {
-        $(this).parents('tr').remove();
-    })
-
-    $('#renyuan').on('hide.bs.modal',function() {
-        addEnter = true;
-        $('#show_tbody tr').removeClass('has_case');
-        $('#xztb input').val(' ');
-        $('#xztb select').find('option:first').prop('selected', true)
-    });
 
 })
 
@@ -110,7 +89,15 @@ var methods = {
                 closeButton:false
             })
             return;
+        }else{
+            var href = "/to/control/record/search?nameVal=" + nameVal;
+            window.open(href, "_self")
         }
+        //结束查询
+        $('#end_search_btn').click(function () {
+            var href = "/to/usermgn/user-manage";
+            window.open(href, "_self");
+        })
 
         for (var c=0;c<a.length;c++) {
             var txt = $('td:first', a.eq(c)).html().trim();
@@ -127,69 +114,6 @@ var methods = {
     resectList: function () {
         $('#show_tbody tr').show();
     },
-    checkMustMes: function () {
 
-        if ($('.userName').val().trim()==='') {
-            bootbox.alert({
-                title: "来自火星的提示",
-                message: "姓名为必选项，请填写",
-                closeButton:false
-            })
-            hasNullMes = true;
-            return
-        }
-        if ($('.jobNum').val().trim()==='') {
-            bootbox.alert({
-                title: "来自火星的提示",
-                message: "工号为必选项，请填写",
-                closeButton:false
-            })
-            hasNullMes = true;
-            return
-        }
-        if ($('.phoneNum').val().trim()==='') {
-            bootbox.alert({
-                title: "来自火星的提示",
-                message: "手机号为必选项，请填写",
-                closeButton:false
-            })
-            hasNullMes = true;
-            return
-        }
 
-    },
-    checkRepeat: function () {
-
-        jobArr = [], phoneArr = [];
-
-        for (var i = 0; i<$('#show_tbody tr:not(".has_case")').length;i++) {
-            var par = '#show_tbody tr:not(".has_case"):eq(' + i + ')';
-            var a = $('td:eq(1)', par).html().trim(),
-                b = $('td:eq(2)', par).html().trim();
-            jobArr.push(a);
-            phoneArr.push(b);
-        }
-        var jobNum = $('.jobNum').val().trim(),
-            phoneNum = $('.phoneNum').val().trim();
-
-        if (jobArr.indexOf(jobNum)>-1) {
-            noRepeat = false;
-            bootbox.alert({
-                title: "来自火星的提示",
-                message: "工号重复了，请重新输入",
-                closeButton:false
-            })
-            return;
-        }
-        if (phoneArr.indexOf(phoneNum)>-1) {
-            noRepeat = false;
-            bootbox.alert({
-                title: "来自火星的提示",
-                message: "手机号码重复了，请重新输入",
-                closeButton:false
-            })
-            return;
-        }
-        noRepeat = true;
-    }
 }

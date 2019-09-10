@@ -51,17 +51,10 @@
                 </div>
                 <div class="search_input">
                     <button class="btn btn-primary search_btn" type="button" id="search_btn">查询</button>
-                    <button class="btn btn-primary search_btn" type="button" id="back_btn">重置</button>
+                    <button class="btn btn-primary search_btn" type="button" id="back_btn">结束查询</button>
                 </div>
             </div>
             <div class="line"></div>
-        </div>
-        <!--添加按钮及bootstrap的模态框-->
-        <div class="export">
-            <button id="new_add" type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#renyuan">
-                <img src="/table/img/add_two.png"/>
-                <span>添加</span>
-            </button>
         </div>
         <!--表格列表-->
         <table id="tb" class="table">
@@ -113,7 +106,33 @@
     </div>
 
 </div>
+<script src="/usermgn/js/ajax.js"></script>
+<script src="/usermgn/table/mejs.js"></script>
+<script type="text/javascript">
+    //查询
+    $('#search_btn').click(function () {
+        var a = $('#show_tbody tr');
+        var nameVal = $('#Ktext').val().trim();
+        if (nameVal==='') {
+            bootbox.alert({
+                title: "来自火星的提示",
+                message: "搜索内容不能为空",
+                closeButton:false
+            })
+            return;
+        }else{
+            var href = "/to/control/record/search?nameVal=" + nameVal;
+            window.open(href, "_self")
+        }
+    })
 
-<script src="/control/record/mejs.js"></script>
+    //结束查询
+    $('#back_btn').click(function () {
+        var href = "/to/control/record";
+        window.open(href, "_self");
+    })
+
+</script>
+<!--<script src="/control/record/mejs.js"></script>-->
 </body>
 </html>
