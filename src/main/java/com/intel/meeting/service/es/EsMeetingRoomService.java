@@ -11,6 +11,9 @@ import java.util.List;
 public interface EsMeetingRoomService {
     List<EsMeetingRoom> findEsMeetingRoomByMeetingName(String meetingName);
 
+    //根据会议室或者预订人查找会议室
+    List<EsMeetingRoom> findEsMeetingRoomByMeetingNameOrUsername(String meetingnameOrusername);
+
     void save(EsMeetingRoom emr);
 
     void delEsMeetingRoomById(Integer mrId);

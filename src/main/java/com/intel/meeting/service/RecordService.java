@@ -1,7 +1,6 @@
 package com.intel.meeting.service;
 
 import com.intel.meeting.po.Record;
-import com.intel.meeting.vo.GraphInfo;
 import org.springframework.data.domain.Page;
 
 /**
@@ -21,4 +20,6 @@ public interface RecordService {
 
     GraphInfo getGraphInfo();
 
+
+    List<Record> findAll();
 }

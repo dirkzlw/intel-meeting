@@ -3,14 +3,12 @@ package com.intel.meeting.service.impl;
 import com.intel.meeting.po.Record;
 import com.intel.meeting.repository.RecordRepository;
 import com.intel.meeting.service.RecordService;
+import com.intel.meeting.utils.MailUtils;
 import com.intel.meeting.utils.MathUtils;
-import com.intel.meeting.vo.GraphInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.stereotype.Service;
 
 /**
@@ -27,7 +25,6 @@ public class RecordServiceImpl implements RecordService {
 
     /**
      * 保存预定记录
-     *
      * @param record
      * @return
      */
@@ -35,7 +32,7 @@ public class RecordServiceImpl implements RecordService {
     public String saveRecord(Record record) {
         try {
             recordRepository.save(record);
-        } catch (Exception e) {
+        }catch (Exception e){
             return "fail";
         }
         return "success";
@@ -43,21 +40,19 @@ public class RecordServiceImpl implements RecordService {
 
     /**
      * 分页查询
-     *
      * @param page
      * @param size
      * @return
      */
     @Override
     public Page<Record> findRecordByPage(Integer page, int size) {
-        Pageable pageable = new PageRequest(page, size);
+        Pageable pageable = new PageRequest(page, size );
         Page<Record> recordPage = recordRepository.findAll(pageable);
         return recordPage;
     }
 
     /**
      * 获取使用率
-     *
      * @return
      */
     @Override
@@ -72,7 +67,6 @@ public class RecordServiceImpl implements RecordService {
 
     /**
      * 获取签到率
-     *
      * @return
      */
     @Override
@@ -81,12 +75,11 @@ public class RecordServiceImpl implements RecordService {
         long count = recordRepository.count();
         //获取签到数
         long countSign = recordRepository.countBySignTime("0000-00-00 00:00");
-        return MathUtils.getRate(count - countSign, count);
+        return MathUtils.getRate(count-countSign,count );
     }
 
     /**
      * 获取周几的预约量
-     *
      * @param i
      * @return
      */
@@ -125,4 +118,11 @@ public class RecordServiceImpl implements RecordService {
         }
         return graphRedis;
     }
+    /**
+     * 获取全部记录
+     */
+    public List<Record> findAll(){
+       return recordRepository.findAll();
+    }
+
 }

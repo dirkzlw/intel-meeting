@@ -4,7 +4,6 @@ import com.intel.meeting.po.MeetingRoom;
 import com.intel.meeting.po.es.EsMeetingRoom;
 import com.intel.meeting.service.MeetingRoomService;
 import com.intel.meeting.service.es.EsMeetingRoomService;
-import com.intel.meeting.utils.EmrUtils;
 import com.intel.meeting.utils.UserUtils;
 import com.intel.meeting.vo.MRPage;
 import com.intel.meeting.vo.RtnIdInfo;

@@ -29,6 +29,12 @@ public class EsMeetingRoomServiceImpl implements EsMeetingRoomService {
     }
 
     @Override
+    public List<EsMeetingRoom> findEsMeetingRoomByMeetingNameOrUsername(String meetingnameOrusername) {
+        return null;
+
+    }
+
+    @Override
     public void save(EsMeetingRoom emr) {
         emrRepository.save(emr);
     }
