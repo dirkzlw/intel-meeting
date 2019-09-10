@@ -21,8 +21,8 @@ public interface UserService {
 
     String register(User user, String vcode);
 
-    //发送邮件
-    String resetPwd(String email);
+    //忘记密码
+    String forgetPwd(String email);
 
     String login(String usernameoremail, String password);
 

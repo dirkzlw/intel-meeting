@@ -115,14 +115,21 @@ public class UserController {
     }
 
     /**
-     * 重置密码
+     * 忘记密码
      * @param email
      * @return
      */
-    @PostMapping("/user/resetpwd")
+    @PostMapping("/user/forgetpwd")
     @ResponseBody
-    public  String reSetPwd(String email){
-        return "success";
+    public  String forgetPwd(String email){
+        System.out.println("email = " + email);
+        String result = userService.forgetPwd(email);
+        if ("success".equals(result)){
+            return "success";
+        }
+        else {
+            return "notFound";
+        }
     }
 
     /**
@@ -210,17 +217,6 @@ public class UserController {
        //同步es
         esUserService.delEsUserById(userId);
 
-        return result;
-    }
-
-    /**
-     * 重置密码
-     */
-    @PostMapping("/usermgn/user/resetPsw")
-    @ResponseBody
-    public String resetPsw(String email){
-        System.out.println("email:"+email);
-        String result = userService.resetPwd(email);
         return result;
     }
 

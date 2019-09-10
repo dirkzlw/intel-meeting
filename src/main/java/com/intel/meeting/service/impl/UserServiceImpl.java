@@ -141,31 +141,32 @@ public class UserServiceImpl implements UserService {
     }
 
     /**
-     * 发送邮件，重置密码
+     * 忘记密码，发邮件
      * @param email
      * @return
      */
     @Override
-    public String resetPwd(String email) {
+    public String forgetPwd(String email) {
 
+        System.out.println("email = " + email);
         User user = userRepository.findByEmail(email);
-        String newPsw = (int) ((Math.random() * 9 + 1) * 100000) + "";
-        user.setPassword(MD5Utils.md5(newPsw));
-        userRepository.save(user);
-
-        System.out.println(email);
-
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                SimpleMailMessage message = MailUtils.getMailMessage(fromEmail,email,INTEL_MAIL_SUBJECT,"您重置后密码为:" + newPsw + ".\n");
-                //发送
-                mailSender.send(message);
-
-            }
-        }).start();
-
-        return "success";
+        if (user != null){
+            String newPsw = (int) ((Math.random() * 9 + 1) * 100000) + "";
+            user.setPassword(MD5Utils.md5(newPsw));
+            userRepository.save(user);
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    SimpleMailMessage message = MailUtils.getMailMessage(fromEmail,email,INTEL_MAIL_SUBJECT,"您重置后密码为:" + newPsw + ".\n");
+                    //发送
+                    mailSender.send(message);
+                }
+            }).start();
+            return "success";
+        }
+        else {
+            return "notFound";
+        }
     }
 
     /**
