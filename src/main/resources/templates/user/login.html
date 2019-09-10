@@ -63,7 +63,7 @@
             <div class="left">
                 <input id="usernameoremail" type="text" placeholder="用户名或邮箱">
                 <input id="pwd1" style="width:205px;display: inline;" type="password" placeholder="密码">
-                <a style="display: inline" onclick="resetpwd()">忘记密码？</a>
+                <a style="display: inline" onclick="forgetpwd()">忘记密码？</a>
             </div>
                 <button onclick="login()">登录</button>
         </form>
@@ -263,27 +263,27 @@
         }
     }
 
-    function resetpwd() {
+    function forgetpwd() {
         var emreg = /^[a-zA-Z0-9]([a-zA-Z0-9_]{2,20})@([a-z0-9]{1,10})([.]{1})([a-z]{2,4})$/;
         var usernameoremail = document.getElementById("usernameoremail").value.trim()
         if(usernameoremail == ""){
             narn("warn","邮箱为空，若要重置密码，请重新输入邮箱后，点击忘记密码")
             return
-        } else if(usernameoremail == false){
+        } else if(emreg.test(usernameoremail) == false){
             narn("warn","邮箱格式不正确，若要重置密码，请重新输入邮箱后，点击忘记密码")
             return
         } else {
             $.ajax({
                 type: "post",
-                url: "/user/resetpwd",
+                url: "/user/forgetpwd",
                 data: {'email': usernameoremail},
                 dataType: "text",
                 success: function (json) {
-                    if(json == "NotFound") {
+                    if(json == "notFound") {
                         narn("warn","邮箱未找到，请检查输入邮箱正确性")
                         return
                     } else if(json == "success" ){
-                        narn("success","密码重置成功！请及时查看邮箱获取新密码，有效期为10分钟")
+                        narn("success","密码重置成功！请及时查看邮箱获取新密码")
                         return
                     }
                 },

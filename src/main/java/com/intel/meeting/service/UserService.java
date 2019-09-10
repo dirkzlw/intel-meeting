@@ -21,8 +21,8 @@ public interface UserService {
 
     String register(User user, String vcode);
 
-    //发送邮件
-    String resetPwd(String email);
+    //忘记密码
+    String forgetPwd(String email);
 
     String login(String usernameoremail, String password);
 
@@ -42,5 +42,9 @@ public interface UserService {
 
     String userNameReset(Integer userId, String newUsername);
 
-    String userPwdReset(Integer userId, String oldUserpwd, String newUserpwd, String newUserpwd2);
+
+    String userEmailReset(Integer userId, String newEmail);
+
+    String HeadUrlReset(Integer userId, String newHeadUrl);
+    String userPwdReset(Integer userId, String oldUserpwd, String newUserpwd);
 }

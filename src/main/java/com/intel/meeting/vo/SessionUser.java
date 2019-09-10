@@ -2,6 +2,7 @@ package com.intel.meeting.vo;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.Serializable;
 
@@ -30,5 +31,7 @@ public class SessionUser implements Serializable {
         this.role = role;
         this.headUrl = headUrl;
     }
+
+
 
 }

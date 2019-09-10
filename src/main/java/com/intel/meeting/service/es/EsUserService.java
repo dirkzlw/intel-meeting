@@ -8,4 +8,5 @@ public interface EsUserService {
     List<EsUser> findEsUserByUsername(String username);
     void save(EsUser esUser);
     void delEsUserById(Integer userId);
+    EsUser findEsUserById(Integer userId);
 }

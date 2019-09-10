@@ -141,31 +141,32 @@ public class UserServiceImpl implements UserService {
     }
 
     /**
-     * 发送邮件，重置密码
+     * 忘记密码，发邮件
      * @param email
      * @return
      */
     @Override
-    public String resetPwd(String email) {
+    public String forgetPwd(String email) {
 
+        System.out.println("email = " + email);
         User user = userRepository.findByEmail(email);
-        String newPsw = (int) ((Math.random() * 9 + 1) * 100000) + "";
-        user.setPassword(MD5Utils.md5(newPsw));
-        userRepository.save(user);
-
-        System.out.println(email);
-
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                SimpleMailMessage message = MailUtils.getMailMessage(fromEmail,email,INTEL_MAIL_SUBJECT,"您重置后密码为:" + newPsw + ".\n");
-                //发送
-                mailSender.send(message);
-
-            }
-        }).start();
-
-        return "success";
+        if (user != null){
+            String newPsw = (int) ((Math.random() * 9 + 1) * 100000) + "";
+            user.setPassword(MD5Utils.md5(newPsw));
+            userRepository.save(user);
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    SimpleMailMessage message = MailUtils.getMailMessage(fromEmail,email,INTEL_MAIL_SUBJECT,"您重置后密码为:" + newPsw + ".\n");
+                    //发送
+                    mailSender.send(message);
+                }
+            }).start();
+            return "success";
+        }
+        else {
+            return "notFound";
+        }
     }
 
     /**
@@ -342,17 +343,46 @@ public class UserServiceImpl implements UserService {
      * @param userId
      * @param oldUserpwd
      * @param newUserpwd
-     * @param newUserpwd2
      * @return
      */
     @Override
-    public String userPwdReset(Integer userId, String oldUserpwd, String newUserpwd, String newUserpwd2){
+    public String userPwdReset(Integer userId, String oldUserpwd, String newUserpwd){
 
-        //User oldUser = userRepository.findOne(userId);
+        User oldUser = userRepository.findOne(userId);
 
-       // if (oldUserpwd.equals(oldUser.getPassword())){
+        if (oldUser.getPassword().equals(MD5Utils.md5(oldUserpwd))){
+            oldUser.setPassword(MD5Utils.md5(newUserpwd));
+            userRepository.save(oldUser);
+            return "success";
+        }
+        else { return "oldUserpwdFalse"; }
+    }
 
-      //  }
+    /**
+     * 修改邮箱
+     * @param userId
+     * @param newEmail
+     * @return
+     */
+    @Override
+    public String userEmailReset(Integer userId,String newEmail){
+        User oldeUser = userRepository.findOne(userId);
+        User user2 = userRepository.findByEmail(newEmail);
+        if (user2 == null) {
+            oldeUser.setEmail(newEmail);
+            userRepository.save(oldeUser);
+        }
+        else {
+            return "EmailExist";
+        }
+        return "success";
+    }
+
+    @Override
+    public String HeadUrlReset(Integer userId, String newHeadUrl) {
+        User user = userRepository.findOne(userId);
+        user.setHeadUrl(newHeadUrl);
+        userRepository.save(user);
 
         return "success";
     }
