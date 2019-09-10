@@ -21,6 +21,26 @@ $(function () {  //jquery里的,是当文档载入完毕就执行的意思
         $('#xrenyuan2').modal('show');
     })
 
+
+    $('#xadd_btn3').click(function () {
+        methods.xaddHandle3()
+    })
+
+    $('#show_tbody').on('click','.emailEdit',function () {
+        userId = this.id
+        addEnter = true;
+        $('#xrenyuan3').modal('show');
+    })
+
+    $('#xadd_btn4').click(function () {
+        methods.xaddHandle4()
+    })
+
+    $('#show_tbody').on('click','.HeadUrlEdit',function () {
+        userId = this.id
+        addEnter = true;
+        $('#xrenyuan4').modal('show');
+    })
 })
 
 var userId,
@@ -192,4 +212,103 @@ var methods = {
             return
         }
     },
+
+    xaddHandle3 : function (the_index) {
+        hasNullMes = false;
+        methods.xcheckMustMe3();
+        if(hasNullMes){
+            return;
+        }
+        if(addEnter){
+            var newEmail = $('.newEmail').val().trim();
+            $.ajax({
+                type : "POST",
+                url : "/user/email/reset",
+                data : {
+                    'userId' : userId,
+                    'newEmail' : newEmail
+                },
+                dataType : "text",
+                success : function (json) {
+                    if(json == "EmailExist"){
+                        bootbox.alert({
+                            title: "来自智能会议室的提示",
+                            message: "邮箱已存在，请更换！",
+                            closeButton: false
+                        })
+                    }else if (json == "success") {
+                        bootbox.alert({
+                            title: "来自智能会议室的提示",
+                            message: "修改邮箱成功",
+                            closeButton: false
+                        })
+                        $('#xrenyuan').modal('hide');
+                        window.open("/to/user/msg?userId=" + userId, "_self")
+                        return
+                    }
+
+                },
+                error : function(json) {
+                    bootbox.alert({
+                        title : "来自智能会议室的提示",
+                        message : "修改失败，请检查网络",
+                        closeButton : false
+                    })
+                    return
+                }
+            })
+        }
+    },
+    xcheckMustMe3 : function () {
+        var newEmail = $('.newEmail').val().trim()
+        if(newEmail === ''){
+            bootbox.alert({
+                title : "来自智能会议室的提示",
+                message : "新邮箱为必填项，请填写",
+                closeButton : false
+            })
+            return
+        }
+    },
+    xaddHandle4 : function (the_index) {
+        hasNullMes = false;
+        if (hasNullMes) {
+            return;
+        }
+        if (addEnter) {
+            var newHeadUrl = document.getElementById("file1").files[0];
+            var formData = new FormData();
+            formData.append("userId", userId)
+            formData.append("newHeadUrl", newHeadUrl)
+            $.ajax({
+                type: "POST",
+                url: "/user/headurl/reset",
+                data: formData,
+                dataType: "text",
+                processData: false,
+                contentType: false,
+                success: function (json) {
+                    if (json == "success") {
+                        bootbox.alert({
+                            title: "来自智能会议室的提示",
+                            message: "修改头像成功",
+                            closeButton: false
+                        })
+                        $('#xrenyuan').modal('hide');
+                        window.open("/to/user/msg?userId=" + userId, "_self")
+                        return
+                    }
+
+                },
+                error: function (json) {
+                    bootbox.alert({
+                        title: "来自智能会议室的提示",
+                        message: "修改失败，请检查网络",
+                        closeButton: false
+                    })
+                    return
+                }
+            });
+        }
+    }
 }

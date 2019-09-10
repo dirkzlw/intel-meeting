@@ -357,4 +357,33 @@ public class UserServiceImpl implements UserService {
         }
         else { return "oldUserpwdFalse"; }
     }
+
+    /**
+     * 修改邮箱
+     * @param userId
+     * @param newEmail
+     * @return
+     */
+    @Override
+    public String userEmailReset(Integer userId,String newEmail){
+        User oldeUser = userRepository.findOne(userId);
+        User user2 = userRepository.findByEmail(newEmail);
+        if (user2 == null) {
+            oldeUser.setEmail(newEmail);
+            userRepository.save(oldeUser);
+        }
+        else {
+            return "EmailExist";
+        }
+        return "success";
+    }
+
+    @Override
+    public String HeadUrlReset(Integer userId, String newHeadUrl) {
+        User user = userRepository.findOne(userId);
+        user.setHeadUrl(newHeadUrl);
+        userRepository.save(user);
+
+        return "success";
+    }
 }

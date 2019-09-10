@@ -6,6 +6,7 @@ import com.intel.meeting.po.es.EsUser;
 import com.intel.meeting.service.RoleService;
 import com.intel.meeting.service.UserService;
 import com.intel.meeting.service.es.EsUserService;
+import com.intel.meeting.utils.FastDFSUtils;
 import com.intel.meeting.utils.SessionUtils;
 import com.intel.meeting.utils.UserUtils;
 import com.intel.meeting.vo.*;
@@ -15,6 +16,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -45,6 +47,11 @@ public class UserController {
     private String USER_INIT_PASSWORD;
     @Value("http://39.107.249.220/group1/M00/00/00/rBgo6l1wgf6ACAM5AAA5pzR1Lu8411.jpg")
     private String USER_INIT_HEAD_URL;
+    @Value("${FDFSDFS_CLIENT_PAHT}")
+    private String FDFSDFS_CLIENT_PAHT;
+    @Value("${FDFSDFS_ADDRESS}")
+    private String FDFSDFS_ADDRESS;
+
     /**
      * 跳转到用户管理主页
      *
@@ -115,11 +122,11 @@ public class UserController {
     }
 
     /**
-     * 忘记密码
+     * 重置密码
      * @param email
      * @return
      */
-    @PostMapping("/user/forgetpwd")
+    @PostMapping("/user/resetpwd")
     @ResponseBody
     public  String forgetPwd(String email){
         System.out.println("email = " + email);
@@ -319,5 +326,59 @@ public class UserController {
         }
         else { return "oldUserpwdFalse"; }
     }
+
+    /**
+     * 修改邮箱
+     * @param userId
+     * @param newEmail
+     * @return
+     */
+    @PostMapping("/user/email/reset")
+    @ResponseBody
+    public String userEamilReset(Integer userId,
+                                 String newEmail ){
+
+        System.out.println("userId = " + userId);
+        System.out.println("newEmail = " + newEmail);
+
+        String result = userService.userEmailReset(userId,newEmail);
+
+        if("success".equals(result)){
+
+            EsUser esUser = esUserService.findEsUserById(userId);
+            esUser.setEmail(newEmail);
+            esUserService.save(esUser);
+        }
+
+        return result;
+    }
+
+
+    @PostMapping("/user/headurl/reset")
+    @ResponseBody
+    public String HeadUrlReset(Integer userId,
+                               MultipartFile newHeadUrl,
+                               HttpServletRequest request,
+                               HttpServletResponse response){
+
+        //上传文件至服务器
+        String newUrl = FastDFSUtils.uploadFile(FDFSDFS_CLIENT_PAHT,
+                FDFSDFS_ADDRESS,
+                newHeadUrl);
+        String result="";
+        if(newUrl!=null || !"".equals(newUrl)){
+            result = userService.HeadUrlReset(userId,newUrl);
+        }
+        if("success".equals(result)){
+            SessionUser sessionUser = (SessionUser) SessionUtils.getObjectFromSession(request, "sessionUser");
+            sessionUser.setHeadUrl(newUrl);
+            SessionUtils.saveObjectToSession(request,response,sessionUser,"sessionUser");
+
+            return "success";
+        }
+
+        return "fail";
+    }
+
 }
 

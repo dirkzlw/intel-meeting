@@ -72,6 +72,44 @@
                     </div>
                 </div>
             </div>
+            <div class="modal fade" id="xrenyuan3">
+                <div class="modal-dialog modal-lg modal_position">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title">修改邮箱</h4>
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        </div>
+                        <div class="modal-body">
+                            <input type="text" class="newEmail" id="newEmail" name="newEmail" placeholder="请输入新的邮箱" style="width: 100%"/>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                            <button id="xadd_btn3" type="button" class="btn btn-secondary">确定</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade" id="xrenyuan4">
+                <div class="modal-dialog modal-lg modal_position">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title">修改头像</h4>
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        </div>
+                        <div class="modal-body">
+                                <img style="height: 200px;width: 200px"
+                                        th:src="${umsg.headUrl}" id="img0">
+                            <input style="cursor: pointer"
+                                   type="file" id="file1" multiple
+                                   accept="image/png, image/jpg, image/jpeg, image/bmp" onchange="preImg(this.id,'img0');"/>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                            <button id="xadd_btn4" type="button" class="btn btn-secondary">确定</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
         <!--表格列表-->
         <table id="tb" class="table">
@@ -103,7 +141,7 @@
                 <td>邮箱</td>
                 <td th:text="${umsg.email}"></td>
                 <td>
-                    <a th:id="${umsg.userId}" href="#" class="edit" >修改</a>
+                    <a th:id="${umsg.userId}" href="#" class="emailEdit" >修改</a>
                 </td>
             </tr>
 
@@ -126,7 +164,7 @@
                          th:src="${umsg.headUrl}">
                 </td>
                 <td>
-                    <a th:id="${umsg.userId}" href="#" class="edit" >修改</a>
+                    <a th:id="${umsg.userId}" href="#" class="HeadUrlEdit" >修改</a>
                 </td>
             </tr>
             </tbody>
@@ -147,6 +185,26 @@
     function logout() {
         var href = "/user/logout"
         window.open(href,"_self")
+    }
+    /**
+     * 从 file 域获取 本地图片 url
+     */
+    function getFileUrl(sourceId) {
+        var url;
+        if (navigator.userAgent.indexOf("MSIE")>=1) { // IE
+            url = document.getElementById(sourceId).value;
+        } else if(navigator.userAgent.indexOf("Firefox")>0) { // Firefox
+            url = window.URL.createObjectURL(document.getElementById(sourceId).files.item(0));
+        } else if(navigator.userAgent.indexOf("Chrome")>0) { // Chrome
+            url = window.URL.createObjectURL(document.getElementById(sourceId).files.item(0));
+        }
+        return url;
+    }
+
+    function preImg(sourceId, targetId) {
+        var url = getFileUrl(sourceId);
+        var imgPre = document.getElementById(targetId);
+        imgPre.src = url;
     }
 </script>
 </body>

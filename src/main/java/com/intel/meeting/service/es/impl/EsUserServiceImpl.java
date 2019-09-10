@@ -31,9 +31,8 @@ public class EsUserServiceImpl implements EsUserService {
         esUserRepository.delete(userId);
 
     }
-
     @Override
-    public EsUser findEsUserById(Integer userId) {
+    public EsUser findEsUserById(Integer userId){
         return esUserRepository.findOne(userId);
     }
 }
