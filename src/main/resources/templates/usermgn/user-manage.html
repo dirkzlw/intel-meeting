@@ -36,12 +36,12 @@
                 <div class="search_input">
                     <div class="input-group mb-3">
                         <span>账户：</span>
-                        <input id="smrn" type="text" class="form-control" placeholder="请输入用户名/邮箱">
+                        <input id="smrn" type="text" class="form-control" placeholder="请输入用户名">
                     </div>
                 </div>
                 <div class="search_input">
                     <button class="btn btn-primary search_btn" type="button" id="search_btn">查询</button>
-                    <!--<button th:if="${mrPage.isSearch == 1}" class="btn btn-primary search_btn" type="hidden" id="end_search_btn">结束查询</button>-->
+                    <button th:if="${userPage.isSearch == 1}" class="btn btn-primary search_btn" type="hidden" id="end_search_btn">结束查询</button>
                 </div>
             </div>
             <div class="line"></div>
@@ -232,7 +232,6 @@
 
     //重置密码
     function resetPsw(email) {
-        alert(email);
         $.ajax({
             type: "POST",
             url: "/usermgn/user/resetPsw",
@@ -290,7 +289,7 @@
             })
             return;
         }else {
-            var href = "/to/usermgn/user/search?mrkey=" + mrkey;
+            var href = "/to/control/user/search?mrkey=" + mrkey;
             window.open(href, "_self");
         }
     })

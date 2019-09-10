@@ -17,7 +17,7 @@ public class EsUserServiceImpl implements EsUserService {
     @Override
     public List<EsUser> findEsUserByUsername(String username) {
 
-        return esUserRepository.findByUsername(username);
+        return esUserRepository.findByUsernameContaining(username);
 
     }
 

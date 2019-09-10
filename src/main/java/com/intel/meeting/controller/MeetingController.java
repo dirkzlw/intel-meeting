@@ -107,11 +107,11 @@ public class MeetingController {
     private String searchMeeting(String mrkey,Model model,
                                  HttpServletRequest request){
         List<EsMeetingRoom> emrList = emrService.findEsMeetingRoomByMeetingName(mrkey);
-        List<MeetingRoom> mrList = EmrUtils.emrListToMrList(emrList);
-        MRPage mrPage = new MRPage(mrList,
+//        List<MeetingRoom> mrList = EmrUtils.emrListToMrList(emrList);
+        MRPage mrPage = new MRPage(emrList,
                 1,
                 1,
-                mrList.size(),
+                emrList.size(),
                 1);
         model.addAttribute("mrPage", mrPage);
         UserUtils.setUserIndex(model, request);

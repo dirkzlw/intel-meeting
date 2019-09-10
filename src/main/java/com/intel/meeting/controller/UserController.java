@@ -6,12 +6,10 @@ import com.intel.meeting.po.es.EsUser;
 import com.intel.meeting.service.RoleService;
 import com.intel.meeting.service.UserService;
 import com.intel.meeting.service.es.EsUserService;
+import com.intel.meeting.utils.EuserUtils;
 import com.intel.meeting.utils.SessionUtils;
 import com.intel.meeting.utils.UserUtils;
-import com.intel.meeting.vo.MRPage;
-import com.intel.meeting.vo.RtnIdInfo;
-import com.intel.meeting.vo.SessionUser;
-import com.intel.meeting.vo.UserInfo;
+import com.intel.meeting.vo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
@@ -25,7 +23,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -129,7 +126,6 @@ public class UserController {
     @PostMapping("/user/resetpwd")
     @ResponseBody
     public  String reSetPwd(String email){
-        //String result = userService.reSetPwd(email);
         return "success";
     }
 
@@ -154,6 +150,8 @@ public class UserController {
             SessionUser sessionUser = userToSessionUser(user);
             SessionUtils.saveObjectToSession(request, response, sessionUser, "sessionUser");
         }
+        //同步搜索库
+        esUserService.save(new EsUser(user.getUserId(),user.getUsername(),user.getEmail(),user.getRole().getRoleName()));
         return result;
     }
 
@@ -193,7 +191,6 @@ public class UserController {
         Role role = roleService.findByRoleName(roleName);
         user.setRole(role);
         user.setPassword(USER_INIT_PASSWORD);
-        System.out.println("user:" + user);
         String result = userService.saveUser(user);
         UserInfo userInfo =new UserInfo(user.getUsername(),user.getEmail(),user.getRole().getRoleName(),result);
         userInfo.setUserId(user.getUserId());
@@ -234,21 +231,22 @@ public class UserController {
     /**
      * 根据用户名进行查询
      */
-//    @GetMapping("/to/control/user/search")
-//    public String searchUser(String mrkey,Model model,
-//                        HttpServletRequest request){
-////        List<EsUser> esUserList = esUserService.findEsUserByUsername(mrkey);
-//////        List<User> userList = EuserUtils.esUserListToMrList(esUserList);
-////        UserPage userPage = new UserPage(userList,
-////                1,
-////                1,
-////                userList.size(),
-////                1);
-////        model.addAttribute("mrPage", userPage);
-////        UserUtils.setUserIndex(model, request);
-////        return "usermgn/user-manage";
-//
-//    }
+    @GetMapping("/to/control/user/search")
+    public String searchUser(String mrkey,Model model,
+                        HttpServletRequest request){
+        List<Role> roleList = roleService.findAllRoles();
+        List<EsUser> esUserList = esUserService.findEsUserByUsername(mrkey);
+        MRPage userPage = new MRPage(esUserList,
+                1,
+                1,
+                esUserList.size(),
+                1);
+        model.addAttribute("userPage", userPage);
+        model.addAttribute("roleList", roleList);
+        UserUtils.setUserIndex(model, request);
+        return "usermgn/user-manage";
+
+    }
 
 
     /**
