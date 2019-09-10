@@ -11,7 +11,6 @@ $(function () {  //jquery里的,是当文档载入完毕就执行的意思
     })
 
 
-
     $('#xadd_btn2').click(function () {//只有在页面加载的时候才会有效触发
         methods.xaddHandle2()
     })
@@ -48,6 +47,24 @@ var methods = {
                 },
                 dataType: "text", //return dataType: text or json
                 success: function (json) {
+                    if (json == "success") {
+                        bootbox.alert({
+                            title: "来自智能会议室的提示",
+                            message: "修改用户名成功",
+                            closeButton: false
+                        })
+                        $('#xrenyuan').modal('hide');
+                        window.open("/to/user/msg?userId=" + userId, "_self")
+                        return
+                    }
+                    else if (json == "userNameExist") {
+                        bootbox.alert({
+                            title: "来自智能会议室的提示",
+                            message: "修改用户名失败，用户名已存在",
+                            closeButton: false
+                        })
+                        return
+                    }
                 },
                 error: function (json) {
                     bootbox.alert({
@@ -81,23 +98,26 @@ var methods = {
             return;
         }
         if (addEnter) {
+            var oldUserpwd = $('.oldUserpwd').val().trim();
             var newUserpwd = $('.newUserpwd').val().trim();
+            var newUserpwd2 = $('.newUserpwd2').val().trim();
             // ajax 修改密码
             $.ajax({
                 type: "POST",
-                url: "xxx",
+                url: "/user/userpwd/reset",
                 data: {
                     'userId': userId,
-                    'newUserpwd': newUserpwd
+                    'oldUserpwd': oldUserpwd,
+                    'newUserpwd': newUserpwd,
+                    'newUserpwd2': newUserpwd2
                 },
                 dataType: "text", //return dataType: text or json
                 success: function (json) {
-
                 },
                 error: function (json) {
                     bootbox.alert({
                         title: "来自智能会议室的提示",
-                        message: "添加失败，请检查网络",
+                        message: "修改失败，请检查网络",
                         closeButton: false
                     })
                     return
@@ -106,14 +126,32 @@ var methods = {
         }
     },
     xcheckMustMes2: function () {
-
-        //确定预约三日内会议室
+        //确定修改密码时填入数据是否为空
+        var oldUserpwd = $('.oldUserpwd').val().trim()
         var newUserpwd = $('.newUserpwd').val().trim()
-        //var newUserpwd2 = $('.newUserpwd2').val().trim()
-        if (newUserpwd === '') {
+        var newUserpwd2 = $('.newUserpwd2').val().trim()
+        if (oldUserpwd === '') {
+            bootbox.alert({
+                title: "来自智能会议室的提示",
+                message: "旧密码为必选项，请填写",
+                closeButton: false
+            })
+            hasNullMes = true;
+            return
+        }
+        else if (newUserpwd === '') {
             bootbox.alert({
                 title: "来自智能会议室的提示",
                 message: "新密码为必选项，请填写",
+                closeButton: false
+            })
+            hasNullMes = true;
+            return
+        }
+        else if (newUserpwd2 === '') {
+            bootbox.alert({
+                title: "来自智能会议室的提示",
+                message: "再次输入密码为必选项，请填写",
                 closeButton: false
             })
             hasNullMes = true;

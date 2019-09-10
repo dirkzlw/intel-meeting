@@ -127,7 +127,7 @@ public class UserServiceImpl implements UserService {
         System.out.println("usernameoremail = " + usernameoremail);
         System.out.println("password = " + password);
         List<User> userList = userRepository.findDistinctByUsernameOrEmail(usernameoremail, usernameoremail);
-        if (userList == null) {
+        if (userList == null || userList.size() == 0) {
             return "NotExist";
         } else {
             for (User user : userList) {
@@ -314,10 +314,17 @@ public class UserServiceImpl implements UserService {
         userRepository.save(user);
     }
 
+    /**
+     *  修改用户名
+     */
+    @Override
     public String userNameReset(Integer userId, String newUsername){
 
         User oldUser = userRepository.findOne(userId);
         User user1 = userRepository.findByUsername(newUsername);
+
+        System.out.println("oldUser = " + oldUser);
+        System.out.println("user1 = " + user1);
 
         if (user1 == null){
             oldUser.setUsername(newUsername);
@@ -326,6 +333,26 @@ public class UserServiceImpl implements UserService {
         else {
             return "userNameExist";
         }
+        return "success";
+    }
+
+    /**
+     * 修改密码
+     * @param userId
+     * @param oldUserpwd
+     * @param newUserpwd
+     * @param newUserpwd2
+     * @return
+     */
+    @Override
+    public String userPwdReset(Integer userId, String oldUserpwd, String newUserpwd, String newUserpwd2){
+
+        //User oldUser = userRepository.findOne(userId);
+
+       // if (oldUserpwd.equals(oldUser.getPassword())){
+
+      //  }
+
         return "success";
     }
 }

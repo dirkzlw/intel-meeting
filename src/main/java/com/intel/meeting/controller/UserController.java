@@ -6,7 +6,6 @@ import com.intel.meeting.po.es.EsUser;
 import com.intel.meeting.service.RoleService;
 import com.intel.meeting.service.UserService;
 import com.intel.meeting.service.es.EsUserService;
-import com.intel.meeting.utils.EuserUtils;
 import com.intel.meeting.utils.SessionUtils;
 import com.intel.meeting.utils.UserUtils;
 import com.intel.meeting.vo.*;
@@ -15,10 +14,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -248,7 +244,6 @@ public class UserController {
 
     }
 
-
     /**
      * 将User转换为SessionUser
      *
@@ -263,8 +258,11 @@ public class UserController {
         return sessionUser;
     }
 
-
-
+    /**
+     * 退出登录
+     * @param request
+     * @return
+     */
     @GetMapping("/user/logout")
     public String logout(HttpServletRequest request) {
         System.out.println("....");
@@ -273,37 +271,53 @@ public class UserController {
         for (Cookie cookie : cookies) {
             cookie.setMaxAge(0);
         }
-
         request.getSession().removeAttribute("sessionUser");
-
         return "redirect:/index";
     }
 
+    /**
+     *修改用户名
+     */
     @PostMapping("/user/username/reset")
+    @ResponseBody
     public String usernameReset(Integer userId,
-                                String newUsername){
+                                String newUsername,
+                                HttpServletRequest request,
+                                HttpServletResponse response){
 
         System.out.println("userId = " + userId);
         System.out.println("newUsername = " + newUsername);
 
         String result = userService.userNameReset(userId,newUsername);
         if ( "success".equals(result)){
-//            SessionUser sessionUser =
-//            SessionUser sessionUser = (SessionUser) SessionUtils.getObjectFromSession(request, "sessionUser");
-//            User user = userService.findUserById(sessionUser.getUserId());
-//            model.addAttribute("umsg",user);
-//
-//            UserUtils.setUserIndex(model,request);
-//
-//            return "user/user-msg";
-//            //将User转换为SessionUser
-//            SessionUser sessionUser = userToSessionUser(user);
-//
-//            SessionUtils.saveObjectToSession(request, response, sessionUser, "sessionUser");
+            System.out.println(" success " );
+            SessionUser sessionUser = (SessionUser) SessionUtils.getObjectFromSession(request, "sessionUser");
+            sessionUser.setUsername(newUsername);
+            SessionUtils.saveObjectToSession(request,response,sessionUser,"sessionUser");
+            return "success";
+        } else{
+            return "userNameExist";
         }
-
-
-        return "redirect:/to/user/msg?userId="+userId;
     }
 
+    /**
+     *修改密码
+     */
+    @PostMapping("/user/userpwd/reset")
+    @ResponseBody
+    public String userpwdReset(Integer userId,
+                                String oldUserpwd,
+                                String newUserpwd,
+                                String newUserpwd2,
+                                HttpServletRequest request,
+                                HttpServletResponse response){
+
+        System.out.println("userId = " + userId);
+        System.out.println("oldUserpwd = " + oldUserpwd);
+        System.out.println("newUserpwd = " + newUserpwd);
+        System.out.println("newUserpwd2 = " + newUserpwd2);
+
+
+        return "success";
+    }
 }
