@@ -100,7 +100,6 @@ var methods = {
         if (addEnter) {
             var oldUserpwd = $('.oldUserpwd').val().trim();
             var newUserpwd = $('.newUserpwd').val().trim();
-            var newUserpwd2 = $('.newUserpwd2').val().trim();
             // ajax 修改密码
             $.ajax({
                 type: "POST",
@@ -108,11 +107,28 @@ var methods = {
                 data: {
                     'userId': userId,
                     'oldUserpwd': oldUserpwd,
-                    'newUserpwd': newUserpwd,
-                    'newUserpwd2': newUserpwd2
+                    'newUserpwd': newUserpwd
                 },
                 dataType: "text", //return dataType: text or json
                 success: function (json) {
+                    if (json == "success") {
+                        bootbox.alert({
+                            title: "来自智能会议室的提示",
+                            message: "修改密码成功",
+                            closeButton: false
+                        })
+                        $('#xrenyuan2').modal('hide');
+                        window.open("/to/user/msg?userId=" + userId, "_self")
+                        return
+                    }
+                    else if (json == "oldUserpwdFalse") {
+                        bootbox.alert({
+                            title: "来自智能会议室的提示",
+                            message: "修改密码失败，原密码输入错误",
+                            closeButton: false
+                        })
+                        return
+                    }
                 },
                 error: function (json) {
                     bootbox.alert({
@@ -126,7 +142,7 @@ var methods = {
         }
     },
     xcheckMustMes2: function () {
-        //确定修改密码时填入数据是否为空
+        //确定修改密码时填入的数据是否为空，两次密码是否一致
         var oldUserpwd = $('.oldUserpwd').val().trim()
         var newUserpwd = $('.newUserpwd').val().trim()
         var newUserpwd2 = $('.newUserpwd2').val().trim()
@@ -152,6 +168,24 @@ var methods = {
             bootbox.alert({
                 title: "来自智能会议室的提示",
                 message: "再次输入密码为必选项，请填写",
+                closeButton: false
+            })
+            hasNullMes = true;
+            return
+        }
+        else if (newUserpwd !== newUserpwd2) {
+            bootbox.alert({
+                title: "来自智能会议室的提示",
+                message: "两次新密码不一致，请重新填写",
+                closeButton: false
+            })
+            hasNullMes = true;
+            return
+        }
+        else if (oldUserpwd === newUserpwd) {
+            bootbox.alert({
+                title: "来自智能会议室的提示",
+                message: "新旧密码不能相等，请重新填写",
                 closeButton: false
             })
             hasNullMes = true;

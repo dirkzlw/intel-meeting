@@ -342,18 +342,18 @@ public class UserServiceImpl implements UserService {
      * @param userId
      * @param oldUserpwd
      * @param newUserpwd
-     * @param newUserpwd2
      * @return
      */
     @Override
-    public String userPwdReset(Integer userId, String oldUserpwd, String newUserpwd, String newUserpwd2){
+    public String userPwdReset(Integer userId, String oldUserpwd, String newUserpwd){
 
-        //User oldUser = userRepository.findOne(userId);
+        User oldUser = userRepository.findOne(userId);
 
-       // if (oldUserpwd.equals(oldUser.getPassword())){
-
-      //  }
-
-        return "success";
+        if (oldUser.getPassword().equals(MD5Utils.md5(oldUserpwd))){
+            oldUser.setPassword(MD5Utils.md5(newUserpwd));
+            userRepository.save(oldUser);
+            return "success";
+        }
+        else { return "oldUserpwdFalse"; }
     }
 }

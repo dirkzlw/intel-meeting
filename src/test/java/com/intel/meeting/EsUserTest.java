@@ -36,7 +36,7 @@ public class EsUserTest {
     }
     @Test
     public  void testA(){
-        List<EsUser> esUsersList = esUserRepository.findByUsername("slp");
+        List<EsUser> esUsersList = esUserRepository.findByUsernameContaining("slp");
         System.out.println("wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww");
         for(EsUser esUser: esUsersList){
             System.out.println(esUser);

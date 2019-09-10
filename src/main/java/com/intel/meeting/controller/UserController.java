@@ -207,7 +207,7 @@ public class UserController {
 
         String result = userService.delUser(userId);
 
-//        //同步es
+       //同步es
         esUserService.delEsUserById(userId);
 
         return result;
@@ -290,6 +290,11 @@ public class UserController {
 
         String result = userService.userNameReset(userId,newUsername);
         if ( "success".equals(result)){
+            //修改用户名后 同步es库
+            EsUser esUser = esUserService.findEsUserById(userId);
+            esUser.setUsername(newUsername);
+            esUserService.save(esUser);
+
             System.out.println(" success " );
             SessionUser sessionUser = (SessionUser) SessionUtils.getObjectFromSession(request, "sessionUser");
             sessionUser.setUsername(newUsername);
@@ -305,19 +310,18 @@ public class UserController {
      */
     @PostMapping("/user/userpwd/reset")
     @ResponseBody
-    public String userpwdReset(Integer userId,
-                                String oldUserpwd,
-                                String newUserpwd,
-                                String newUserpwd2,
-                                HttpServletRequest request,
-                                HttpServletResponse response){
+    public String userpwdReset(Integer userId, String oldUserpwd, String newUserpwd){
 
         System.out.println("userId = " + userId);
         System.out.println("oldUserpwd = " + oldUserpwd);
         System.out.println("newUserpwd = " + newUserpwd);
-        System.out.println("newUserpwd2 = " + newUserpwd2);
 
-
-        return "success";
+        String result = userService.userPwdReset(userId,oldUserpwd,newUserpwd);
+        if ("success".equals(result)){
+            System.out.println("result = " + result);
+            return "success";
+        }
+        else { return "oldUserpwdFalse"; }
     }
 }
+

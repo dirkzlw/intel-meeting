@@ -42,5 +42,5 @@ public interface UserService {
 
     String userNameReset(Integer userId, String newUsername);
 
-    String userPwdReset(Integer userId, String oldUserpwd, String newUserpwd, String newUserpwd2);
+    String userPwdReset(Integer userId, String oldUserpwd, String newUserpwd);
 }
