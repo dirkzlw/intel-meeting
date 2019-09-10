@@ -7,9 +7,12 @@ import com.intel.meeting.service.RecordService;
 import com.intel.meeting.service.ReserveMeetingService;
 import com.intel.meeting.service.UserService;
 import com.intel.meeting.utils.DateUtils;
+import com.intel.meeting.vo.GraphInfo;
 import com.intel.meeting.vo.SessionUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -31,6 +34,8 @@ public class RecordConfig {
     private UserService userService;
     @Autowired
     private RecordService recordService;
+    @Autowired
+    private RedisTemplate<String, Object> redisTemplate;
 
     @Value("${INIT_SIGN_TIME}")
     private String INIT_SIGN_TIME;
@@ -39,8 +44,8 @@ public class RecordConfig {
      * 测试：每30秒钟执行一次
      * 上线：每3小时执行一次
      */
-    @Scheduled(cron = "0 0 * * * ?")
-//    @Scheduled(cron = "0 0 */3 * * ?")
+//    @Scheduled(cron = "*/30 * * * * ?")
+    @Scheduled(cron = "0 0 */3 * * ?")
     public void cleanReserveMeeting() {
         List<ReserveMeeting> rmList = rmService.finAllReserveMeeting();
         for (ReserveMeeting rm : rmList) {
@@ -64,5 +69,7 @@ public class RecordConfig {
                 rmService.delReserveMeetingById(rm.getReserveId());
             }
         }
+        //清除redis上的缓存
+        redisTemplate.delete("graphRedis");
     }
 }

@@ -1,6 +1,7 @@
 package com.intel.meeting.service;
 
 import com.intel.meeting.po.Record;
+import com.intel.meeting.vo.GraphInfo;
 import org.springframework.data.domain.Page;
 
 /**
@@ -17,4 +18,7 @@ public interface RecordService {
     String getSignRate();
 
     long getReserveNumOfWeek(int i);
+
+    GraphInfo getGraphInfo();
+
 }

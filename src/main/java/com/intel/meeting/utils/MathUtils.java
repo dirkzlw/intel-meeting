@@ -20,11 +20,8 @@ public class MathUtils {
      * @return
      */
     public static String getRate(long zi, long mu) {
-        System.out.println("zi = " + zi);
-        System.out.println("mu = " + mu);
-        long rate = zi * 100 / mu ;
+        double rate = zi * 100.00 / mu ;
         String rtn = df.format(rate);
-        System.out.println("rtn = " + rtn);
         return rtn;
     }
 }

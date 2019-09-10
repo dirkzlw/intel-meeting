@@ -19,6 +19,7 @@ import com.intel.meeting.vo.SessionUser;
 import com.intel.meeting.vo.UserIndex;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -49,6 +50,8 @@ public class ReserveMeetingController {
     private ReserveMeetingService rmService;
     @Autowired
     private RecordService recordService;
+    @Autowired
+    private RedisTemplate<String, Object> redisTemplate;
 
     @Value("${INIT_SIGN_TIME}")
     private String INIT_SIGN_TIME;
@@ -125,6 +128,8 @@ public class ReserveMeetingController {
                             INIT_SIGN_TIME,
                             userService,
                             recordService);
+                    //清除redis上的缓存
+                    redisTemplate.delete("graphRedis");
                 }
             }).start();
         }
@@ -168,6 +173,8 @@ public class ReserveMeetingController {
                             INIT_SIGN_TIME,
                             userService,
                             recordService);
+                    //清除redis上的缓存
+                    redisTemplate.delete("graphRedis");
                 }
             }
         }).start();
