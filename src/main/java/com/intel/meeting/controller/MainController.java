@@ -91,7 +91,7 @@ public class MainController {
         if (!"".equals(searchDay) && !"".equals(searchStart) && !"".equals(searchEnd)) {
             long searchStartL = DateUtils.stringToTime(searchDay + " " + searchStart);
             long searchEndL = DateUtils.stringToTime(searchDay + " " + searchEnd);
-            mainList = MainMrUtils.indexSearch(mrList, searchStartL, searchEndL,searchDay);
+            mainList = MainMrUtils.indexSearch(mrList, searchStartL, searchEndL, searchDay);
         } else {
             mainList = MainMrUtils.mrListToMainMrList(mrList);
         }
@@ -148,6 +148,16 @@ public class MainController {
         model.addAttribute("authStatus3", n3);
         UserUtils.setUserIndex(model, request);
         return "usermgn/index";
+    }
+
+    /**
+     * 跳转至异常处理界面
+     *
+     * @return
+     */
+    @GetMapping("/to/error")
+    public String toError() {
+        return "index/error";
     }
 
 }
