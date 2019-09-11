@@ -117,8 +117,8 @@ public class UserController {
     /**
      * 验证用户名和邮箱的重复性
      *
-     * @param username
-     * @param email
+     * @param username 用户名
+     * @param email 邮箱
      * @return
      */
     @PostMapping("/user/getcode")
@@ -149,8 +149,8 @@ public class UserController {
     /**
      * 注册功能
      *
-     * @param user
-     * @param code
+     * @param user 用户对象
+     * @param code 验证码
      * @return
      */
     @PostMapping("/user/register")
@@ -175,8 +175,8 @@ public class UserController {
     /**
      * 登陆功能
      *
-     * @param usernameoremail
-     * @param password
+     * @param usernameoremail 用户名或邮箱
+     * @param password 密码
      * @return
      */
     @PostMapping("/user/login")
@@ -367,8 +367,8 @@ public class UserController {
 
     /**
      * 修改邮箱
-     * @param userId
-     * @param newEmail
+     * @param userId 用户ID
+     * @param newEmail 用户修改后邮箱
      * @return
      */
     @PostMapping("/user/email/reset")
@@ -391,7 +391,14 @@ public class UserController {
         return result;
     }
 
-
+    /**
+     * 修改头像
+     * @param userId 用户ID
+     * @param newHeadUrl 用户新头像
+     * @param request
+     * @param response
+     * @return
+     */
     @PostMapping("/user/headurl/reset")
     @ResponseBody
     public String HeadUrlReset(Integer userId,
