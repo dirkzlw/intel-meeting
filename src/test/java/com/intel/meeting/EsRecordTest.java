@@ -4,6 +4,7 @@ import com.intel.meeting.po.Record;
 import com.intel.meeting.po.es.EsRecord;
 import com.intel.meeting.repository.es.EsRecordRepository;
 import com.intel.meeting.service.RecordService;
+import com.intel.meeting.service.es.EsRecordService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +23,8 @@ public class EsRecordTest {
     private RecordService recordService;
     @Autowired
     private EsRecordRepository esRecordRepository;
-
+    @Autowired
+    private EsRecordService esRecordService;
     @Test
     public void test(){
         esRecordRepository.deleteAll();
@@ -30,19 +32,20 @@ public class EsRecordTest {
         EsRecord esRecord = new EsRecord(null,null,null,null,null,null,null);
         for (Record record:recordList){
             esRecord.setRecordId(record.getRecordId());
-            esRecord.setUsername(record.getUsername());
+            esRecord.setRealname(record.getRealname());
             esRecord.setMeetingAddress(record.getMeetingAddress());
             esRecord.setStartTime(record.getStartTime());
             esRecord.setEndTime(record.getEndTime());
             esRecord.setSignTime(record.getSignTime());
             esRecord.setUsageStatus(record.getUsageStatus());
             esRecordRepository.save(esRecord);
+
         }
     }
 
     @Test
     public  void testA(){
-        List<EsRecord> esRecordList = esRecordRepository.findDistinctByUsernameContainingOrMeetingAddressContaining("zlw","zlw");
+        List<EsRecord> esRecordList = esRecordRepository.findDistinctByRealnameContainingOrMeetingAddressContaining("zlw","zlw");
         for(EsRecord esRecord: esRecordList){
             System.out.println(esRecord);
         }

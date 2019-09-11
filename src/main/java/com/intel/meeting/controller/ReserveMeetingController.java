@@ -4,10 +4,12 @@ import com.intel.meeting.po.MeetingRoom;
 import com.intel.meeting.po.Record;
 import com.intel.meeting.po.ReserveMeeting;
 import com.intel.meeting.po.User;
+import com.intel.meeting.po.es.EsRecord;
 import com.intel.meeting.service.MeetingRoomService;
 import com.intel.meeting.service.RecordService;
 import com.intel.meeting.service.ReserveMeetingService;
 import com.intel.meeting.service.UserService;
+import com.intel.meeting.service.es.EsRecordService;
 import com.intel.meeting.utils.DateUtils;
 import com.intel.meeting.utils.ReserveMeetingUtiles;
 import com.intel.meeting.utils.SessionUtils;
@@ -51,6 +53,8 @@ public class ReserveMeetingController {
     private RecordService recordService;
     @Autowired
     private RedisTemplate<String, Object> redisTemplate;
+    @Autowired
+    private EsRecordService esRecordService;
 
     @Value("${INIT_SIGN_TIME}")
     private String INIT_SIGN_TIME;
@@ -206,7 +210,7 @@ public class ReserveMeetingController {
      * @param userService
      * @param recordService
      */
-    private static void rmMoveToRecord(Integer reserveId,
+    private void rmMoveToRecord(Integer reserveId,
                                        ReserveMeetingService rmService,
                                        String INIT_SIGN_TIME,
                                        UserService userService,
@@ -228,6 +232,14 @@ public class ReserveMeetingController {
         }
         //保存记录，删除预定
         recordService.saveRecord(record);
+        EsRecord esRecord=new EsRecord(record.getRecordId(),
+                reserveMeeting.getMeetingRoom().getMeetingName(),
+                reserveUser.getUsername(),
+                reserveMeeting.getStartTime(),
+                reserveMeeting.getEndTime(),
+                reserveMeeting.getSignTime(),
+                reserveMeeting.getUsageStatus());
+        esRecordService.save(esRecord);
         rmService.delReserveMeetingById(reserveId);
     }
 }

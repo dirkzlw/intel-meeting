@@ -14,9 +14,23 @@ public class EsRecordServiceimpl implements EsRecordService {
     @Autowired
     private EsRecordRepository esRecordRepository;
 
+    /**
+     * 根据会议室或者用户名进行查询
+     * @param meetingName
+     * @return
+     */
     @Override
-    public List<EsRecord> findDistinctByUsernameContainingOrMeetingNameContaining(String meetingName) {
-        return esRecordRepository.findDistinctByUsernameContainingOrMeetingAddressContaining(meetingName,
+    public List<EsRecord> findDistinctByRealnameContainingOrMeetingAddressContaining(String meetingName) {
+        return esRecordRepository.findDistinctByRealnameContainingOrMeetingAddressContaining(meetingName,
                 meetingName);
     }
+    /**
+     * 保存记录
+     */
+    @Override
+    public void save(EsRecord esRecord){
+        esRecordRepository.save(esRecord);
+    }
+
+
 }

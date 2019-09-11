@@ -72,7 +72,7 @@
             <tbody id="show_tbody">
             <tr th:each="record : ${recordPage.mrList}" >
                 <td th:text="${record.meetingAddress}"></td>
-                <td th:text="${record.username}"></td>
+                <td th:text="${record.realname}"></td>
                 <td th:text="${record.startTime}"></td>
                 <td th:utext="${record.endTime}"></td>
                 <td th:if="${record.signTime} eq '0000-00-00 00:00'">未签到</td>

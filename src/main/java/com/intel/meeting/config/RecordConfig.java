@@ -3,9 +3,12 @@ package com.intel.meeting.config;
 import com.intel.meeting.po.Record;
 import com.intel.meeting.po.ReserveMeeting;
 import com.intel.meeting.po.User;
+import com.intel.meeting.po.es.EsRecord;
+import com.intel.meeting.repository.es.EsRecordRepository;
 import com.intel.meeting.service.RecordService;
 import com.intel.meeting.service.ReserveMeetingService;
 import com.intel.meeting.service.UserService;
+import com.intel.meeting.service.es.EsRecordService;
 import com.intel.meeting.utils.DateUtils;
 import com.intel.meeting.vo.GraphInfo;
 import com.intel.meeting.vo.SessionUser;
@@ -36,6 +39,8 @@ public class RecordConfig {
     private RecordService recordService;
     @Autowired
     private RedisTemplate<String, Object> redisTemplate;
+    @Autowired
+    private EsRecordService esRecordService;
 
     @Value("${INIT_SIGN_TIME}")
     private String INIT_SIGN_TIME;
@@ -66,6 +71,14 @@ public class RecordConfig {
                 }
                 //保存记录，删除预定
                 recordService.saveRecord(record);
+                EsRecord esRecord=new EsRecord(record.getRecordId(),
+                        rm.getMeetingRoom().getMeetingName(),
+                        reserveUser.getUsername(),
+                        rm.getStartTime(),
+                        rm.getEndTime(),
+                        rm.getSignTime(),
+                        rm.getUsageStatus());
+                esRecordService.save(esRecord);
                 rmService.delReserveMeetingById(rm.getReserveId());
             }
         }

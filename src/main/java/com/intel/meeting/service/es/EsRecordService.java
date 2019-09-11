@@ -6,5 +6,8 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 public interface EsRecordService {
-    List<EsRecord> findDistinctByUsernameContainingOrMeetingNameContaining(String meetingName);
+    List<EsRecord> findDistinctByRealnameContainingOrMeetingAddressContaining(String meetingName);
+
+    void save(EsRecord esRecord);
+
 }

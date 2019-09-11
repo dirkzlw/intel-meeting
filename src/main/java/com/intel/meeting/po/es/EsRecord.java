@@ -12,7 +12,7 @@ public class EsRecord {
     @Id
     private Integer recordId;
     private String meetingAddress;
-    private String username;
+    private String realname;
     private String startTime;
     private String endTime;
     private String signTime;
@@ -20,10 +20,10 @@ public class EsRecord {
 
     protected EsRecord(){}
 
-    public EsRecord(Integer recordId, String meetingAddress, String username, String startTime, String endTime, String signTime, Integer usageStatus) {
+    public EsRecord(Integer recordId, String meetingAddress, String realname, String startTime, String endTime, String signTime, Integer usageStatus) {
         this.recordId = recordId;
         this.meetingAddress = meetingAddress;
-        this.username = username;
+        this.realname = realname;
         this.startTime = startTime;
         this.endTime = endTime;
         this.signTime = signTime;
