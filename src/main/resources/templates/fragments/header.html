@@ -17,7 +17,7 @@
         </div>
         <!--登录/注册-->
         <div style="display: inline;margin-left: 90%;position: relative ;top: -55px">
-            <a th:if="${user.userId} == null" th:href="@{/to/user/login?#}"style="font-size: 25px">登录</a>
+            <a th:if="${user.userId} == null" th:href="@{/to/user/login}"style="font-size: 25px">登录</a>
             <a th:if="${user.userId} != null" th:href="@{/to/user/msg(userId=${user.userId})}">
                 <img style="
                     position: relative;

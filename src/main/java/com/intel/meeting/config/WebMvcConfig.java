@@ -33,7 +33,7 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
                         "/to/user/contact");
         //对管理员进行拦截
         AdminInterceptor adminRoot = new AdminInterceptor();
-        //对用户实现拦截：
+        //对用户实现拦截：用户管理、控制中心
         registry.addInterceptor(adminRoot)
                 .addPathPatterns("/to/usermgn",
                         "/to/control");

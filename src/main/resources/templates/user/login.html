@@ -88,6 +88,11 @@
 <script src="/control/js/ajax.js"></script>
 <script src="/user/js/script.js"></script>
 <script type="text/javascript">
+    window.onload = function(){
+        window.open("/to/user/login?#", "_self");
+    }
+</script>
+<script type="text/javascript">
 
     function checkemail() {
         var emreg = /^[a-zA-Z0-9]([a-zA-Z0-9_]{2,20})@([a-z0-9]{1,10})([.]{1})([a-z]{2,4})$/;
