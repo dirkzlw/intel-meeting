@@ -13,10 +13,8 @@ import com.intel.meeting.service.es.EsRecordService;
 import com.intel.meeting.utils.DateUtils;
 import com.intel.meeting.utils.ReserveMeetingUtiles;
 import com.intel.meeting.utils.SessionUtils;
-import com.intel.meeting.utils.UserUtils;
 import com.intel.meeting.vo.MainMr;
 import com.intel.meeting.vo.ReserveMeetingInfo;
-import com.intel.meeting.vo.RtnIdInfo;
 import com.intel.meeting.vo.SessionUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -28,9 +26,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
-import java.text.SimpleDateFormat;
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -76,7 +72,7 @@ public class ReserveMeetingController {
         //根据预定顺序排序
         Collections.sort(rmiList);
         model.addAttribute("rmiList", rmiList);
-        UserUtils.setUserIndex(model, request);
+        SessionUtils.setUserIndex(model, request);
 
         return "user/reserve-center";
     }
@@ -99,6 +95,9 @@ public class ReserveMeetingController {
                                  String endTime,
                                  HttpServletRequest request) {
         SessionUser sessionUser = (SessionUser) request.getSession().getAttribute("sessionUser");
+        if(sessionUser == null){
+            return new MainMr("notLogin");
+        }
         boolean isBlack = userService.isBlackList(sessionUser.getUserId());
         User user = userService.findUserById(sessionUser.getUserId());
         if (user.getUserAuth() == null) {

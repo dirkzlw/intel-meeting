@@ -4,7 +4,7 @@ import com.intel.meeting.po.MeetingRoom;
 import com.intel.meeting.po.es.EsMeetingRoom;
 import com.intel.meeting.service.MeetingRoomService;
 import com.intel.meeting.service.es.EsMeetingRoomService;
-import com.intel.meeting.utils.UserUtils;
+import com.intel.meeting.utils.SessionUtils;
 import com.intel.meeting.vo.MRPage;
 import com.intel.meeting.vo.RtnIdInfo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,7 +55,7 @@ public class MeetingController {
                 (int) mrPage.getTotalElements(),
                 2);
         model.addAttribute("mrPage", mrPageInfo);
-        UserUtils.setUserIndex(model, request);
+        SessionUtils.setUserIndex(model, request);
         return "control/meeting-manage";
     }
 
@@ -113,7 +113,7 @@ public class MeetingController {
                 emrList.size(),
                 1);
         model.addAttribute("mrPage", mrPage);
-        UserUtils.setUserIndex(model, request);
+        SessionUtils.setUserIndex(model, request);
         return "control/meeting-manage";
     }
 

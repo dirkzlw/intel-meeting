@@ -6,7 +6,6 @@ import com.intel.meeting.service.UserAuthService;
 import com.intel.meeting.service.UserService;
 import com.intel.meeting.utils.FastDFSUtils;
 import com.intel.meeting.utils.SessionUtils;
-import com.intel.meeting.utils.UserUtils;
 import com.intel.meeting.vo.MRPage;
 import com.intel.meeting.vo.SessionUser;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,7 +51,7 @@ public class UserAuthController {
                              HttpServletRequest request) {
         SessionUser sessionUser = (SessionUser) SessionUtils.getObjectFromSession(request, "sessionUser");
         User user = userService.findUserById(sessionUser.getUserId());
-        UserUtils.setUserIndex(model, request);
+        SessionUtils.setUserIndex(model, request);
         if(user.getUserAuth() != null){
             //获取认证状态 通过--审核--未通过
             model.addAttribute("authStatus", user.getUserAuth().getAuthStatus());
@@ -70,7 +69,7 @@ public class UserAuthController {
         UserAuth userAuth = userService.findUserById(userId).getUserAuth();
 
         model.addAttribute("userAuth", userAuth);
-        UserUtils.setUserIndex(model, request);
+        SessionUtils.setUserIndex(model, request);
         return "user/auth-edit";
     }
 
@@ -173,7 +172,7 @@ public class UserAuthController {
                 (int) userAuthPage.getTotalElements(),
                 2);
         model.addAttribute("authPage", mrPageInfo);
-        UserUtils.setUserIndex(model, request);
+        SessionUtils.setUserIndex(model, request);
         return "usermgn/auth-check";
     }
 

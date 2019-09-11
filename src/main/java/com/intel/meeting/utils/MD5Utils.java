@@ -23,8 +23,5 @@ public class MD5Utils {
 		}
 		return md5code;
 	}
-	public static void main(String[] args){
-        System.out.println(md5("123"));
-	}
 
 }

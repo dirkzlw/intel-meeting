@@ -5,8 +5,9 @@ import com.intel.meeting.service.MeetingRoomService;
 import com.intel.meeting.service.UserAuthService;
 import com.intel.meeting.service.UserService;
 import com.intel.meeting.utils.DateUtils;
+import com.intel.meeting.utils.HttpUtils;
 import com.intel.meeting.utils.MainMrUtils;
-import com.intel.meeting.utils.UserUtils;
+import com.intel.meeting.utils.SessionUtils;
 import com.intel.meeting.vo.MRPage;
 import com.intel.meeting.vo.MainMr;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,7 +61,7 @@ public class MainController {
                 (int) mrPage.getTotalElements(),
                 2);
         model.addAttribute("mainMrPage", mrPageInfo);
-        UserUtils.setUserIndex(model, request);
+        SessionUtils.setUserIndex(model, request);
         return "index/index";
     }
 
@@ -102,7 +103,7 @@ public class MainController {
                 mainList.size(),
                 1);
         model.addAttribute("mainMrPage", mrPageInfo);
-        UserUtils.setUserIndex(model, request);
+        SessionUtils.setUserIndex(model, request);
         return "index/index";
     }
 
@@ -121,7 +122,7 @@ public class MainController {
         model.addAttribute("freeNum", freeNum);
         model.addAttribute("downNum", downNum);
 
-        UserUtils.setUserIndex(model, request);
+        SessionUtils.setUserIndex(model, request);
         return "control/index";
     }
 
@@ -146,7 +147,7 @@ public class MainController {
         model.addAttribute("authStatus1", n1);
         model.addAttribute("authStatus2", n2);
         model.addAttribute("authStatus3", n3);
-        UserUtils.setUserIndex(model, request);
+        SessionUtils.setUserIndex(model, request);
         return "usermgn/index";
     }
 
@@ -156,7 +157,10 @@ public class MainController {
      * @return
      */
     @GetMapping("/to/error")
-    public String toError() {
+    public String toError(Model model,Integer errorCode) {
+        String errorMsg = HttpUtils.getMessageByCode(errorCode);
+        model.addAttribute("errorCode", errorCode);
+        model.addAttribute("errorMsg", errorMsg);
         return "index/error";
     }
 

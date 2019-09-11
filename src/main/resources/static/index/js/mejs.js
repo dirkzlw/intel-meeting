@@ -92,6 +92,13 @@ var methods = {
                         $('#show_tbody tr').eq(trIndex).empty().append(xtdStr);
                         $('#xrenyuan').modal('hide');
                         return
+                    } else if (rtn == "notLogin") {
+                        bootbox.alert({
+                            title: "来自智能会议室的提示",
+                            message: "尚未登录，请先等于再预定",
+                            closeButton: false
+                        })
+                        return
                     } else if (rtn == "timeError") {
                         bootbox.alert({
                             title: "来自智能会议室的提示",
@@ -99,35 +106,35 @@ var methods = {
                             closeButton: false
                         })
                         return
-                    } else if(rtn == "notAuth"){
+                    } else if (rtn == "notAuth") {
                         bootbox.alert({
                             title: "来自智能会议室的提示",
-                            message: "抱歉，您还没有进行身份认证，无法使用预定功能。 "+'<br/>'+"请前往 \"<a href='/to/user/auth'>认证中心</a>\" 完成身份认证",
+                            message: "抱歉，您还没有进行身份认证，无法使用预定功能。 " + '<br/>' + "请前往 \"<a href='/to/user/auth'>认证中心</a>\" 完成身份认证",
                             closeButton: false
                         })
                         $('#xrenyuan').modal('hide');
                         return
-                    } else if(rtn == "authIng"){
+                    } else if (rtn == "authIng") {
                         bootbox.alert({
                             title: "来自智能会议室的提示",
-                            message: "抱歉，您的认证正在审核中 "+'<br/>'+"目前尚不能使用预定功能",
+                            message: "抱歉，您的认证正在审核中 " + '<br/>' + "目前尚不能使用预定功能",
                             closeButton: false
                         })
                         $('#xrenyuan').modal('hide');
                         return
-                    } else if(rtn == "authNo"){
+                    } else if (rtn == "authNo") {
                         bootbox.alert({
                             title: "来自智能会议室的提示",
-                            message: "抱歉，您的认证未通过 "+'<br/>'+"请前往 \"<a href='/to/user/auth'>认证中心</a>\" 完成身份认证",
+                            message: "抱歉，您的认证未通过 " + '<br/>' + "请前往 \"<a href='/to/user/auth'>认证中心</a>\" 完成身份认证",
                             closeButton: false
                         })
                         $('#xrenyuan').modal('hide');
                         return
                     }
-                    else{
+                    else {
                         bootbox.alert({
                             title: "来自智能会议室的提示",
-                            message: "您尚在黑名单中，请于"+rtn+"后登陆预定",
+                            message: "您尚在黑名单中，请于" + rtn + "后登陆预定",
                             closeButton: false
                         })
                         return
@@ -231,7 +238,7 @@ var methods = {
             return
         }
         //至少预约半小时
-        if(endTime - startTime <1800000){
+        if (endTime - startTime < 1800000) {
             bootbox.alert({
                 title: "来自智能会议室的提示",
                 message: "预约时长至少半小时",

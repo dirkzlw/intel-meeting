@@ -46,10 +46,10 @@ public class RecordConfig {
     private String INIT_SIGN_TIME;
 
     /**
-     * 测试：每30秒钟执行一次
+     * 测试：每2分钟钟执行一次
      * 上线：每3小时执行一次
      */
-    @Scheduled(cron = "*/30 * * * * ?")
+    @Scheduled(cron = "0 */2 * * * ?")
 //    @Scheduled(cron = "0 0 */3 * * ?")
     public void cleanReserveMeeting() {
         List<ReserveMeeting> rmList = rmService.finAllReserveMeeting();

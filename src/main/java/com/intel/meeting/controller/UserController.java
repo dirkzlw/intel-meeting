@@ -9,7 +9,6 @@ import com.intel.meeting.service.es.EsUserService;
 import com.intel.meeting.utils.FastDFSUtils;
 import com.intel.meeting.utils.MD5Utils;
 import com.intel.meeting.utils.SessionUtils;
-import com.intel.meeting.utils.UserUtils;
 import com.intel.meeting.vo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -81,7 +80,7 @@ public class UserController {
                 2);
         model.addAttribute("userPage", userPageInfo);
         model.addAttribute("roleList", roleList);
-        UserUtils.setUserIndex(model, request);
+        SessionUtils.setUserIndex(model, request);
         return "usermgn/user-manage";
     }
 
@@ -99,7 +98,7 @@ public class UserController {
         User user = userService.findUserById(sessionUser.getUserId());
         model.addAttribute("umsg",user);
 
-        UserUtils.setUserIndex(model,request);
+        SessionUtils.setUserIndex(model,request);
 
         return "user/user-msg";
     }
@@ -275,7 +274,7 @@ public class UserController {
                 1);
         model.addAttribute("userPage", userPage);
         model.addAttribute("roleList", roleList);
-        UserUtils.setUserIndex(model, request);
+        SessionUtils.setUserIndex(model, request);
         return "usermgn/user-manage";
 
     }

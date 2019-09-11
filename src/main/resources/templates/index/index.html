@@ -134,7 +134,8 @@
                 <td th:text="${mr.reserveStatus}"></td>
                 <td th:utext="${mr.reserveTime}"></td>
                 <td>
-                    <a th:id="${mr.meetingId}" href="#" class="edit" th:title="${mr.reserveStatus}">预约</a>
+                    <span th:if="${user.userId} == null">请先登录</span>
+                    <a th:if="${user.userId} != null" th:id="${mr.meetingId}" href="#" class="edit" th:title="${mr.reserveStatus}">预约</a>
                 </td>
             </tr>
             </tbody>

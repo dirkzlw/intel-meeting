@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en"
+	  xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
 <meta charset="utf-8">
 <title>智能会议管理--出错啦~</title>
@@ -16,8 +18,8 @@
 <div class="container">
 	<div class="left-section">
 		<div class="inner-content">
-			<h1 class="heading">404</h1>
-			<p class="subheading">很抱歉，您访问的页面找不到了</p>
+			<h1 class="heading" th:text="${errorCode}"></h1>
+			<p class="subheading" th:text="${errorMsg}"></p>
 			<p class="index-btn"><a href="/index">返回首页</a></p>
 		</div>
 	</div>

@@ -6,7 +6,7 @@ import com.intel.meeting.po.es.EsMeetingRoom;
 import com.intel.meeting.po.es.EsRecord;
 import com.intel.meeting.service.RecordService;
 import com.intel.meeting.service.es.EsRecordService;
-import com.intel.meeting.utils.UserUtils;
+import com.intel.meeting.utils.SessionUtils;
 import com.intel.meeting.vo.GraphInfo;
 import com.intel.meeting.vo.MRPage;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,7 +41,7 @@ public class RecordController {
 
         GraphInfo graphInfo = recordService.getGraphInfo();
         model.addAttribute("graphInfo", graphInfo);
-        UserUtils.setUserIndex(model, request);
+        SessionUtils.setUserIndex(model, request);
 
         return "control/graph";
     }
@@ -66,7 +66,7 @@ public class RecordController {
                 2);
         model.addAttribute("recordPage", recordPageInfo);
 
-        UserUtils.setUserIndex(model, request);
+        SessionUtils.setUserIndex(model, request);
 
         return "control/record";
     }
@@ -89,7 +89,7 @@ public class RecordController {
                 esrecordList.size(),
                 1);
         model.addAttribute("recordPage", mrPage);
-        UserUtils.setUserIndex(model, request);
+        SessionUtils.setUserIndex(model, request);
         return "control/record";
     }
 }
