@@ -51,7 +51,7 @@ public class EsMRTest {
 
     @Test
     public void testS(){
-        List<EsMeetingRoom> bList = emrRepository.findDistinctByMeetingNameContainingOrEnableStatusContaining("故障","故障",new Sort(Sort.Direction.ASC,"meetingName"));
+        List<EsMeetingRoom> bList = emrRepository.findDistinctByMeetingNameContainingOrEnableStatusContaining("故障","故障",null);
         System.out.println("bList.size() = " + bList.size());
         for (EsMeetingRoom emr : bList) {
             System.out.println("emr = " + emr);

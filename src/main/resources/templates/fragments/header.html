@@ -13,7 +13,7 @@
         <!--logo-->
         <div style="display: inline">
             &nbsp;&nbsp;
-            <a th:href="@{/index}"><img src="/index/img/logo.PNG" style="height: 60px;width: 180px"></a>
+            <a th:href="@{/index}"><img src="/index/img/logo.png" style="height: 60px;width: 180px"></a>
         </div>
         <!--登录/注册-->
         <div style="display: inline;margin-left: 90%;position: relative ;top: -55px">
@@ -34,39 +34,9 @@
                     alt="头像"
                     class="round_icon"
                     title="账户管理"
-                    th:src="${user.headImgUrl}">
+                    th:src="${user.headUrl}">
             </a>
         </div>
-    </div>
-
-    <!--登录-->
-    <div th:fragment="login" style="display: inline;margin-left: 90%;position: relative ;top: -55px">
-        <a th:if="${user.userId} == null" th:href="@{/to/user/login?#}"
-           style="  font-size: 25px;
-                    float: right;
-                    position: relative;
-                    top: 2px;
-                    right: 100px;">登录</a>
-        <a th:if="${user.userId} != null" th:href="@{/to/user/manage(userId=${user.userId})}">
-            <img style="
-                    float: right;
-                    position: relative;
-                    top: 2px;
-                    right: 100px;
-                    display: inline;
-                    width: 34px;
-                    height: 34px;
-                    /*display: flex;*/
-                    border-radius: 50%;
-                    align-items: center;
-                    justify-content: center;
-                    overflow: hidden;
-                    cursor: pointer;"
-                 alt="头像"
-                 class="round_icon"
-                 title="账户管理"
-                 th:src="${user.headImgUrl}">
-        </a>
     </div>
 
 </body>

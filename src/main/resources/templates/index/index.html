@@ -41,10 +41,10 @@
             <a th:href="@{/to/user/auth}">认证中心</a>
         </li>
         <li>
-            <a th:href="@{/to/usermgn}">用户管理</a>
+            <a th:if="${user.role} eq '管理员'" th:href="@{/to/usermgn}">用户管理</a>
         </li>
         <li>
-            <a th:href="@{/to/control}">控制中心</a>
+            <a th:if="${user.role} eq '管理员'" th:href="@{/to/control}">控制中心</a>
         </li>
     </ul>
 </div>

@@ -1,8 +1,5 @@
 package com.intel.meeting.utils;
 
-import com.intel.meeting.vo.SessionUser;
-import com.intel.meeting.vo.UserIndex;
-
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

@@ -32,6 +32,4 @@ public class SessionUser implements Serializable {
         this.headUrl = headUrl;
     }
 
-
-
 }

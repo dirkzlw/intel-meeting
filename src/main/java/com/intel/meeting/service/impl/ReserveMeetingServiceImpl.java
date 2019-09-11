@@ -53,7 +53,6 @@ public class ReserveMeetingServiceImpl implements ReserveMeetingService {
 
     /**
      * 保存预定
-     * 没有判定冲突
      *
      * @param reserveMeeting
      * @return

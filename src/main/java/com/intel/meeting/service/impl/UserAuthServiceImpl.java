@@ -107,7 +107,7 @@ public class UserAuthServiceImpl implements UserAuthService{
                 SimpleMailMessage message = MailUtils.getMailMessage(fromEmail,
                         one.getUser().getEmail(),
                         INTEL_MAIL_SUBJECT,
-                        "您已通过身份认证，请随心使用系统。.\n");
+                        "您已通过身份认证，请随心使用系统。\n");
                 //发送
                 mailSender.send(message);
             }

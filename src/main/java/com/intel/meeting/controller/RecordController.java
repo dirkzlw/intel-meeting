@@ -9,7 +9,6 @@ import com.intel.meeting.service.es.EsRecordService;
 import com.intel.meeting.utils.UserUtils;
 import com.intel.meeting.vo.GraphInfo;
 import com.intel.meeting.vo.MRPage;
-import com.intel.meeting.vo.UserIndex;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;

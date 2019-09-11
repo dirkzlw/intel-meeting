@@ -21,15 +21,8 @@
 <body>
 
 <!--头部-->
-<div style="position: relative;top: 10px">
-    <!--logo-->
-    <div style="display: inline;margin-left: 1%">
-        <a style="font-size: 25px" onclick="back()">返回</a>
-    </div>
-    <!--登录-->
-    <div th:replace="~{fragments/header :: login}"></div>
+<div th:replace="~{fragments/header :: header}"></div>
 
-</div>
 <div>
     <ul class="list">
         <li>

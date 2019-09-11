@@ -16,7 +16,6 @@ import com.intel.meeting.vo.MainMr;
 import com.intel.meeting.vo.ReserveMeetingInfo;
 import com.intel.meeting.vo.RtnIdInfo;
 import com.intel.meeting.vo.SessionUser;
-import com.intel.meeting.vo.UserIndex;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -96,7 +95,21 @@ public class ReserveMeetingController {
                                  String endTime,
                                  HttpServletRequest request) {
         SessionUser sessionUser = (SessionUser) request.getSession().getAttribute("sessionUser");
+        boolean isBlack = userService.isBlackList(sessionUser.getUserId());
         User user = userService.findUserById(sessionUser.getUserId());
+        if (user.getUserAuth() == null) {
+            //没有提交认证
+            return new MainMr("notAuth");
+        } else if (user.getUserAuth().getAuthStatus() == 2) {
+            //审核中
+            return new MainMr("authIng");
+        } else if (user.getUserAuth().getAuthStatus() == 3) {
+            //审核不通过
+            return new MainMr("authNo");
+        }
+        if (isBlack) {
+            return new MainMr(user.getUntilTime());
+        }
         MeetingRoom meetingRoom = mrService.findMrById(meetingId);
         ReserveMeeting reserveMeeting = new ReserveMeeting(user,
                 meetingRoom,
@@ -202,7 +215,7 @@ public class ReserveMeetingController {
         ReserveMeeting reserveMeeting = rmService.findOneById(reserveId);
         //获取预约会议室的用户
         User reserveUser = reserveMeeting.getUser();
-        Record record = new Record(reserveUser.getUsername(),
+        Record record = new Record(reserveUser.getUserAuth().getRealname(),
                 reserveMeeting.getMeetingRoom().getMeetingName(),
                 reserveMeeting.getStartTime(),
                 reserveMeeting.getEndTime(),

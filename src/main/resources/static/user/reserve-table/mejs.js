@@ -59,13 +59,7 @@ $(function () {  //jquery里的,是当文档载入完毕就执行的意思
                 dataType: "text", //return dataType: text or json
                 success: function (json) {
                     if (json == "success") {
-                        bootbox.alert({
-                            title: "来自智能会议室的提示",
-                            message: "签到成功",
-                            closeButton: false
-                        })
-                        $('#show_tbody tr').eq(trIndex).empty();
-                        $('#xrenyuan').modal('hide');
+                        window.open("/to/reserve/center","_self");
                     } else if ("exceed" == json) {
                         bootbox.alert({
                             title: "来自智能会议室的提示",

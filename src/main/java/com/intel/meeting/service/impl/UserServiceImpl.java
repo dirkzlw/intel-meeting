@@ -12,12 +12,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.redis.core.RedisOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -142,6 +142,7 @@ public class UserServiceImpl implements UserService {
 
     /**
      * 忘记密码，发邮件
+     *
      * @param email
      * @return
      */
@@ -150,27 +151,27 @@ public class UserServiceImpl implements UserService {
 
         System.out.println("email = " + email);
         User user = userRepository.findByEmail(email);
-        if (user != null){
+        if (user != null) {
             String newPsw = (int) ((Math.random() * 9 + 1) * 100000) + "";
             user.setPassword(MD5Utils.md5(newPsw));
             userRepository.save(user);
             new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    SimpleMailMessage message = MailUtils.getMailMessage(fromEmail,email,INTEL_MAIL_SUBJECT,"您重置后密码为:" + newPsw + ".\n");
+                    SimpleMailMessage message = MailUtils.getMailMessage(fromEmail, email, INTEL_MAIL_SUBJECT, "您重置后密码为:" + newPsw + ".\n");
                     //发送
                     mailSender.send(message);
                 }
             }).start();
             return "success";
-        }
-        else {
+        } else {
             return "notFound";
         }
     }
 
     /**
      * 统计已注册人数
+     *
      * @return
      */
     @Override
@@ -189,10 +190,10 @@ public class UserServiceImpl implements UserService {
         List<User> userList = userRepository.findDistinctByUsernameOrEmail(user.getUsername(), user.getEmail());
         if (user.getUserId() == null || "".equals(user.getUserId())) {
             for (User user1 : userList) {
-                if (user1.getUsername().equals(user.getUsername()) )
+                if (user1.getUsername().equals(user.getUsername()))
                     //1. 判断该用户是否存在
                     return "userNameExist";
-                else if(user1.getEmail().equals(user.getEmail())){
+                else if (user1.getEmail().equals(user.getEmail())) {
                     return "emailExist";
                 }
             }
@@ -220,6 +221,7 @@ public class UserServiceImpl implements UserService {
             return "save";
         }
     }
+
     /**
      * 查询所有用户
      */
@@ -303,12 +305,44 @@ public class UserServiceImpl implements UserService {
         if (reserveUser.getWarnNum() >= 5) {
             reserveUser.setUntilTime(DateUtils.getAfterThreeDate());
             reserveUser.setWarnNum(0);
+
+            //发送邮件提醒
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    SimpleMailMessage message = MailUtils.getMailMessage(fromEmail,
+                            reserveUser.getEmail(),
+                            INTEL_MAIL_SUBJECT,
+                            "您使用会议室未签到次数达到5次上线，" +
+                                    "现对您做出封号三天处理，三天内禁止预定，" +
+                                    "解封时间为：" + reserveUser.getUntilTime() + "\n");
+                    //发送
+                    mailSender.send(message);
+                }
+            }).start();
+
+        } else {
+            //发送邮件提醒
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    SimpleMailMessage message = MailUtils.getMailMessage(fromEmail,
+                            reserveUser.getEmail(),
+                            INTEL_MAIL_SUBJECT,
+                            "您最近一次使用会议室未签到，未签到次数已达到" +
+                                    reserveUser.getWarnNum() + "次，" +
+                                    "累计次数达到5次，系统会做出禁止预定处理！！！\n");
+                    //发送
+                    mailSender.send(message);
+                }
+            }).start();
         }
         userRepository.save(reserveUser);
     }
 
     /**
      * 保存用户认证
+     *
      * @param user
      */
     @Override
@@ -317,10 +351,10 @@ public class UserServiceImpl implements UserService {
     }
 
     /**
-     *  修改用户名
+     * 修改用户名
      */
     @Override
-    public String userNameReset(Integer userId, String newUsername){
+    public String userNameReset(Integer userId, String newUsername) {
 
         User oldUser = userRepository.findOne(userId);
         User user1 = userRepository.findByUsername(newUsername);
@@ -328,11 +362,10 @@ public class UserServiceImpl implements UserService {
         System.out.println("oldUser = " + oldUser);
         System.out.println("user1 = " + user1);
 
-        if (user1 == null){
+        if (user1 == null) {
             oldUser.setUsername(newUsername);
             userRepository.save(oldUser);
-        }
-        else {
+        } else {
             return "userNameExist";
         }
         return "success";
@@ -340,11 +373,12 @@ public class UserServiceImpl implements UserService {
 
     /**
      * 修改密码
+     *
      * @param user
      * @return
      */
     @Override
-    public String userPwdReset(User user){
+    public String userPwdReset(User user) {
 
         userRepository.save(user);
 
@@ -353,38 +387,41 @@ public class UserServiceImpl implements UserService {
 
     /**
      * 修改密码
+     *
      * @param userId
      * @param oldUserpwd
      * @param newUserpwd
      * @return
      */
     @Override
-    public String userPwdReset(Integer userId, String oldUserpwd, String newUserpwd){
+    public String userPwdReset(Integer userId, String oldUserpwd, String newUserpwd) {
 
         User oldUser = userRepository.findOne(userId);
 
-        if (oldUser.getPassword().equals(MD5Utils.md5(oldUserpwd))){
+        if (oldUser.getPassword().equals(MD5Utils.md5(oldUserpwd))) {
             oldUser.setPassword(MD5Utils.md5(newUserpwd));
             userRepository.save(oldUser);
             return "success";
+        } else {
+            return "oldUserpwdFalse";
         }
-        else { return "oldUserpwdFalse"; }
     }
+
     /**
      * 修改邮箱
+     *
      * @param userId
      * @param newEmail
      * @return
      */
     @Override
-    public String userEmailReset(Integer userId,String newEmail){
+    public String userEmailReset(Integer userId, String newEmail) {
         User oldeUser = userRepository.findOne(userId);
         User user2 = userRepository.findByEmail(newEmail);
         if (user2 == null) {
             oldeUser.setEmail(newEmail);
             userRepository.save(oldeUser);
-        }
-        else {
+        } else {
             return "EmailExist";
         }
         return "success";
@@ -397,5 +434,31 @@ public class UserServiceImpl implements UserService {
         userRepository.save(user);
 
         return "success";
+    }
+
+    /**
+     * 判断用户是否在黑名单
+     *
+     * @param userId
+     * @return User
+     */
+    @Override
+    public boolean isBlackList(Integer userId) {
+        User user = userRepository.findOne(userId);
+        String untilTime = user.getUntilTime();
+        if (untilTime == null || "".equals(untilTime)) {
+            return false;
+        } else {
+            long unTime = DateUtils.stringToTime(untilTime);
+            long nowTime = new Date().getTime();
+            if (unTime - nowTime > 0) {
+                return true;
+            } else {
+                //封号时间过期
+                user.setUntilTime("");
+                userRepository.save(user);
+                return false;
+            }
+        }
     }
 }

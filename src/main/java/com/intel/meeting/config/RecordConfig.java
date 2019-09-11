@@ -44,8 +44,8 @@ public class RecordConfig {
      * 测试：每30秒钟执行一次
      * 上线：每3小时执行一次
      */
-//    @Scheduled(cron = "*/30 * * * * ?")
-    @Scheduled(cron = "0 0 */3 * * ?")
+    @Scheduled(cron = "*/30 * * * * ?")
+//    @Scheduled(cron = "0 0 */3 * * ?")
     public void cleanReserveMeeting() {
         List<ReserveMeeting> rmList = rmService.finAllReserveMeeting();
         for (ReserveMeeting rm : rmList) {
@@ -53,7 +53,7 @@ public class RecordConfig {
             long nowTime = new Date().getTime();
             if (nowTime > endTime) {
                 User reserveUser = rm.getUser();
-                Record record = new Record(reserveUser.getUsername(),
+                Record record = new Record(reserveUser.getUserAuth().getRealname(),
                         rm.getMeetingRoom().getMeetingName(),
                         rm.getStartTime(),
                         rm.getEndTime(),

@@ -49,4 +49,6 @@ public interface UserService {
     String HeadUrlReset(Integer userId, String newHeadUrl);
 
     String userPwdReset(Integer userId, String oldUserpwd, String newUserpwd);
+
+    boolean isBlackList(Integer userId);
 }
