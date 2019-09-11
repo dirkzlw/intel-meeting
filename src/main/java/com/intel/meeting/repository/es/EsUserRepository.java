@@ -7,5 +7,6 @@ import java.util.List;
 
 public interface EsUserRepository extends ElasticsearchRepository<EsUser, Integer> {
     List<EsUser> findByUsernameContaining(String username);
+    void deleteByUsername(String name);
 
 }

@@ -197,17 +197,17 @@ public class UserController {
      * @return
      */
     @PostMapping("/usermgn/user/save")
-    @ResponseBody
-    public UserInfo saveUser(User user, String roleName) {
-        String result;
-        if(user.getUserId()==null){
-            // 添加
-            Role role = roleService.findByRoleName(roleName);
-            user.setRole(role);
-            user.setPassword(MD5Utils.md5(USER_INIT_PASSWORD));
-            user.setHeadUrl(USER_INIT_HEAD_URL);
-            result = userService.saveUser(user);
-        }else{
+        @ResponseBody
+            public UserInfo saveUser(User user, String roleName) {
+                String result;
+                if(user.getUserId()==null){
+                    // 添加
+                    Role role = roleService.findByRoleName(roleName);
+                    user.setRole(role);
+                    user.setPassword(MD5Utils.md5(USER_INIT_PASSWORD));
+                    user.setHeadUrl(USER_INIT_HEAD_URL);
+                    result = userService.saveUser(user);
+                }else{
             //修改
             Role role = roleService.findByRoleName(roleName);
             user.setRole(role);
@@ -216,7 +216,10 @@ public class UserController {
         UserInfo userInfo =new UserInfo(user.getUsername(),user.getEmail(),user.getRole().getRoleName(),result);
         userInfo.setUserId(user.getUserId());
         //同步搜索库
-        esUserService.save(new EsUser(user.getUserId(),user.getUsername(),user.getEmail(),user.getRole().getRoleName()));
+        if(result=="save"){
+            esUserService.save(new EsUser(user.getUserId(),user.getUsername(),user.getEmail(),user.getRole().getRoleName()));
+        }
+
 
         return userInfo;
     }
