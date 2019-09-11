@@ -143,7 +143,8 @@ public class ReserveMeetingController {
                             rmService,
                             INIT_SIGN_TIME,
                             userService,
-                            recordService);
+                            recordService,
+                            true);
                     //清除redis上的缓存
                     redisTemplate.delete("graphRedis");
                 }
@@ -188,7 +189,8 @@ public class ReserveMeetingController {
                             rmService,
                             INIT_SIGN_TIME,
                             userService,
-                            recordService);
+                            recordService,
+                            false);
                     //清除redis上的缓存
                     redisTemplate.delete("graphRedis");
                 }
@@ -213,7 +215,8 @@ public class ReserveMeetingController {
                                        ReserveMeetingService rmService,
                                        String INIT_SIGN_TIME,
                                        UserService userService,
-                                       RecordService recordService) {
+                                       RecordService recordService,
+                                boolean isCancel) {
         //转换对象
         ReserveMeeting reserveMeeting = rmService.findOneById(reserveId);
         //获取预约会议室的用户
@@ -225,8 +228,8 @@ public class ReserveMeetingController {
                 reserveMeeting.getSignTime(),
                 reserveMeeting.getUsageStatus(),
                 DateUtils.getWeekOfTime(reserveMeeting.getStartTime()));
-        if (INIT_SIGN_TIME.equals(reserveMeeting.getSignTime())) {
-            //没有签到
+        if (!isCancel && INIT_SIGN_TIME.equals(reserveMeeting.getSignTime())) {
+            //没有签到(除却取消会)
             userService.doNoSign(reserveUser);
         }
         //保存记录，删除预定
