@@ -12,6 +12,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.redis.core.RedisOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -50,6 +51,13 @@ public class UserServiceImpl implements UserService {
     @Value("${USER_INIT_HEAD_URL}")
     private String USER_INIT_HEAD_URL;
 
+    /**
+     * 注册时获取验证码
+     *
+     * @param username
+     * @param email
+     * @return
+     */
     @Override
     public String getVCode(String username, String email) {
         User user1 = userRepository.findByUsername(username);
@@ -70,7 +78,6 @@ public class UserServiceImpl implements UserService {
         String vcode = (int) ((Math.random() * 9 + 1) * 100000) + "";
         String key = username + "-" + email;
         redisTemplate.opsForValue().set(key, vcode, 10L, TimeUnit.MINUTES);
-
 
         /**
          * 下面是发送邮件
@@ -125,8 +132,6 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public String login(String usernameoremail, String password) {
-        System.out.println("usernameoremail = " + usernameoremail);
-        System.out.println("password = " + password);
         List<User> userList = userRepository.findDistinctByUsernameOrEmail(usernameoremail, usernameoremail);
         if (userList == null || userList.size() == 0) {
             return "NotExist";
@@ -141,30 +146,29 @@ public class UserServiceImpl implements UserService {
     }
 
     /**
-     * 忘记密码，发邮件
+     * 忘记密码，发邮件重置
      *
      * @param email
      * @return
      */
     @Override
     public String forgetPwd(String email) {
-
-        System.out.println("email = " + email);
         User user = userRepository.findByEmail(email);
-        if (user != null) {
+        if (user != null){
             String newPsw = (int) ((Math.random() * 9 + 1) * 100000) + "";
             user.setPassword(MD5Utils.md5(newPsw));
             userRepository.save(user);
             new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    SimpleMailMessage message = MailUtils.getMailMessage(fromEmail, email, INTEL_MAIL_SUBJECT, "您重置后密码为:" + newPsw + ".\n");
+                    SimpleMailMessage message = MailUtils.getMailMessage(fromEmail,email,INTEL_MAIL_SUBJECT,"您重置后密码为:" + newPsw + ".\n");
                     //发送
                     mailSender.send(message);
                 }
             }).start();
             return "success";
-        } else {
+        }
+        else {
             return "notFound";
         }
     }
@@ -190,10 +194,10 @@ public class UserServiceImpl implements UserService {
         List<User> userList = userRepository.findDistinctByUsernameOrEmail(user.getUsername(), user.getEmail());
         if (user.getUserId() == null || "".equals(user.getUserId())) {
             for (User user1 : userList) {
-                if (user1.getUsername().equals(user.getUsername()))
+                if (user1.getUsername().equals(user.getUsername()) )
                     //1. 判断该用户是否存在
                     return "userNameExist";
-                else if (user1.getEmail().equals(user.getEmail())) {
+                else if(user1.getEmail().equals(user.getEmail())){
                     return "emailExist";
                 }
             }
@@ -221,7 +225,6 @@ public class UserServiceImpl implements UserService {
             return "save";
         }
     }
-
     /**
      * 查询所有用户
      */
@@ -320,7 +323,6 @@ public class UserServiceImpl implements UserService {
                     mailSender.send(message);
                 }
             }).start();
-
         } else {
             //发送邮件提醒
             new Thread(new Runnable() {
@@ -351,18 +353,17 @@ public class UserServiceImpl implements UserService {
     }
 
     /**
-     * 修改用户名
+     * 用户个人资料处 修改用户名
+     *
+     * @param userId
+     * @param newUsername
+     * @return
      */
     @Override
-    public String userNameReset(Integer userId, String newUsername) {
-
+    public String userNameReset(Integer userId, String newUsername){
         User oldUser = userRepository.findOne(userId);
         User user1 = userRepository.findByUsername(newUsername);
-
-        System.out.println("oldUser = " + oldUser);
-        System.out.println("user1 = " + user1);
-
-        if (user1 == null) {
+        if (user1 == null){
             oldUser.setUsername(newUsername);
             userRepository.save(oldUser);
         } else {
@@ -378,15 +379,13 @@ public class UserServiceImpl implements UserService {
      * @return
      */
     @Override
-    public String userPwdReset(User user) {
-
+    public String userPwdReset(User user){
         userRepository.save(user);
-
         return "success";
     }
 
     /**
-     * 修改密码
+     * 用户个人资料处 修改密码
      *
      * @param userId
      * @param oldUserpwd
@@ -394,11 +393,9 @@ public class UserServiceImpl implements UserService {
      * @return
      */
     @Override
-    public String userPwdReset(Integer userId, String oldUserpwd, String newUserpwd) {
-
+    public String userPwdReset(Integer userId, String oldUserpwd, String newUserpwd){
         User oldUser = userRepository.findOne(userId);
-
-        if (oldUser.getPassword().equals(MD5Utils.md5(oldUserpwd))) {
+        if (oldUser.getPassword().equals(MD5Utils.md5(oldUserpwd))){
             oldUser.setPassword(MD5Utils.md5(newUserpwd));
             userRepository.save(oldUser);
             return "success";
@@ -408,14 +405,14 @@ public class UserServiceImpl implements UserService {
     }
 
     /**
-     * 修改邮箱
+     * 用户个人资料处 修改邮箱
      *
      * @param userId
      * @param newEmail
      * @return
      */
     @Override
-    public String userEmailReset(Integer userId, String newEmail) {
+    public String userEmailReset(Integer userId,String newEmail){
         User oldeUser = userRepository.findOne(userId);
         User user2 = userRepository.findByEmail(newEmail);
         if (user2 == null) {
@@ -427,12 +424,18 @@ public class UserServiceImpl implements UserService {
         return "success";
     }
 
+    /**
+     *用户个人资料处 修改头像
+     *
+     * @param userId
+     * @param newHeadUrl
+     * @return
+     */
     @Override
     public String HeadUrlReset(Integer userId, String newHeadUrl) {
         User user = userRepository.findOne(userId);
         user.setHeadUrl(newHeadUrl);
         userRepository.save(user);
-
         return "success";
     }
 

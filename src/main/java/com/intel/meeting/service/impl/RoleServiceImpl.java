@@ -23,6 +23,11 @@ public class RoleServiceImpl implements RoleService {
         return roleRepository.findAll();
     }
 
+    /**
+     *
+     * @param roleName
+     * @return
+     */
     @Override
     public Role findByRoleName(String roleName){
         Role role = roleRepository.findDistinctByRoleName(roleName);

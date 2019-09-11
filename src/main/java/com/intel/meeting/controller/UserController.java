@@ -85,6 +85,12 @@ public class UserController {
         return "usermgn/user-manage";
     }
 
+    /**
+     *
+     * @param model
+     * @param request
+     * @return
+     */
     @GetMapping("/to/user/msg")
     public String toUserMsg(Model model,
                             HttpServletRequest request){
@@ -127,7 +133,7 @@ public class UserController {
      * @param email
      * @return
      */
-    @PostMapping("/user/resetpwd")
+    @PostMapping("/user/forgetpwd")
     @ResponseBody
     public  String forgetPwd(String email){
         System.out.println("email = " + email);
@@ -307,6 +313,11 @@ public class UserController {
 
     /**
      *修改用户名
+     * @param userId
+     * @param newUsername
+     * @param request
+     * @param response
+     * @return
      */
     @PostMapping("/user/username/reset")
     @ResponseBody
@@ -400,11 +411,18 @@ public class UserController {
             SessionUser sessionUser = (SessionUser) SessionUtils.getObjectFromSession(request, "sessionUser");
             sessionUser.setHeadUrl(newUrl);
             SessionUtils.saveObjectToSession(request,response,sessionUser,"sessionUser");
-
             return "success";
         }
-
         return "fail";
+    }
+
+    /**
+     * 跳转到联系我们页面
+     * @return
+     */
+    @PostMapping("/to/user/contact")
+    public String toContact(){
+        return null;
     }
 
 }

@@ -93,6 +93,10 @@ public class RecordServiceImpl implements RecordService {
         return recordRepository.countByWeek(i);
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public GraphInfo getGraphInfo() {
         //重置序列化器--json格式
