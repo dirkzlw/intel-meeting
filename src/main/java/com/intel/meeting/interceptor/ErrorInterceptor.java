@@ -10,6 +10,7 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
+ * 异常处理拦截器
  * @author Ranger
  * @create 2019-04-11 14:57
  */

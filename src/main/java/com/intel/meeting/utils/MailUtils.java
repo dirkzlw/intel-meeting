@@ -4,12 +4,22 @@ import org.springframework.mail.SimpleMailMessage;
 
 /**
  * 发送邮件
+ *
  * @author Ranger
  * @create 2019-09-06 14:53
  */
 public class MailUtils {
 
-    public static SimpleMailMessage getMailMessage(String fromEmail,String email,String subject,String text){
+    /**
+     * 发送邮件
+     *
+     * @param fromEmail 发送者
+     * @param email     接收者
+     * @param subject   主题
+     * @param text      文本
+     * @return
+     */
+    public static SimpleMailMessage getMailMessage(String fromEmail, String email, String subject, String text) {
         SimpleMailMessage message = new SimpleMailMessage();
 
         message.setFrom(fromEmail);

@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.List;
 
 /**
  * @author Ranger
@@ -52,20 +51,28 @@ public class UserAuthController {
         SessionUser sessionUser = (SessionUser) SessionUtils.getObjectFromSession(request, "sessionUser");
         User user = userService.findUserById(sessionUser.getUserId());
         SessionUtils.setUserIndex(model, request);
-        if(user.getUserAuth() != null){
+        if (user.getUserAuth() != null) {
             //获取认证状态 通过--审核--未通过
             model.addAttribute("authStatus", user.getUserAuth().getAuthStatus());
-        }else{
+        } else {
             //尚未提交认证
             model.addAttribute("authStatus", 0);
         }
         return "user/user-auth";
     }
 
+    /**
+     * 跳转至用户认证编辑界面
+     *
+     * @param model
+     * @param request
+     * @param userId
+     * @return
+     */
     @GetMapping("/to/user/auth/edit")
     public String userAuthEdit(Model model,
                                HttpServletRequest request,
-                               Integer userId){
+                               Integer userId) {
         UserAuth userAuth = userService.findUserById(userId).getUserAuth();
 
         model.addAttribute("userAuth", userAuth);
@@ -93,13 +100,13 @@ public class UserAuthController {
             String authUrl = FastDFSUtils.uploadFile(FDFSDFS_CLIENT_PAHT,
                     FDFSDFS_ADDRESS,
                     authImg);
-            if( exitAuth==null){
+            if (exitAuth == null) {
                 userAuth.setAuthUrl(authUrl);
                 userAuth.setAuthStatus(2);
                 user.setUserAuth(userAuth);
                 //先保存认证，用户才能关联这条认证
                 userAuthService.saveUserAuth(userAuth);
-            }else {
+            } else {
                 exitAuth.setAuthUrl(authUrl);
                 exitAuth.setAuthStatus(2);
                 user.setUserAuth(exitAuth);
@@ -112,47 +119,10 @@ public class UserAuthController {
         return "success";
     }
 
-//    /**
-//     * 用户认证再次编辑提交
-//     *
-//     * @param userAuth
-//     * @param authImg
-//     * @return
-//     */
-//    @PostMapping("/he/user/auth/reset")
-//    @ResponseBody
-//    public String userAuthReset(UserAuth userAuth,
-//                           MultipartFile authImg,
-//                           HttpServletRequest request) {
-//        try {
-//            //从session中获取当前用户，保存auth到当前用户
-//            SessionUser sessionUser = (SessionUser) SessionUtils.getObjectFromSession(request, "sessionUser");
-//            User user = userService.findUserById(sessionUser.getUserId());
-//            UserAuth exitAuth = user.getUserAuth();
-//            String authUrl = FastDFSUtils.uploadFile(FDFSDFS_CLIENT_PAHT,
-//                    FDFSDFS_ADDRESS,
-//                    authImg);
-//            if( exitAuth==null){
-//                userAuth.setAuthUrl(authUrl);
-//                userAuth.setAuthStatus(2);
-//                user.setUserAuth(userAuth);
-//                //先保存认证，用户才能关联这条认证
-//                userAuthService.saveUserAuth(userAuth);
-//            }else {
-//                exitAuth.setAuthUrl(authUrl);
-//                exitAuth.setAuthStatus(2);
-//                user.setUserAuth(exitAuth);
-//            }
-//            userService.saveUserAuth(user);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            return "fail";
-//        }
-//        return "success";
-//    }
 
     /**
      * 跳转至认证审核界面
+     *
      * @param model
      * @param request
      * @param page
@@ -178,18 +148,20 @@ public class UserAuthController {
 
     /**
      * 通过认证审核
+     *
      * @param authId
      * @return
      */
     @PostMapping("/user/auth/pass")
     @ResponseBody
-    public String authPass(Integer authId){
+    public String authPass(Integer authId) {
         String rtn = userAuthService.authPass(authId);
         return rtn;
     }
 
     /**
      * 认证不通过审核
+     *
      * @param authId
      * @param noPassReason
      * @return
@@ -197,8 +169,8 @@ public class UserAuthController {
     @PostMapping("/user/auth/nopass")
     @ResponseBody
     public String authNoPass(Integer authId,
-                             String noPassReason){
-        String rtn = userAuthService.authNoPass(authId,noPassReason);
+                             String noPassReason) {
+        String rtn = userAuthService.authNoPass(authId, noPassReason);
         return rtn;
     }
 }

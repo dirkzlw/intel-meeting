@@ -28,7 +28,7 @@ import java.util.List;
 @Controller
 public class MeetingController {
 
-    //注入meetingroomservicefuwu
+    //注入MeetingroomService服务
     @Autowired
     private MeetingRoomService mrService;
 
@@ -36,9 +36,11 @@ public class MeetingController {
     private EsMeetingRoomService emrService;
 
     /**
-     * 跳转到会议室管理界面
-     * 同时分页展示所有会议室
+     * 跳转至控制中心--会议室管理界面
      *
+     * @param model
+     * @param page    当前页
+     * @param request
      * @return
      */
     @GetMapping("/to/control/meeting-manage")
@@ -60,8 +62,10 @@ public class MeetingController {
     }
 
     /**
-     * 添加会议室
+     * 保存会议室
+     * 当添加/保存会议室调用
      *
+     * @param meetingRoom 会议室名称
      * @return
      */
     @PostMapping("/control/meeting/save")
@@ -80,8 +84,9 @@ public class MeetingController {
     }
 
     /**
-     * 删除会议室
+     * 删除会意思
      *
+     * @param meetingId 会议室id
      * @return
      */
     @PostMapping("/control/meeting/del")
@@ -98,15 +103,15 @@ public class MeetingController {
 
     /**
      * 查询会议室
+     *
      * @param mrkey 关键字
      * @param model
      * @return
      */
     @GetMapping("/to/control/meeting/search")
-    private String searchMeeting(String mrkey,Model model,
-                                 HttpServletRequest request){
+    private String searchMeeting(String mrkey, Model model,
+                                 HttpServletRequest request) {
         List<EsMeetingRoom> emrList = emrService.findEsMeetingRoomByMeetingName(mrkey);
-//        List<MeetingRoom> mrList = EmrUtils.emrListToMrList(emrList);
         MRPage mrPage = new MRPage(emrList,
                 1,
                 1,

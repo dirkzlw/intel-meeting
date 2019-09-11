@@ -1,8 +1,6 @@
 package com.intel.meeting.controller;
 
-import com.intel.meeting.po.MeetingRoom;
 import com.intel.meeting.po.Record;
-import com.intel.meeting.po.es.EsMeetingRoom;
 import com.intel.meeting.po.es.EsRecord;
 import com.intel.meeting.service.RecordService;
 import com.intel.meeting.service.es.EsRecordService;
@@ -32,12 +30,15 @@ public class RecordController {
     private EsRecordService esRecordService;
 
     /**
-     * 跳转至统计图表界面
+     * 跳转至控制中心--使用统计
+     *
+     * @param model
+     * @param request
      * @return
      */
     @GetMapping("/to/control/graph")
     public String toControlGraph(Model model,
-                                 HttpServletRequest request){
+                                 HttpServletRequest request) {
 
         GraphInfo graphInfo = recordService.getGraphInfo();
         model.addAttribute("graphInfo", graphInfo);
@@ -47,13 +48,17 @@ public class RecordController {
     }
 
     /**
-     * 跳转至统计记录界面
+     * 跳转至控制中心--使用记录
+     *
+     * @param model
+     * @param request
+     * @param page    当前页
      * @return
      */
     @GetMapping("/to/control/record")
     public String toControlRecord(Model model,
                                   HttpServletRequest request,
-                                  @RequestParam(required = false) Integer page){
+                                  @RequestParam(required = false) Integer page) {
         //分页查询所有记录
         if (page == null) {
             page = 0;
@@ -73,16 +78,16 @@ public class RecordController {
 
     /**
      * 查询会议室
+     *
      * @param nameVal 关键字
      * @param model
      * @return
      */
     @GetMapping("/to/control/record/search")
-    private String searchRecord(String nameVal,Model model,
-                                 HttpServletRequest request){
+    private String searchRecord(String nameVal, Model model,
+                                HttpServletRequest request) {
         System.out.println(nameVal);
-        List<EsRecord> esrecordList=esRecordService.findDistinctByRealnameContainingOrMeetingAddressContaining(nameVal);
-//        System.out.println(esrecordList);
+        List<EsRecord> esrecordList = esRecordService.findDistinctByRealnameContainingOrMeetingAddressContaining(nameVal);
         MRPage mrPage = new MRPage(esrecordList,
                 1,
                 1,

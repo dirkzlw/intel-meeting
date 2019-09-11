@@ -1,6 +1,5 @@
 package com.intel.meeting.service.impl;
 
-import com.intel.meeting.po.User;
 import com.intel.meeting.po.UserAuth;
 import com.intel.meeting.repository.UserAuthRepository;
 import com.intel.meeting.service.UserAuthService;
@@ -11,12 +10,9 @@ import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 /**
  * @author ranger

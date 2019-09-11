@@ -95,7 +95,7 @@ public class MainMrUtils {
                     long start2 = DateUtils.stringToTime(reserveMeeting.getStartTime());
                     long end2 = DateUtils.stringToTime(reserveMeeting.getEndTime());
                     if (end2 <= searchStartL || start2 >= searchEndL) {
-                        //时间不冲突
+                        //主页插叙另一种展示方式
 //                        if (reserveMeeting.getStartTime().indexOf(searchDay) != -1) {
 //                            reserveTime +="<span style=\"color: #C24343\">"
 //                                    + reserveMeeting.getStartTime()

@@ -24,6 +24,7 @@ public class MeetingRoomServiceImpl implements MeetingRoomService {
 
     /**
      * 添加会议室
+     *
      * @param mr
      * @return
      */
@@ -31,25 +32,25 @@ public class MeetingRoomServiceImpl implements MeetingRoomService {
     public String saveMeetingRoom(MeetingRoom mr) {
         List<MeetingRoom> mrList = mrRepository.findDistinctByMeetingName(mr.getMeetingName());
         //添加会议室
-        if(mr.getMeetingId() == null || "".equals(mr.getMeetingId())){
+        if (mr.getMeetingId() == null || "".equals(mr.getMeetingId())) {
             //1. 判断会议室是否存在
-            if(mrList.size() == 0){
+            if (mrList.size() == 0) {
                 // 不存在
                 mrRepository.save(mr);
                 return "save";
-            }else {
+            } else {
                 return "exist";
             }
-        }else {
+        } else {
             //修改会议室
             for (MeetingRoom m : mrList) {
                 //如果有会议室名称重复情况
-                if(m.getMeetingName().equals(mr.getMeetingName())){
+                if (m.getMeetingName().equals(mr.getMeetingName())) {
                     //当前会议室修改其他信息
-                    if(m.getMeetingId() == mr.getMeetingId()){
+                    if (m.getMeetingId() == mr.getMeetingId()) {
                         mrRepository.save(mr);
                         return "save";
-                    }else {
+                    } else {
                         //出现重复情况
                         return "exist";
                     }
@@ -62,6 +63,7 @@ public class MeetingRoomServiceImpl implements MeetingRoomService {
 
     /**
      * 查询所有会议室
+     *
      * @return
      */
     @Override
@@ -71,6 +73,7 @@ public class MeetingRoomServiceImpl implements MeetingRoomService {
 
     /**
      * 根据id删除会议室
+     *
      * @param meetingId
      * @return
      */
@@ -82,19 +85,21 @@ public class MeetingRoomServiceImpl implements MeetingRoomService {
 
     /**
      * 分页查询
+     *
      * @param page 当前页
-     * @param size  每页显示的数据
+     * @param size 每页显示的数据
      * @return
      */
     @Override
     public Page<MeetingRoom> findMeetingRoomByPage(Integer page, Integer size) {
-        Pageable pageable = new PageRequest(page, size, new Sort(Sort.Direction.ASC,"meetingName"));
+        Pageable pageable = new PageRequest(page, size, new Sort(Sort.Direction.ASC, "meetingName"));
         Page<MeetingRoom> mrPage = mrRepository.findAll(pageable);
         return mrPage;
     }
 
     /**
      * 根据id查询会议室
+     *
      * @param mrId
      * @return
      */
@@ -105,6 +110,7 @@ public class MeetingRoomServiceImpl implements MeetingRoomService {
 
     /**
      * 统计会议室各状态的数量
+     *
      * @param status
      * @return
      */
@@ -115,11 +121,12 @@ public class MeetingRoomServiceImpl implements MeetingRoomService {
 
     /**
      * 根据会议室名称模糊查询
+     *
      * @param meetingName
      * @return
      */
     @Override
     public List<MeetingRoom> findMeetingRoomLikeName(String meetingName) {
-        return mrRepository.findByMeetingNameLikeAndEnableStatus(meetingName,"空闲");
+        return mrRepository.findByMeetingNameLikeAndEnableStatus(meetingName, "空闲");
     }
 }

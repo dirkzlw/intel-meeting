@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -35,15 +34,22 @@ public class MainController {
     @Autowired
     private UserService userService;
 
+    /**
+     * 重定向至：/index
+     *
+     * @return
+     */
     @GetMapping("/")
     public String toI() {
         return "redirect:/index";
     }
 
     /**
-     * 接收Get请求，URL：http://www.intel.com
-     * 跳转至页面：index/index.html
+     * 请求主页
      *
+     * @param model
+     * @param page    当前页数  页面正常显示数字，后台数据查询从0开始第一页
+     * @param request
      * @return
      */
     @GetMapping("/index")
@@ -70,10 +76,10 @@ public class MainController {
      *
      * @param model
      * @param request
-     * @param meetingName
-     * @param searchDay
-     * @param searchStart
-     * @param searchEnd
+     * @param meetingName 会议室名称
+     * @param searchDay   查询的日期   2019-09-11
+     * @param searchStart 当前日期开始时间    08:00
+     * @param searchEnd   当前日期结束时间    09:00
      * @return
      */
     @GetMapping("/index/search")
@@ -108,9 +114,10 @@ public class MainController {
     }
 
     /**
-     * 接收URL:http://www.intel.com/to/control
-     * 跳转至页面control/index.html
+     * 跳转至控制中心主页
      *
+     * @param model
+     * @param request
      * @return
      */
     @GetMapping("/to/control")
@@ -127,9 +134,10 @@ public class MainController {
     }
 
     /**
-     * 接收URL:http://www.intel.com/to/usermgn
-     * 跳转至页面usermgn/index.html
+     * 跳转至用户管理主页
      *
+     * @param model
+     * @param request
      * @return
      */
     @GetMapping("/to/usermgn")
@@ -157,7 +165,7 @@ public class MainController {
      * @return
      */
     @GetMapping("/to/error")
-    public String toError(Model model,Integer errorCode) {
+    public String toError(Model model, Integer errorCode) {
         String errorMsg = HttpUtils.getMessageByCode(errorCode);
         model.addAttribute("errorCode", errorCode);
         model.addAttribute("errorMsg", errorMsg);

@@ -1,7 +1,6 @@
 package com.intel.meeting.service.impl;
 
 import com.intel.meeting.po.Role;
-import com.intel.meeting.po.User;
 import com.intel.meeting.repository.RoleRepository;
 import com.intel.meeting.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,12 +23,13 @@ public class RoleServiceImpl implements RoleService {
     }
 
     /**
+     * 根据角色名获取角色对象
      *
      * @param roleName
      * @return
      */
     @Override
-    public Role findByRoleName(String roleName){
+    public Role findByRoleName(String roleName) {
         Role role = roleRepository.findDistinctByRoleName(roleName);
         System.out.println("roleName = " + roleName);
         return role;

@@ -56,8 +56,10 @@ public class ReserveMeetingController {
     private String INIT_SIGN_TIME;
 
     /**
-     * 前往用户预定中心
+     * 跳转至预定中心
      *
+     * @param model
+     * @param request
      * @return
      */
     @GetMapping("/to/reserve/center")
@@ -80,10 +82,10 @@ public class ReserveMeetingController {
     /**
      * 预定会议室
      *
-     * @param meetingId
-     * @param reserveDay
-     * @param startTime
-     * @param endTime
+     * @param meetingId  会议室id
+     * @param reserveDay 预约日期
+     * @param startTime  开始时间
+     * @param endTime    结束时间
      * @param request
      * @return
      */
@@ -95,7 +97,7 @@ public class ReserveMeetingController {
                                  String endTime,
                                  HttpServletRequest request) {
         SessionUser sessionUser = (SessionUser) request.getSession().getAttribute("sessionUser");
-        if(sessionUser == null){
+        if (sessionUser == null) {
             return new MainMr("notLogin");
         }
         boolean isBlack = userService.isBlackList(sessionUser.getUserId());
@@ -127,7 +129,7 @@ public class ReserveMeetingController {
     /**
      * 取消预定
      *
-     * @param reserveId
+     * @param reserveId 预约id
      * @return
      */
     @PostMapping("/meeting/reserve/cancel")
@@ -157,7 +159,7 @@ public class ReserveMeetingController {
     /**
      * 签到
      *
-     * @param reserveId
+     * @param reserveId 预约id
      * @return
      */
     @PostMapping("/meeting/reserve/sign")
@@ -168,10 +170,9 @@ public class ReserveMeetingController {
     }
 
     /**
-     * reserveUser.getUserAuth().getRealName()
-     * nodone:尚未完成认证，存储记录没法实名，先使用用户名
+     * 提前结束会议室使用
      *
-     * @param reserveId
+     * @param reserveId 预约id
      * @return
      */
     @PostMapping("/meeting/reserve/over")
@@ -205,17 +206,17 @@ public class ReserveMeetingController {
      * 用在提前结束会议和取消会议中
      * 将reserve_meeting数据转移至t_record
      *
-     * @param reserveId
-     * @param rmService
-     * @param INIT_SIGN_TIME
-     * @param userService
-     * @param recordService
+     * @param reserveId         会议室id
+     * @param rmService         预约表的Service
+     * @param INIT_SIGN_TIME    签到时间
+     * @param userService       用户表的Service
+     * @param recordService     记录表的Service
      */
     private void rmMoveToRecord(Integer reserveId,
-                                       ReserveMeetingService rmService,
-                                       String INIT_SIGN_TIME,
-                                       UserService userService,
-                                       RecordService recordService,
+                                ReserveMeetingService rmService,
+                                String INIT_SIGN_TIME,
+                                UserService userService,
+                                RecordService recordService,
                                 boolean isCancel) {
         //转换对象
         ReserveMeeting reserveMeeting = rmService.findOneById(reserveId);
@@ -234,7 +235,7 @@ public class ReserveMeetingController {
         }
         //保存记录，删除预定
         recordService.saveRecord(record);
-        EsRecord esRecord=new EsRecord(record.getRecordId(),
+        EsRecord esRecord = new EsRecord(record.getRecordId(),
                 reserveMeeting.getMeetingRoom().getMeetingName(),
                 reserveUser.getUsername(),
                 reserveMeeting.getStartTime(),

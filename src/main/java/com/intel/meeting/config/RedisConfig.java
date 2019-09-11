@@ -14,15 +14,15 @@ import redis.clients.jedis.JedisPoolConfig;
  * @author Ranger
  * @create 2019-09-03 16:42
  */
-@Configuration	//spring boot启动时加载此类
+@Configuration    //spring boot启动时加载此类
 public class RedisConfig {
 
     /**
      * 1.创建jedisPoolConfig对象，在该对象中完成一些连接池的配置
      */
-    @Bean	//同<bean></bean>
+    @Bean    //同<bean></bean>
     @ConfigurationProperties(prefix = "spring.redis.pool")
-    public JedisPoolConfig getJedisPoolConfig(){
+    public JedisPoolConfig getJedisPoolConfig() {
         JedisPoolConfig config = new JedisPoolConfig();
 
         return config;
@@ -33,7 +33,7 @@ public class RedisConfig {
      */
     @Bean
     @ConfigurationProperties(prefix = "spring.redis")   //指定application.properties中的配置信息
-    public JedisConnectionFactory getJedisConnectionFactory(JedisPoolConfig config){
+    public JedisConnectionFactory getJedisConnectionFactory(JedisPoolConfig config) {
         JedisConnectionFactory factory = new JedisConnectionFactory();
 
         //关联连接池的配置对象

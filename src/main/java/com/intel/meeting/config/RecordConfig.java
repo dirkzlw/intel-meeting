@@ -4,18 +4,14 @@ import com.intel.meeting.po.Record;
 import com.intel.meeting.po.ReserveMeeting;
 import com.intel.meeting.po.User;
 import com.intel.meeting.po.es.EsRecord;
-import com.intel.meeting.repository.es.EsRecordRepository;
 import com.intel.meeting.service.RecordService;
 import com.intel.meeting.service.ReserveMeetingService;
 import com.intel.meeting.service.UserService;
 import com.intel.meeting.service.es.EsRecordService;
 import com.intel.meeting.utils.DateUtils;
-import com.intel.meeting.vo.GraphInfo;
-import com.intel.meeting.vo.SessionUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -46,6 +42,8 @@ public class RecordConfig {
     private String INIT_SIGN_TIME;
 
     /**
+     * 定时任务
+     * 用来处理正常结束的会议，将预约表数据迁移至记录表
      * 测试：每2分钟钟执行一次
      * 上线：每3小时执行一次
      */
@@ -71,7 +69,7 @@ public class RecordConfig {
                 }
                 //保存记录，删除预定
                 recordService.saveRecord(record);
-                EsRecord esRecord=new EsRecord(record.getRecordId(),
+                EsRecord esRecord = new EsRecord(record.getRecordId(),
                         rm.getMeetingRoom().getMeetingName(),
                         reserveUser.getUsername(),
                         rm.getStartTime(),

@@ -53,8 +53,11 @@ public class UserController {
     private String FDFSDFS_ADDRESS;
 
     /**
-     * 跳转到用户管理主页
+     * 跳转至用户管理--账户管理界面
      *
+     * @param model
+     * @param page    当前页
+     * @param request
      * @return
      */
     @GetMapping("/to/usermgn/user-manage")
@@ -69,7 +72,7 @@ public class UserController {
         List<User> userList = userPage.getContent();
         List<UserInfo> userInfoList = new ArrayList<>();
         for (User user : userList) {
-            UserInfo userInfo = new UserInfo(user.getUsername(),user.getEmail(), user.getRole().getRoleName());
+            UserInfo userInfo = new UserInfo(user.getUsername(), user.getEmail(), user.getRole().getRoleName());
             userInfo.setUserId(user.getUserId());
             userInfoList.add(userInfo);
         }
@@ -85,6 +88,7 @@ public class UserController {
     }
 
     /**
+     * 跳转至用户个人信息界面
      *
      * @param model
      * @param request
@@ -92,13 +96,13 @@ public class UserController {
      */
     @GetMapping("/to/user/msg")
     public String toUserMsg(Model model,
-                            HttpServletRequest request){
+                            HttpServletRequest request) {
 
         SessionUser sessionUser = (SessionUser) SessionUtils.getObjectFromSession(request, "sessionUser");
         User user = userService.findUserById(sessionUser.getUserId());
-        model.addAttribute("umsg",user);
+        model.addAttribute("umsg", user);
 
-        SessionUtils.setUserIndex(model,request);
+        SessionUtils.setUserIndex(model, request);
 
         return "user/user-msg";
     }
@@ -117,7 +121,7 @@ public class UserController {
      * 验证用户名和邮箱的重复性
      *
      * @param username 用户名
-     * @param email 邮箱
+     * @param email    邮箱
      * @return
      */
     @PostMapping("/user/getcode")
@@ -128,19 +132,19 @@ public class UserController {
     }
 
     /**
-     * 重置密码
-     * @param email
+     * 忘记密码
+     *
+     * @param email 邮箱
      * @return
      */
     @PostMapping("/user/forgetpwd")
     @ResponseBody
-    public  String forgetPwd(String email){
+    public String forgetPwd(String email) {
         System.out.println("email = " + email);
         String result = userService.forgetPwd(email);
-        if ("success".equals(result)){
+        if ("success".equals(result)) {
             return "success";
-        }
-        else {
+        } else {
             return "notFound";
         }
     }
@@ -155,8 +159,8 @@ public class UserController {
     @PostMapping("/user/register")
     @ResponseBody
     public String register(User user, String code,
-                              HttpServletRequest request,
-                              HttpServletResponse response) {
+                           HttpServletRequest request,
+                           HttpServletResponse response) {
         Role role = null;
         role = roleService.findByRoleName(new String(USER_INIT_ROLE));
         user.setRole(role);
@@ -167,7 +171,7 @@ public class UserController {
             SessionUtils.saveObjectToSession(request, response, sessionUser, "sessionUser");
         }
         //同步搜索库
-        esUserService.save(new EsUser(user.getUserId(),user.getUsername(),user.getEmail(),user.getRole().getRoleName()));
+        esUserService.save(new EsUser(user.getUserId(), user.getUsername(), user.getEmail(), user.getRole().getRoleName()));
         return result;
     }
 
@@ -175,7 +179,7 @@ public class UserController {
      * 登陆功能
      *
      * @param usernameoremail 用户名或邮箱
-     * @param password 密码
+     * @param password        密码
      * @return
      */
     @PostMapping("/user/login")
@@ -198,31 +202,31 @@ public class UserController {
     /**
      * 管理员添加用户功能
      *
-     * @param user
+     * @param user  用户对象
      * @return
      */
     @PostMapping("/usermgn/user/save")
-        @ResponseBody
-            public UserInfo saveUser(User user, String roleName) {
-                String result;
-                if(user.getUserId()==null){
-                    // 添加
-                    Role role = roleService.findByRoleName(roleName);
-                    user.setRole(role);
-                    user.setPassword(MD5Utils.md5(USER_INIT_PASSWORD));
-                    user.setHeadUrl(USER_INIT_HEAD_URL);
-                    result = userService.saveUser(user);
-                }else{
+    @ResponseBody
+    public UserInfo saveUser(User user, String roleName) {
+        String result;
+        if (user.getUserId() == null) {
+            // 添加
+            Role role = roleService.findByRoleName(roleName);
+            user.setRole(role);
+            user.setPassword(MD5Utils.md5(USER_INIT_PASSWORD));
+            user.setHeadUrl(USER_INIT_HEAD_URL);
+            result = userService.saveUser(user);
+        } else {
             //修改
             Role role = roleService.findByRoleName(roleName);
             user.setRole(role);
             result = userService.saveUser(user);
         }
-        UserInfo userInfo =new UserInfo(user.getUsername(),user.getEmail(),user.getRole().getRoleName(),result);
+        UserInfo userInfo = new UserInfo(user.getUsername(), user.getEmail(), user.getRole().getRoleName(), result);
         userInfo.setUserId(user.getUserId());
         //同步搜索库
-        if(result=="save"){
-            esUserService.save(new EsUser(user.getUserId(),user.getUsername(),user.getEmail(),user.getRole().getRoleName()));
+        if (result == "save") {
+            esUserService.save(new EsUser(user.getUserId(), user.getUsername(), user.getEmail(), user.getRole().getRoleName()));
         }
 
 
@@ -231,7 +235,7 @@ public class UserController {
 
     /**
      * 删除用户
-     *
+     * @param userId    用户id
      * @return
      */
     @PostMapping("/usermgn/user/del")
@@ -240,7 +244,7 @@ public class UserController {
 
         String result = userService.delUser(userId);
 
-//        //同步es
+        //同步es
         esUserService.delEsUserById(userId);
 
         return result;
@@ -251,8 +255,8 @@ public class UserController {
      */
     @PostMapping("/usermgn/user/resetPwd")
     @ResponseBody
-    public String resetPwd(Integer userId){
-        User user=userService.findUserById(userId);
+    public String resetPwd(Integer userId) {
+        User user = userService.findUserById(userId);
         user.setPassword(MD5Utils.md5(USER_INIT_PASSWORD));
         String result = userService.userPwdReset(user);
 
@@ -263,8 +267,8 @@ public class UserController {
      * 根据用户名进行查询
      */
     @GetMapping("/to/control/user/search")
-    public String searchUser(String mrkey,Model model,
-                        HttpServletRequest request){
+    public String searchUser(String mrkey, Model model,
+                             HttpServletRequest request) {
         List<Role> roleList = roleService.findAllRoles();
         List<EsUser> esUserList = esUserService.findEsUserByUsername(mrkey);
         MRPage userPage = new MRPage(esUserList,
@@ -295,6 +299,7 @@ public class UserController {
 
     /**
      * 退出登录
+     *
      * @param request
      * @return
      */
@@ -311,7 +316,8 @@ public class UserController {
     }
 
     /**
-     *修改用户名
+     * 修改用户名
+     *
      * @param userId
      * @param newUsername
      * @param request
@@ -323,64 +329,66 @@ public class UserController {
     public String usernameReset(Integer userId,
                                 String newUsername,
                                 HttpServletRequest request,
-                                HttpServletResponse response){
+                                HttpServletResponse response) {
 
         System.out.println("userId = " + userId);
         System.out.println("newUsername = " + newUsername);
 
-        String result = userService.userNameReset(userId,newUsername);
-        if ( "success".equals(result)){
+        String result = userService.userNameReset(userId, newUsername);
+        if ("success".equals(result)) {
             //修改用户名后 同步es库
             EsUser esUser = esUserService.findEsUserById(userId);
             esUser.setUsername(newUsername);
             esUserService.save(esUser);
 
-            System.out.println(" success " );
+            System.out.println(" success ");
             SessionUser sessionUser = (SessionUser) SessionUtils.getObjectFromSession(request, "sessionUser");
             sessionUser.setUsername(newUsername);
-            SessionUtils.saveObjectToSession(request,response,sessionUser,"sessionUser");
+            SessionUtils.saveObjectToSession(request, response, sessionUser, "sessionUser");
             return "success";
-        } else{
+        } else {
             return "userNameExist";
         }
     }
 
     /**
-     *修改密码
+     * 修改密码
      */
     @PostMapping("/user/userpwd/reset")
     @ResponseBody
-    public String userpwdReset(Integer userId, String oldUserpwd, String newUserpwd){
+    public String userpwdReset(Integer userId, String oldUserpwd, String newUserpwd) {
 
         System.out.println("userId = " + userId);
         System.out.println("oldUserpwd = " + oldUserpwd);
         System.out.println("newUserpwd = " + newUserpwd);
 
-        String result = userService.userPwdReset(userId,oldUserpwd,newUserpwd);
-        if ("success".equals(result)){
+        String result = userService.userPwdReset(userId, oldUserpwd, newUserpwd);
+        if ("success".equals(result)) {
             System.out.println("result = " + result);
             return "success";
+        } else {
+            return "oldUserpwdFalse";
         }
-        else { return "oldUserpwdFalse"; }
     }
 
     /**
      * 修改邮箱
-     * @param userId 用户ID
+     *
+     * @param userId   用户ID
      * @param newEmail 用户修改后邮箱
      * @return
      */
     @PostMapping("/user/email/reset")
     @ResponseBody
     public String userEamilReset(Integer userId,
-                                 String newEmail ){
+                                 String newEmail) {
 
         System.out.println("userId = " + userId);
         System.out.println("newEmail = " + newEmail);
 
-        String result = userService.userEmailReset(userId,newEmail);
+        String result = userService.userEmailReset(userId, newEmail);
 
-        if("success".equals(result)){
+        if ("success".equals(result)) {
 
             EsUser esUser = esUserService.findEsUserById(userId);
             esUser.setEmail(newEmail);
@@ -392,7 +400,8 @@ public class UserController {
 
     /**
      * 修改头像
-     * @param userId 用户ID
+     *
+     * @param userId     用户ID
      * @param newHeadUrl 用户新头像
      * @param request
      * @param response
@@ -403,20 +412,20 @@ public class UserController {
     public String HeadUrlReset(Integer userId,
                                MultipartFile newHeadUrl,
                                HttpServletRequest request,
-                               HttpServletResponse response){
+                               HttpServletResponse response) {
 
         //上传文件至服务器
         String newUrl = FastDFSUtils.uploadFile(FDFSDFS_CLIENT_PAHT,
                 FDFSDFS_ADDRESS,
                 newHeadUrl);
-        String result="";
-        if(newUrl!=null || !"".equals(newUrl)){
-            result = userService.HeadUrlReset(userId,newUrl);
+        String result = "";
+        if (newUrl != null || !"".equals(newUrl)) {
+            result = userService.HeadUrlReset(userId, newUrl);
         }
-        if("success".equals(result)){
+        if ("success".equals(result)) {
             SessionUser sessionUser = (SessionUser) SessionUtils.getObjectFromSession(request, "sessionUser");
             sessionUser.setHeadUrl(newUrl);
-            SessionUtils.saveObjectToSession(request,response,sessionUser,"sessionUser");
+            SessionUtils.saveObjectToSession(request, response, sessionUser, "sessionUser");
             return "success";
         }
         return "fail";
@@ -424,10 +433,11 @@ public class UserController {
 
     /**
      * 跳转到联系我们页面
+     *
      * @return
      */
     @PostMapping("/to/user/contact")
-    public String toContact(){
+    public String toContact() {
         return null;
     }
 
