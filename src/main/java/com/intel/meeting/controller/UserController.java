@@ -220,19 +220,28 @@ public class UserController {
             user.setPassword(MD5Utils.md5(USER_INIT_PASSWORD));
             user.setHeadUrl(USER_INIT_HEAD_URL);
             result = userService.saveUser(user);
+            UserInfo userInfo = new UserInfo(user.getUsername(), user.getEmail(), user.getRole().getRoleName(), result);
+            userInfo.setUserId(user.getUserId());
+            //同步搜索库
+            if (result == "save") {
+                esUserService.save(new EsUser(user.getUserId(), user.getUsername(), user.getEmail(), user.getRole().getRoleName()));
+            }
+            return userInfo;
         } else {
             //修改
             Role role = roleService.findByRoleName(roleName);
-            user.setRole(role);
-            result = userService.saveUser(user);
+            User newUser = userService.findUserById(user.getUserId());
+            newUser.setRole(role);
+            result = userService.saveUser(newUser);
+            UserInfo userInfo = new UserInfo(newUser.getUsername(), newUser.getEmail(), newUser.getRole().getRoleName(), result);
+            userInfo.setUserId(newUser.getUserId());
+            //同步搜索库
+            if (result == "save") {
+                esUserService.save(new EsUser(newUser.getUserId(), newUser.getUsername(), newUser.getEmail(), newUser.getRole().getRoleName()));
+            }
+            return userInfo;
         }
-        UserInfo userInfo = new UserInfo(user.getUsername(), user.getEmail(), user.getRole().getRoleName(), result);
-        userInfo.setUserId(user.getUserId());
-        //同步搜索库
-        if (result == "save") {
-            esUserService.save(new EsUser(user.getUserId(), user.getUsername(), user.getEmail(), user.getRole().getRoleName()));
-        }
-        return userInfo;
+
     }
 
     /**
