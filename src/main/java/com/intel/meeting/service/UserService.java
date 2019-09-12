@@ -51,4 +51,6 @@ public interface UserService {
     String userPwdReset(Integer userId, String oldUserpwd, String newUserpwd);
 
     boolean isBlackList(Integer userId);
+
+    String contactWe(String realname, String email, String suggestion);
 }

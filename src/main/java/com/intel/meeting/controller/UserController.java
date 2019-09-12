@@ -228,8 +228,6 @@ public class UserController {
         if (result == "save") {
             esUserService.save(new EsUser(user.getUserId(), user.getUsername(), user.getEmail(), user.getRole().getRoleName()));
         }
-
-
         return userInfo;
     }
 
@@ -241,9 +239,7 @@ public class UserController {
     @PostMapping("/usermgn/user/del")
     @ResponseBody
     public String delMeeting(Integer userId) {
-
         String result = userService.delUser(userId);
-
         //同步es
         esUserService.delEsUserById(userId);
 
@@ -329,11 +325,7 @@ public class UserController {
     public String usernameReset(Integer userId,
                                 String newUsername,
                                 HttpServletRequest request,
-                                HttpServletResponse response) {
-
-        System.out.println("userId = " + userId);
-        System.out.println("newUsername = " + newUsername);
-
+                                HttpServletResponse response){
         String result = userService.userNameReset(userId, newUsername);
         if ("success".equals(result)) {
             //修改用户名后 同步es库
@@ -356,14 +348,9 @@ public class UserController {
      */
     @PostMapping("/user/userpwd/reset")
     @ResponseBody
-    public String userpwdReset(Integer userId, String oldUserpwd, String newUserpwd) {
-
-        System.out.println("userId = " + userId);
-        System.out.println("oldUserpwd = " + oldUserpwd);
-        System.out.println("newUserpwd = " + newUserpwd);
-
-        String result = userService.userPwdReset(userId, oldUserpwd, newUserpwd);
-        if ("success".equals(result)) {
+    public String userpwdReset(Integer userId, String oldUserpwd, String newUserpwd){
+        String result = userService.userPwdReset(userId,oldUserpwd,newUserpwd);
+        if ("success".equals(result)){
             System.out.println("result = " + result);
             return "success";
         } else {
@@ -394,7 +381,6 @@ public class UserController {
             esUser.setEmail(newEmail);
             esUserService.save(esUser);
         }
-
         return result;
     }
 
@@ -436,9 +422,26 @@ public class UserController {
      *
      * @return
      */
-    @PostMapping("/to/user/contact")
-    public String toContact() {
-        return null;
+    @GetMapping("/to/user/contact")
+    public String toContact(Model model,
+                            HttpServletRequest request){
+        SessionUtils.setUserIndex(model,request);
+        return "index/user-contact";
+    }
+
+    /**
+     * 联系我们
+     *
+     * @param realname
+     * @param email
+     * @param suggestion
+     * @return
+     */
+    @PostMapping("/user/contact")
+    @ResponseBody
+    public String contactWe(String realname, String email, String suggestion){
+        String result = userService.contactWe(realname,email,suggestion);
+        return result;
     }
 
 }

@@ -50,6 +50,9 @@ public class UserServiceImpl implements UserService {
     @Value("${USER_INIT_HEAD_URL}")
     private String USER_INIT_HEAD_URL;
 
+    @Value("${ADMIN_EMAIL}")
+    private String ADMIN_EMAIL;
+
     /**
      * 注册时获取验证码
      *
@@ -463,4 +466,26 @@ public class UserServiceImpl implements UserService {
             }
         }
     }
+
+    /**
+     * 联系我们
+     *
+     * @return
+     */
+    @Override
+    public String contactWe(String realname, String email, String suggestion) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                SimpleMailMessage message = MailUtils.getMailMessage(fromEmail,
+                        ADMIN_EMAIL,
+                        INTEL_MAIL_SUBJECT,
+                        "来自" + realname +"的建议.\n"+ "该用户联系方式为" + email +".\n" + "建议为：" + suggestion);
+                    //发送
+                mailSender.send(message);
+            }
+        }).start();
+        return "success";
+    }
+
 }

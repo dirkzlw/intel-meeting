@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, minimum-scale=1 maximum-scale=2, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-title" content="Add to Home">
+    <meta name="format-detection" content="telephone=no">
+    <meta http-equiv="x-rim-auto-match" content="none">
+    <title>智能会议管理--联系我们</title>
+    <!-- 网站的ico图标 -->
+    <link href="/user/auth/css/publi.css" rel="stylesheet" type="text/css">
+    <link href="/user/auth/css/style.css" rel="stylesheet" type="text/css">
+    <!--弹框-->
+    <link rel="stylesheet" href="/naran/css/naranja.min.css">
+    <script type="text/javascript" src="/naran/js/naranja.js"></script>
+</head>
+<body>
+
+<div th:replace="~{fragments/header :: header}"></div>
+
+<header class="acc_head">
+    <div class="clearfix">
+        <h1 class="tc">您的建议表单</h1>
+        <a href="#" class="out_icon" style="color: #C4302B;font-weight:bolder;font-size: 18px "
+           onclick="submit()">发送</a>
+    </div>
+</header>
+
+<section class="acc_apply">
+    <ul>
+        <li class="clearfix">
+            <label class="tl acc_five">姓名：</label>
+            <input id="realname" autocomplete="off" placeholder="请输入您的姓名" class="" type="text"/>
+        </li>
+        <li class="clearfix">
+            <label class="tl acc_five">联系方式：</label>
+            <input id="email" autocomplete="off" placeholder="请输入邮箱联系方式" class="" type="text"/>
+        </li>
+        <li class="clearfix">
+            <label class="tl acc_four fl">建议：</label>
+            <textarea rows="10" cols="60" id="suggestion">
+            </textarea>
+        </li>
+    </ul>
+</section>
+
+<script src="/user/auth/js/jquery1.8.3.min.js"></script>
+<script src="/control/js/ajax.js"></script>
+
+<script type="text/javascript">
+    function submit() {
+        var realname = document.getElementById("realname").value.trim();
+        var email = document.getElementById("email").value.trim();
+        var suggestion = document.getElementById("suggestion").value.trim();
+
+        if (realname == ''){
+            narn("warn", "请输入真实姓名！")
+        } else if (email == ''){
+            narn("warn", "请输入邮箱联系方式！")
+        } else if (suggestion == ''){
+            narn("warn", "请输入您的建议！")
+        } else {
+            $.ajax({
+                type: "POST",
+                url: "/user/contact",
+                data: {'realname': realname, 'email': email, 'suggestion': suggestion},
+                dataType: "text", //return dataType: text or json
+                success: function (json) {
+                    if ("success" == json) {
+                        narn("success", "建议发送成功！\n即将跳转主页")
+                        setTimeout(function () {
+                            window.location.href = 'http://localhost/index';
+                        }, 2500)
+                    } else {
+                        narn("warn", "发送失败，请检查网络！")
+                    }
+                },
+                error: function (json) {
+                    narn("warn", "上传失败，请检查网络！")
+                    return
+                }
+            });
+        }
+    }
+
+    /**
+     * 弹出对话框
+     * @param type
+     * @param msg
+     */
+    function narn(type, msg) {
+        naranja()[type]({
+            title: '消息提示',
+            text: msg,
+            timeout: 'keep',
+            buttons: [{
+                text: '接受',
+                click: function (e) {
+                    naranja().success({
+                        title: '通知',
+                        text: '通知被接受'
+                    })
+                }
+            }, {
+                text: '取消',
+                click: function (e) {
+                    e.closeNotification()
+                }
+            }]
+        })
+    }
+</script>
+</body>
+</html>
