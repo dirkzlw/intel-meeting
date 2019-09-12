@@ -1,0 +1,14 @@
+com.intel.meeting
+com.intel.meeting.config
+com.intel.meeting.controller
+com.intel.meeting.interceptor
+com.intel.meeting.po
+com.intel.meeting.po.es
+com.intel.meeting.repository
+com.intel.meeting.repository.es
+com.intel.meeting.service
+com.intel.meeting.service.es
+com.intel.meeting.service.es.impl
+com.intel.meeting.service.impl
+com.intel.meeting.utils
+com.intel.meeting.vo

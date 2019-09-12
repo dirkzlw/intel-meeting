@@ -33,7 +33,7 @@ import java.util.Set;
 /**
  * 预定会议室
  *
- * @author Ranger
+ * @author Intel-Meeting
  * @create 2019-09-03 20:53
  */
 @Controller
@@ -58,9 +58,9 @@ public class ReserveMeetingController {
     /**
      * 跳转至预定中心
      *
-     * @param model
-     * @param request
-     * @return
+     * @param model   模型
+     * @param request 请求
+     * @return 预定中心
      */
     @GetMapping("/to/reserve/center")
     public String toReserveCenter(Model model,
@@ -86,8 +86,8 @@ public class ReserveMeetingController {
      * @param reserveDay 预约日期
      * @param startTime  开始时间
      * @param endTime    结束时间
-     * @param request
-     * @return
+     * @param request    请求
+     * @return 预定会议室结果
      */
     @PostMapping("/meeting/reserve")
     @ResponseBody
@@ -130,7 +130,7 @@ public class ReserveMeetingController {
      * 取消预定
      *
      * @param reserveId 预约id
-     * @return
+     * @return 取消结果
      */
     @PostMapping("/meeting/reserve/cancel")
     @ResponseBody
@@ -160,7 +160,7 @@ public class ReserveMeetingController {
      * 签到
      *
      * @param reserveId 预约id
-     * @return
+     * @return 签到结果
      */
     @PostMapping("/meeting/reserve/sign")
     @ResponseBody
@@ -173,7 +173,7 @@ public class ReserveMeetingController {
      * 提前结束会议室使用
      *
      * @param reserveId 预约id
-     * @return
+     * @return 预约结果
      */
     @PostMapping("/meeting/reserve/over")
     @ResponseBody
@@ -206,11 +206,11 @@ public class ReserveMeetingController {
      * 用在提前结束会议和取消会议中
      * 将reserve_meeting数据转移至t_record
      *
-     * @param reserveId         会议室id
-     * @param rmService         预约表的Service
-     * @param INIT_SIGN_TIME    签到时间
-     * @param userService       用户表的Service
-     * @param recordService     记录表的Service
+     * @param reserveId      会议室id
+     * @param rmService      预约表的Service
+     * @param INIT_SIGN_TIME 签到时间
+     * @param userService    用户表的Service
+     * @param recordService  记录表的Service
      */
     private void rmMoveToRecord(Integer reserveId,
                                 ReserveMeetingService rmService,

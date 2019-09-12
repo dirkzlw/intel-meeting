@@ -18,7 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
- * @author Ranger
+ * @author Intel-Meeting
  * @create 2019-09-06 16:28
  */
 @Controller
@@ -32,9 +32,9 @@ public class RecordController {
     /**
      * 跳转至控制中心--使用统计
      *
-     * @param model
-     * @param request
-     * @return
+     * @param model   模型
+     * @param request 请求
+     * @return 控制中心--使用统计
      */
     @GetMapping("/to/control/graph")
     public String toControlGraph(Model model,
@@ -50,10 +50,10 @@ public class RecordController {
     /**
      * 跳转至控制中心--使用记录
      *
-     * @param model
-     * @param request
+     * @param model   模型
+     * @param request 请求
      * @param page    当前页
-     * @return
+     * @return 控制中心-使用记录
      */
     @GetMapping("/to/control/record")
     public String toControlRecord(Model model,
@@ -80,8 +80,8 @@ public class RecordController {
      * 查询会议室
      *
      * @param nameVal 关键字
-     * @param model
-     * @return
+     * @param model   模型
+     * @return 使用记录查询结果
      */
     @GetMapping("/to/control/record/search")
     private String searchRecord(String nameVal, Model model,

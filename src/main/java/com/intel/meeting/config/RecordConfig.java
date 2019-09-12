@@ -21,7 +21,7 @@ import java.util.List;
 /**
  * 定时清理已结束的会议室预约reserve_meeting
  *
- * @author Ranger
+ * @author Intel-Meeting
  * @create 2019-09-07 10:54
  */
 @Component

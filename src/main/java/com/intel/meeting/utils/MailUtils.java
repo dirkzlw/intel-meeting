@@ -5,7 +5,7 @@ import org.springframework.mail.SimpleMailMessage;
 /**
  * 发送邮件
  *
- * @author Ranger
+ * @author Intel-Meeting
  * @create 2019-09-06 14:53
  */
 public class MailUtils {
@@ -17,7 +17,7 @@ public class MailUtils {
      * @param email     接收者
      * @param subject   主题
      * @param text      文本
-     * @return
+     * @return 返回SimpleMailMessage对象
      */
     public static SimpleMailMessage getMailMessage(String fromEmail, String email, String subject, String text) {
         SimpleMailMessage message = new SimpleMailMessage();

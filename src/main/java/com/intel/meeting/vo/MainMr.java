@@ -11,7 +11,7 @@ import java.util.Set;
 /**
  * 主页展示的MR
  *
- * @author Ranger
+ * @author Intel-Meeting
  * @create 2019-09-03 20:13
  */
 @Getter

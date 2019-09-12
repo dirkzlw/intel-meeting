@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 /**
- * @author ranger
+ * @author Intel-Meeting
  * @create 2019-09 -03-9:36
  */
 @Service
@@ -25,8 +25,8 @@ public class RoleServiceImpl implements RoleService {
     /**
      * 根据角色名获取角色对象
      *
-     * @param roleName
-     * @return
+     * @param roleName  角色名称
+     * @return  角色对象
      */
     @Override
     public Role findByRoleName(String roleName) {

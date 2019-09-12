@@ -9,7 +9,7 @@ import org.springframework.data.elasticsearch.annotations.Document;
 import javax.persistence.Column;
 
 /**
- * @author Ranger
+ * @author Intel-Meeting
  * @create 2019-09-02 18:53
  */
 @Document(indexName = "meeting_room_index",type = "meeting_room")

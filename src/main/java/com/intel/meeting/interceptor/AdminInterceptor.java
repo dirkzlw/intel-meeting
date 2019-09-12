@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  * 管理员权限拦截器
- * @author Ranger
+ * @author Intel-Meeting
  * @create 2019-04-07 10:49
  */
 @Component

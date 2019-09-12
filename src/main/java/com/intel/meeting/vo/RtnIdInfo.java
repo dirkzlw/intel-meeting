@@ -5,7 +5,7 @@ import lombok.Setter;
 
 /**
  * 添加会议室返回的结果信息
- * @author Ranger
+ * @author Intel-Meeting
  * @create 2019-09-02 8:49
  */
 @Getter

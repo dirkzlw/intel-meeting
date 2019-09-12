@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 /**
- * @author Ranger
+ * @author Intel-Meeting
  * @create 2019-09-01 21:35
  */
 @Service
@@ -25,8 +25,8 @@ public class MeetingRoomServiceImpl implements MeetingRoomService {
     /**
      * 添加会议室
      *
-     * @param mr
-     * @return
+     * @param mr 会议室
+     * @return 执行结果
      */
     @Override
     public String saveMeetingRoom(MeetingRoom mr) {
@@ -64,7 +64,7 @@ public class MeetingRoomServiceImpl implements MeetingRoomService {
     /**
      * 查询所有会议室
      *
-     * @return
+     * @return 会议室集合
      */
     @Override
     public List<MeetingRoom> findAllMeetingRoom() {
@@ -74,8 +74,8 @@ public class MeetingRoomServiceImpl implements MeetingRoomService {
     /**
      * 根据id删除会议室
      *
-     * @param meetingId
-     * @return
+     * @param meetingId 会议室id
+     * @return 执行结果
      */
     @Override
     public String delMeetingRoom(Integer meetingId) {
@@ -88,7 +88,7 @@ public class MeetingRoomServiceImpl implements MeetingRoomService {
      *
      * @param page 当前页
      * @param size 每页显示的数据
-     * @return
+     * @return 分页对象
      */
     @Override
     public Page<MeetingRoom> findMeetingRoomByPage(Integer page, Integer size) {
@@ -100,8 +100,8 @@ public class MeetingRoomServiceImpl implements MeetingRoomService {
     /**
      * 根据id查询会议室
      *
-     * @param mrId
-     * @return
+     * @param mrId 会议室id
+     * @return 会议室
      */
     @Override
     public MeetingRoom findMrById(Integer mrId) {
@@ -111,8 +111,8 @@ public class MeetingRoomServiceImpl implements MeetingRoomService {
     /**
      * 统计会议室各状态的数量
      *
-     * @param status
-     * @return
+     * @param status 会议室状态
+     * @return 统计的数目
      */
     @Override
     public int countByEnableStatus(String status) {
@@ -122,8 +122,8 @@ public class MeetingRoomServiceImpl implements MeetingRoomService {
     /**
      * 根据会议室名称模糊查询
      *
-     * @param meetingName
-     * @return
+     * @param meetingName 会议室名称
+     * @return 会议室集合
      */
     @Override
     public List<MeetingRoom> findMeetingRoomLikeName(String meetingName) {

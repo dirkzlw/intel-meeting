@@ -7,7 +7,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.Serializable;
 
 /**
- * @author Ranger
+ * @author Intel-Meeting
  * @create 2019-09-04 22:09
  */
 @Getter

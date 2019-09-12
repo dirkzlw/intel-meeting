@@ -12,6 +12,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.redis.core.RedisOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -22,7 +23,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 /**
- * @author ranger
+ * @author Intel-Meeting
  * @create 2019-09 -03-13:54
  */
 @Service
@@ -56,9 +57,9 @@ public class UserServiceImpl implements UserService {
     /**
      * 注册时获取验证码
      *
-     * @param username
-     * @param email
-     * @return
+     * @param username 用户名
+     * @param email    邮箱
+     * @return 执行结果
      */
     @Override
     public String getVCode(String username, String email) {
@@ -102,9 +103,9 @@ public class UserServiceImpl implements UserService {
     /**
      * 注册
      *
-     * @param user
-     * @param vcode
-     * @return
+     * @param user  用户对象
+     * @param vcode 验证码
+     * @return 注册结果
      */
     @Override
     public String register(User user, String vcode) {
@@ -128,9 +129,9 @@ public class UserServiceImpl implements UserService {
     /**
      * 登录
      *
-     * @param usernameoremail
-     * @param password
-     * @return
+     * @param usernameoremail 用户名或邮箱
+     * @param password        密码
+     * @return 登录结果
      */
     @Override
     public String login(String usernameoremail, String password) {
@@ -150,8 +151,8 @@ public class UserServiceImpl implements UserService {
     /**
      * 忘记密码，发邮件重置
      *
-     * @param email
-     * @return
+     * @param email 邮箱
+     * @return 忘记密码 执行结果
      */
     @Override
     public String forgetPwd(String email) {
@@ -177,7 +178,7 @@ public class UserServiceImpl implements UserService {
     /**
      * 统计已注册人数
      *
-     * @return
+     * @return 返回统计的的注册人数
      */
     @Override
     public int countRegistNum() {
@@ -187,8 +188,8 @@ public class UserServiceImpl implements UserService {
     /**
      * 保存用户
      *
-     * @param user
-     * @return
+     * @param user 用户对象
+     * @return 保存用户结果
      */
     @Override
     public String saveUser(User user) {
@@ -228,7 +229,9 @@ public class UserServiceImpl implements UserService {
     }
 
     /**
-     * 查询所有用户
+     * 查询用户
+     *
+     * @return 返回所有用户
      */
     @Override
     public List<User> findAllUser() {
@@ -238,9 +241,9 @@ public class UserServiceImpl implements UserService {
     /**
      * 分页查询用户
      *
-     * @param page
-     * @param size
-     * @return
+     * @param page 当前页
+     * @param size 每页数目
+     * @return Page对象
      */
     @Override
     public Page<User> findUserByPage(Integer page, Integer size) {
@@ -252,8 +255,8 @@ public class UserServiceImpl implements UserService {
     /**
      * 根据id删除用户
      *
-     * @param userId
-     * @return
+     * @param userId 用户id
+     * @return 删除结果
      */
     @Override
     public String delUser(Integer userId) {
@@ -264,9 +267,9 @@ public class UserServiceImpl implements UserService {
     /**
      * 根据用户名或者邮箱和密码获取用户
      *
-     * @param usernameoremail
-     * @param password
-     * @return
+     * @param usernameoremail 用户名或邮箱
+     * @param password        密码
+     * @return 返回查询的对象
      */
     @Override
     public User findUserByUsernameOrEmailAndPassword(String usernameoremail, String password) {
@@ -286,8 +289,8 @@ public class UserServiceImpl implements UserService {
     /**
      * 根据id查询用户
      *
-     * @param userId
-     * @return
+     * @param userId 用户id
+     * @return 用户对象
      */
     @Override
     public User findUserById(Integer userId) {
@@ -297,7 +300,7 @@ public class UserServiceImpl implements UserService {
     /**
      * 处理没有签到
      *
-     * @param reserveUser
+     * @param reserveUser 预定的用户
      */
     @Override
     public void doNoSign(User reserveUser) {
@@ -347,7 +350,7 @@ public class UserServiceImpl implements UserService {
     /**
      * 保存用户认证
      *
-     * @param user
+     * @param user 用户对象
      */
     @Override
     public void saveUserAuth(User user) {
@@ -357,9 +360,9 @@ public class UserServiceImpl implements UserService {
     /**
      * 用户个人资料处 修改用户名
      *
-     * @param userId
-     * @param newUsername
-     * @return
+     * @param userId      用户id
+     * @param newUsername 用户名
+     * @return 修改用户名结果
      */
     @Override
     public String userNameReset(Integer userId, String newUsername) {
@@ -377,8 +380,8 @@ public class UserServiceImpl implements UserService {
     /**
      * 修改密码
      *
-     * @param user
-     * @return
+     * @param user 用户对象
+     * @return 执行结果
      */
     @Override
     public String userPwdReset(User user) {
@@ -389,10 +392,10 @@ public class UserServiceImpl implements UserService {
     /**
      * 用户个人资料处 修改密码
      *
-     * @param userId
-     * @param oldUserpwd
-     * @param newUserpwd
-     * @return
+     * @param userId     用户id
+     * @param oldUserpwd 旧密码
+     * @param newUserpwd 新密码
+     * @return 修改结果
      */
     @Override
     public String userPwdReset(Integer userId, String oldUserpwd, String newUserpwd) {
@@ -409,9 +412,9 @@ public class UserServiceImpl implements UserService {
     /**
      * 用户个人资料处 修改邮箱
      *
-     * @param userId
-     * @param newEmail
-     * @return
+     * @param userId   用户Id
+     * @param newEmail 新的邮箱
+     * @return 修改结果
      */
     @Override
     public String userEmailReset(Integer userId, String newEmail) {
@@ -429,9 +432,9 @@ public class UserServiceImpl implements UserService {
     /**
      * 用户个人资料处 修改头像
      *
-     * @param userId
-     * @param newHeadUrl
-     * @return
+     * @param userId     用户id
+     * @param newHeadUrl 新头像的URL
+     * @return 修改结果
      */
     @Override
     public String HeadUrlReset(Integer userId, String newHeadUrl) {
@@ -444,8 +447,8 @@ public class UserServiceImpl implements UserService {
     /**
      * 判断用户是否在黑名单
      *
-     * @param userId
-     * @return User
+     * @param userId 用户id
+     * @return true:在黑名单
      */
     @Override
     public boolean isBlackList(Integer userId) {
@@ -470,7 +473,10 @@ public class UserServiceImpl implements UserService {
     /**
      * 联系我们
      *
-     * @return
+     * @param realname   姓名
+     * @param email      联系方式
+     * @param suggestion 建议
+     * @return 返回执行结果
      */
     @Override
     public String contactWe(String realname, String email, String suggestion) {
@@ -480,8 +486,8 @@ public class UserServiceImpl implements UserService {
                 SimpleMailMessage message = MailUtils.getMailMessage(fromEmail,
                         ADMIN_EMAIL,
                         INTEL_MAIL_SUBJECT,
-                        "来自" + realname +"的建议.\n"+ "该用户联系方式为" + email +".\n" + "建议为：" + suggestion);
-                    //发送
+                        "来自" + realname + "的建议.\n" + "该用户联系方式为" + email + ".\n" + "建议为：" + suggestion);
+                //发送
                 mailSender.send(message);
             }
         }).start();

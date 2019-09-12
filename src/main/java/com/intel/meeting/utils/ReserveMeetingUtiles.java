@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * @author Ranger
+ * @author Intel-Meeting
  * @create 2019-09-05 16:11
  */
 public class ReserveMeetingUtiles {
@@ -20,8 +20,8 @@ public class ReserveMeetingUtiles {
      * 通过中间表（预定记录表），整合用户、会议室、预定三张信息
      * 展示在用户预定中心
      *
-     * @param reserveSet
-     * @return
+     * @param reserveSet 预定的结合
+     * @return 预定会议室vo 集合
      */
     public static List<ReserveMeetingInfo> reserveSetToRMList(Set<ReserveMeeting> reserveSet) {
         List<ReserveMeetingInfo> rmiList = new ArrayList<>();

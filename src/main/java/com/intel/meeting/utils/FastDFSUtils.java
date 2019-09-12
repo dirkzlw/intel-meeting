@@ -15,17 +15,17 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 
 /**
- * @author Ranger
+ * @author Intel-Meeting
  * @create 2019-05-31 15:37
  */
 @PropertySource("classpath:application.properties")
 public class FastDFSUtils {
 
     /**
-     * 上传图片
-     *
-     * @param file
-     * @return
+     * @param FDFSDFS_CLIENT_PAHT fdfs_client.conf
+     * @param FDFSDFS_ADDRESS     FastDFS图片服务器地址
+     * @param file                上传的文件
+     * @return 返回上传之后的URL
      */
     public static String uploadFile(String FDFSDFS_CLIENT_PAHT, String FDFSDFS_ADDRESS, MultipartFile file) {
 

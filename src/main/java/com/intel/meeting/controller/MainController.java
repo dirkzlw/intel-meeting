@@ -21,7 +21,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
- * @author Ranger
+ * @author Intel-Meeting
  * @create 2019-08-30 21:57
  */
 @Controller
@@ -37,7 +37,7 @@ public class MainController {
     /**
      * 重定向至：/index
      *
-     * @return
+     * @return 重定向的url
      */
     @GetMapping("/")
     public String toI() {
@@ -47,10 +47,10 @@ public class MainController {
     /**
      * 请求主页
      *
-     * @param model
+     * @param model   模型
      * @param page    当前页数  页面正常显示数字，后台数据查询从0开始第一页
-     * @param request
-     * @return
+     * @param request 请求
+     * @return 指向主页
      */
     @GetMapping("/index")
     public String toIndex(Model model,
@@ -74,13 +74,13 @@ public class MainController {
     /**
      * 主页查询
      *
-     * @param model
-     * @param request
+     * @param model       模型
+     * @param request     请求
      * @param meetingName 会议室名称
      * @param searchDay   查询的日期   2019-09-11
      * @param searchStart 当前日期开始时间    08:00
      * @param searchEnd   当前日期结束时间    09:00
-     * @return
+     * @return 返回主页
      */
     @GetMapping("/index/search")
     public String indexSearch(Model model,
@@ -116,9 +116,9 @@ public class MainController {
     /**
      * 跳转至控制中心主页
      *
-     * @param model
-     * @param request
-     * @return
+     * @param model   模型
+     * @param request 请求
+     * @return 控制中心主页
      */
     @GetMapping("/to/control")
     public String toControl(Model model,
@@ -136,9 +136,9 @@ public class MainController {
     /**
      * 跳转至用户管理主页
      *
-     * @param model
-     * @param request
-     * @return
+     * @param model   模型
+     * @param request 主页
+     * @return 用户管理主页
      */
     @GetMapping("/to/usermgn")
     public String toUsermgn(Model model,
@@ -160,9 +160,11 @@ public class MainController {
     }
 
     /**
-     * 跳转至异常处理界面
+     * 异常处理
      *
-     * @return
+     * @param model     模型
+     * @param errorCode http状态码
+     * @return 执行错误处理页面
      */
     @GetMapping("/to/error")
     public String toError(Model model, Integer errorCode) {

@@ -8,14 +8,14 @@ import lombok.ToString;
 import javax.persistence.*;
 
 /**
- * @author ranger
+ * @author Intel-Meeting
  * @create 2019-09 -03-10:58
  */
 @Entity
-@Table(name="reserve_meeting")
+@Table(name = "reserve_meeting")
 @Getter
 @Setter
-public class ReserveMeeting implements Comparable<ReserveMeeting>{
+public class ReserveMeeting implements Comparable<ReserveMeeting> {
     //预订ID
     @Id
     @Column(length = 10)
@@ -56,8 +56,9 @@ public class ReserveMeeting implements Comparable<ReserveMeeting>{
 
     /**
      * 根据预约时间排序
-     * @param o
-     * @return
+     *
+     * @param o 预定会议室的对戏
+     * @return 比较结果
      */
     @Override
     public int compareTo(ReserveMeeting o) {

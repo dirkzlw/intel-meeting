@@ -11,7 +11,7 @@ import java.util.List;
 
 /**
  * 异常处理拦截器
- * @author Ranger
+ * @author Intel-Meeting
  * @create 2019-04-11 14:57
  */
 @Component

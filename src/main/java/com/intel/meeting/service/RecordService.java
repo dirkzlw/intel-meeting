@@ -7,7 +7,7 @@ import org.springframework.data.domain.Page;
 import java.util.List;
 
 /**
- * @author ranger
+ * @author Intel-Meeting
  * @create 2019-09 -03-11:27
  */
 public interface RecordService {

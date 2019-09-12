@@ -15,11 +15,11 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 /**
- * @author ranger
+ * @author Intel-Meeting
  * @create 2019-09 -03-10:55
  */
 @Service
-public class UserAuthServiceImpl implements UserAuthService{
+public class UserAuthServiceImpl implements UserAuthService {
 
     @Autowired
     private UserAuthRepository userAuthRepository;
@@ -37,7 +37,8 @@ public class UserAuthServiceImpl implements UserAuthService{
 
     /**
      * 保存认证
-     * @param userAuth
+     *
+     * @param userAuth 用户认证对象
      */
     @Override
     public void saveUserAuth(UserAuth userAuth) {
@@ -46,8 +47,9 @@ public class UserAuthServiceImpl implements UserAuthService{
 
     /**
      * 查询某状态的认证人数
-     * @param i
-     * @return
+     *
+     * @param i 认证状态
+     * @return 统计数目
      */
     @Override
     public int countUserAuthStatus(int i) {
@@ -56,9 +58,10 @@ public class UserAuthServiceImpl implements UserAuthService{
 
     /**
      * 分页查询
-     * @param page
-     * @param size
-     * @return
+     *
+     * @param page 当前页
+     * @param size 每页数目
+     * @return Page对象
      */
     @Override
     public Page<UserAuth> findUserAuthByPage(Integer page, Integer size) {
@@ -73,8 +76,9 @@ public class UserAuthServiceImpl implements UserAuthService{
 
     /**
      * 根据id查询用户认证
-     * @param authId
-     * @return
+     *
+     * @param authId 认证id
+     * @return 用户认证对象
      */
     @Override
     public UserAuth findUserAuthById(Integer authId) {
@@ -83,8 +87,9 @@ public class UserAuthServiceImpl implements UserAuthService{
 
     /**
      * 通过认证
-     * @param authId
-     * @return
+     *
+     * @param authId 认证id
+     * @return 通过结果
      */
     @Override
     public String authPass(Integer authId) {
@@ -92,7 +97,7 @@ public class UserAuthServiceImpl implements UserAuthService{
         try {
             one.setAuthStatus(1);
             userAuthRepository.save(one);
-        }catch (Exception e){
+        } catch (Exception e) {
             return "fail";
         }
 
@@ -114,9 +119,10 @@ public class UserAuthServiceImpl implements UserAuthService{
 
     /**
      * 不通过认证
-     * @param authId
-     * @param noPassReason
-     * @return
+     *
+     * @param authId       认证id
+     * @param noPassReason 没有通过的理由
+     * @return 执行结果
      */
     @Override
     public String authNoPass(Integer authId, String noPassReason) {
@@ -124,7 +130,7 @@ public class UserAuthServiceImpl implements UserAuthService{
         try {
             one.setAuthStatus(3);
             userAuthRepository.save(one);
-        }catch (Exception e){
+        } catch (Exception e) {
             return "fail";
         }
 
@@ -135,7 +141,7 @@ public class UserAuthServiceImpl implements UserAuthService{
                 SimpleMailMessage message = MailUtils.getMailMessage(fromEmail,
                         one.getUser().getEmail(),
                         INTEL_MAIL_SUBJECT,
-                        "您未通过身份认证，原因为："+noPassReason+"。\n"+"还请核实后再次申请认证。");
+                        "您未通过身份认证，原因为：" + noPassReason + "。\n" + "还请核实后再次申请认证。");
                 //发送
                 mailSender.send(message);
             }

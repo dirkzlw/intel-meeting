@@ -10,7 +10,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 /**
  * 权限配置类
  *
- * @author Ranger
+ * @author Intel-Meeting
  * @create 2019-04-07 10:56
  */
 @Configuration

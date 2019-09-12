@@ -22,7 +22,7 @@ import java.util.List;
 /**
  * 处理关于会议室的请求
  *
- * @author Ranger
+ * @author Intel-Meeting
  * @create 2019-09-01 20:50
  */
 @Controller
@@ -38,10 +38,10 @@ public class MeetingController {
     /**
      * 跳转至控制中心--会议室管理界面
      *
-     * @param model
+     * @param model   模型
      * @param page    当前页
-     * @param request
-     * @return
+     * @param request 请求
+     * @return 控制中心--会议室管理界面
      */
     @GetMapping("/to/control/meeting-manage")
     public String toMeetingManage(Model model,
@@ -66,7 +66,7 @@ public class MeetingController {
      * 当添加/保存会议室调用
      *
      * @param meetingRoom 会议室名称
-     * @return
+     * @return 保存结果
      */
     @PostMapping("/control/meeting/save")
     @ResponseBody
@@ -84,10 +84,10 @@ public class MeetingController {
     }
 
     /**
-     * 删除会意思
+     * 删除会议室
      *
      * @param meetingId 会议室id
-     * @return
+     * @return 删除结果
      */
     @PostMapping("/control/meeting/del")
     @ResponseBody
@@ -105,8 +105,8 @@ public class MeetingController {
      * 查询会议室
      *
      * @param mrkey 关键字
-     * @param model
-     * @return
+     * @param model 模型
+     * @return 查询结果
      */
     @GetMapping("/to/control/meeting/search")
     private String searchMeeting(String mrkey, Model model,

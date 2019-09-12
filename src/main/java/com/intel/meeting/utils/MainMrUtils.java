@@ -12,7 +12,7 @@ import java.util.Set;
 /**
  * 转换主页显示的List
  *
- * @author Ranger
+ * @author Intel-Meeting
  * @create 2019-09-03 20:00
  */
 public class MainMrUtils {
@@ -21,8 +21,8 @@ public class MainMrUtils {
      * 将会议室表、预定表整合
      * 展示在主页
      *
-     * @param mrList
-     * @return
+     * @param mrList 会议室集合
+     * @return MainMr集合
      */
     public static List<MainMr> mrListToMainMrList(List<MeetingRoom> mrList) {
         List<MainMr> mainMrList = new ArrayList<>();
@@ -67,11 +67,11 @@ public class MainMrUtils {
     /**
      * 主页根据时间查询
      *
-     * @param mrList
-     * @param searchStartL
-     * @param searchEndL
-     * @param searchDay
-     * @return
+     * @param mrList       会议室集合
+     * @param searchStartL 查询开始时间
+     * @param searchEndL   查询结束时间
+     * @param searchDay    查询的日期，具体到天
+     * @return 返回删选后MainMr集合
      */
     public static List<MainMr> indexSearch(List<MeetingRoom> mrList, long searchStartL, long searchEndL, String searchDay) {
         List<MainMr> mainMrList = new ArrayList<>();
@@ -106,13 +106,13 @@ public class MainMrUtils {
 //                            continue;
 //                        }
                         if (reserveMeeting.getStartTime().indexOf(searchDay) != -1) {
-                            reserveTime +="<span style=\"color: #C24343\">"
+                            reserveTime += "<span style=\"color: #C24343\">"
                                     + reserveMeeting.getStartTime()
                                     + "--"
                                     + reserveMeeting.getEndTime().split(" ")[1]
-                                    +"</span>"
+                                    + "</span>"
                                     + "<br/>";
-                        }else {
+                        } else {
                             reserveTime += reserveMeeting.getStartTime()
                                     + "--"
                                     + reserveMeeting.getEndTime().split(" ")[1]
@@ -126,7 +126,7 @@ public class MainMrUtils {
             } else {
                 if ("".equals(reserveTime)) {
                     reserveStatus = "随时预约";
-                }else {
+                } else {
                     reserveStatus = "存在预定";
                 }
             }

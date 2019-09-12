@@ -4,7 +4,7 @@ import com.intel.meeting.po.Record;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
- * @author ranger
+ * @author Intel-Meeting
  * @create 2019-09 -03-11:26
  */
 public interface RecordRepository extends JpaRepository<Record, Integer> {

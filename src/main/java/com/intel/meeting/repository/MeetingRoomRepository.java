@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 /**
- * @author Ranger
+ * @author Intel-Meeting
  * @create 2019-09-01 21:33
  */
 public interface MeetingRoomRepository extends JpaRepository<MeetingRoom, Integer> {

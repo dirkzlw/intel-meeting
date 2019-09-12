@@ -16,19 +16,21 @@ public class EsRecordServiceimpl implements EsRecordService {
 
     /**
      * 根据会议室或者用户名进行查询
-     * @param meetingName
-     * @return
+     *
+     * @param meetingName 查询的参数
+     * @return 返回查询结果
      */
     @Override
     public List<EsRecord> findDistinctByRealnameContainingOrMeetingAddressContaining(String meetingName) {
         return esRecordRepository.findDistinctByRealnameContainingOrMeetingAddressContaining(meetingName,
                 meetingName);
     }
+
     /**
      * 保存记录
      */
     @Override
-    public void save(EsRecord esRecord){
+    public void save(EsRecord esRecord) {
         esRecordRepository.save(esRecord);
     }
 

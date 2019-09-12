@@ -1,7 +1,7 @@
 package com.intel.meeting.utils;
 
 /**
- * @author Ranger
+ * @author Intel-Meeting
  * @create 2019-09-11 14:10
  */
 public class HttpUtils {
@@ -10,7 +10,7 @@ public class HttpUtils {
      * 根据错误代码获取错误信息
      *
      * @param code 403 404...
-     * @return
+     * @return  返回对应的提示信息
      */
     public static String getMessageByCode(int code) {
         String rtn = "很抱歉，出现了无法识别的错误";

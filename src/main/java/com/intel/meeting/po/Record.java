@@ -7,7 +7,7 @@ import lombok.ToString;
 import javax.persistence.*;
 
 /**
- * @author ranger
+ * @author Intel-Meeting
  * @create 2019-09 -03-11:21
  */
 @Entity

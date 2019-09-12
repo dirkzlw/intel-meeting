@@ -22,7 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletRequest;
 
 /**
- * @author Ranger
+ * @author Intel-Meeting
  * @create 2019-09-07 16:44
  */
 @Controller
@@ -41,9 +41,9 @@ public class UserAuthController {
     /**
      * 跳转至用户认证
      *
-     * @param model
-     * @param request
-     * @return
+     * @param model   模型
+     * @param request 请求
+     * @return 用户认证界面
      */
     @GetMapping("/to/user/auth")
     public String toUserAuth(Model model,
@@ -64,10 +64,10 @@ public class UserAuthController {
     /**
      * 跳转至用户认证编辑界面
      *
-     * @param model
-     * @param request
-     * @param userId
-     * @return
+     * @param model   模型
+     * @param request 请求
+     * @param userId  用户id
+     * @return 认证再次编辑界面
      */
     @GetMapping("/to/user/auth/edit")
     public String userAuthEdit(Model model,
@@ -83,9 +83,10 @@ public class UserAuthController {
     /**
      * 用户认证
      *
-     * @param userAuth
-     * @param authImg
-     * @return
+     * @param userAuth 用户认证
+     * @param authImg  认证资质
+     * @param request 请求
+     * @return 认证结果
      */
     @PostMapping("/he/user/auth")
     @ResponseBody
@@ -123,10 +124,10 @@ public class UserAuthController {
     /**
      * 跳转至认证审核界面
      *
-     * @param model
-     * @param request
-     * @param page
-     * @return
+     * @param model   模型
+     * @param request 请求
+     * @param page    分页对象
+     * @return 认证审核界面
      */
     @GetMapping("/to/usermgn/auth-check")
     public String toAuthCheck(Model model,
@@ -149,8 +150,8 @@ public class UserAuthController {
     /**
      * 通过认证审核
      *
-     * @param authId
-     * @return
+     * @param authId 认证id
+     * @return 通过结果
      */
     @PostMapping("/user/auth/pass")
     @ResponseBody
@@ -162,9 +163,9 @@ public class UserAuthController {
     /**
      * 认证不通过审核
      *
-     * @param authId
-     * @param noPassReason
-     * @return
+     * @param authId       认证id
+     * @param noPassReason 不通过的理由
+     * @return 不通过的结果
      */
     @PostMapping("/user/auth/nopass")
     @ResponseBody

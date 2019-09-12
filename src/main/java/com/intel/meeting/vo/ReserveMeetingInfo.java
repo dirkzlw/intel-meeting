@@ -5,7 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- * @author Ranger
+ * @author Intel-Meeting
  * @create 2019-09-05 16:08
  */
 @Getter
@@ -53,8 +53,8 @@ public class ReserveMeetingInfo implements Comparable<ReserveMeetingInfo> {
      * List 排序
      * 根据预约日期排序
      *
-     * @param o
-     * @return
+     * @param o 预约vo对象
+     * @return 返回比较结果
      */
     @Override
     public int compareTo(ReserveMeetingInfo o) {

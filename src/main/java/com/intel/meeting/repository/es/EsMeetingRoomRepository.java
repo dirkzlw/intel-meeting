@@ -7,7 +7,7 @@ import org.springframework.data.elasticsearch.repository.ElasticsearchRepository
 import java.util.List;
 
 /**
- * @author Ranger
+ * @author Intel-Meeting
  * @create 2019-09-02 19:03
  */
 public interface EsMeetingRoomRepository extends ElasticsearchRepository<EsMeetingRoom, Integer> {

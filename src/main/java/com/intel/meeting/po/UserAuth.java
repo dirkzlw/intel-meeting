@@ -4,12 +4,11 @@ package com.intel.meeting.po;
 
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 
 import javax.persistence.*;
 
 /**
- * @author ranger
+ * @author Intel-Meeting
  * @create 2019-09 -03-10:41
  */
 @Entity

@@ -7,7 +7,7 @@ import lombok.ToString;
 import java.io.Serializable;
 
 /**
- * @author Ranger
+ * @author Intel-Meeting
  * @create 2019-09-10 8:26
  */
 @Getter

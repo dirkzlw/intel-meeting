@@ -16,7 +16,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 /**
- * @author ranger
+ * @author Intel-Meeting
  * @create 2019-09 -03-11:28
  */
 @Service
@@ -30,8 +30,8 @@ public class RecordServiceImpl implements RecordService {
     /**
      * 保存预定记录
      *
-     * @param record
-     * @return
+     * @param record 记录对象
+     * @return 执行结果
      */
     @Override
     public String saveRecord(Record record) {
@@ -46,9 +46,9 @@ public class RecordServiceImpl implements RecordService {
     /**
      * 分页查询
      *
-     * @param page
-     * @param size
-     * @return
+     * @param page 当前页,起始页是0
+     * @param size 每页显示的数目
+     * @return Page对象
      */
     @Override
     public Page<Record> findRecordByPage(Integer page, int size) {
@@ -60,7 +60,7 @@ public class RecordServiceImpl implements RecordService {
     /**
      * 获取使用率
      *
-     * @return
+     * @return 返回使用率
      */
     @Override
     public String getUaeRage() {
@@ -75,7 +75,7 @@ public class RecordServiceImpl implements RecordService {
     /**
      * 获取签到率
      *
-     * @return
+     * @return 签到率
      */
     @Override
     public String getSignRate() {
@@ -89,8 +89,8 @@ public class RecordServiceImpl implements RecordService {
     /**
      * 获取周几的预约量
      *
-     * @param i
-     * @return
+     * @param i 周i  0-6
+     * @return 统计的数目
      */
     @Override
     public long getReserveNumOfWeek(int i) {
@@ -100,7 +100,7 @@ public class RecordServiceImpl implements RecordService {
     /**
      * 获取统计图表数据
      *
-     * @return
+     * @return  图表对象
      */
     @Override
     public GraphInfo getGraphInfo() {

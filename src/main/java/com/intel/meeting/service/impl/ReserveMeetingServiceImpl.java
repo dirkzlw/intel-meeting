@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * @author ranger
+ * @author Intel-Meeting
  * @create 2019-09 -03-11:20
  */
 @Service
@@ -26,8 +26,8 @@ public class ReserveMeetingServiceImpl implements ReserveMeetingService {
     /**
      * 根据id查询预定
      *
-     * @param reserveId
-     * @return
+     * @param reserveId 预定id
+     * @return 预定信息
      */
     @Override
     public ReserveMeeting findOneById(Integer reserveId) {
@@ -37,13 +37,18 @@ public class ReserveMeetingServiceImpl implements ReserveMeetingService {
     /**
      * 根据id删除预定
      *
-     * @param reserveId
+     * @param reserveId 预定id
      */
     @Override
     public void delReserveMeetingById(Integer reserveId) {
         rmRepository.delete(reserveId);
     }
 
+    /**
+     * 获取预定列表
+     *
+     * @return 所有预定
+     */
     @Override
     public List<ReserveMeeting> finAllReserveMeeting() {
         return rmRepository.findAll();
@@ -52,8 +57,8 @@ public class ReserveMeetingServiceImpl implements ReserveMeetingService {
     /**
      * 保存预定
      *
-     * @param reserveMeeting
-     * @return
+     * @param reserveMeeting 预定对象
+     * @return MainMr
      */
     @Override
     public MainMr save(ReserveMeeting reserveMeeting) {
@@ -114,8 +119,8 @@ public class ReserveMeetingServiceImpl implements ReserveMeetingService {
      * 再次校验是否正常取消
      * 尚未实现删除
      *
-     * @param reserveId
-     * @return
+     * @param reserveId 预定id
+     * @return 执行结果
      */
     @Override
     public String cancelReserveMeeting(Integer reserveId) {
@@ -136,8 +141,8 @@ public class ReserveMeetingServiceImpl implements ReserveMeetingService {
     /**
      * 会议室预定  --签到
      *
-     * @param reserveId
-     * @return
+     * @param reserveId 预定Id
+     * @return 执行结果
      */
     @Override
     public String signReserveMeeting(Integer reserveId) {
@@ -160,8 +165,8 @@ public class ReserveMeetingServiceImpl implements ReserveMeetingService {
      * 提前结束使用
      * 尚未实现删除
      *
-     * @param reserveId
-     * @return
+     * @param reserveId 预定Id
+     * @return  执行结果
      */
     @Override
     public String overReserveMeeting(Integer reserveId) {

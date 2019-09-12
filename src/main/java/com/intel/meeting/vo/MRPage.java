@@ -1,13 +1,12 @@
 package com.intel.meeting.vo;
 
-import com.intel.meeting.po.MeetingRoom;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.util.List;
 
 /**
- * @author Ranger
+ * @author Intel-Meeting
  * @create 2019-09-02 15:59
  */
 @Getter
