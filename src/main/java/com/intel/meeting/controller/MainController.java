@@ -90,8 +90,6 @@ public class MainController {
                               String searchStart,
                               String searchEnd) {
 
-        System.out.println("meetingName = " + meetingName);
-
         List<MeetingRoom> mrList = mrService.findMeetingRoomLikeName("%" + meetingName + "%");
         List<MainMr> mainList;
 

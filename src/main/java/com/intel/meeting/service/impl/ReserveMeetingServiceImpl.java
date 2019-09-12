@@ -171,7 +171,6 @@ public class ReserveMeetingServiceImpl implements ReserveMeetingService {
     @Override
     public String overReserveMeeting(Integer reserveId) {
         ReserveMeeting reserveMeeting = rmRepository.getOne(reserveId);
-        System.out.println("reserveMeeting = " + reserveMeeting);
         long startTime = DateUtils.stringToTime(reserveMeeting.getStartTime());
         long endTime = DateUtils.stringToTime(reserveMeeting.getEndTime());
         long nowTime = new Date().getTime();

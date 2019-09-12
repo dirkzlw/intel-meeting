@@ -169,7 +169,7 @@
                     if ("success" == json) {
                         narn("success", "上传成功，请等待审核！\n即将跳转主页")
                         setTimeout(function () {
-                            window.location.href = 'http://localhost/index';
+                            window.open("/index","_self");
                         }, 2500)
                     } else if ("fail" == json) {
                         narn("warn", "上传失败，请检查网络！")

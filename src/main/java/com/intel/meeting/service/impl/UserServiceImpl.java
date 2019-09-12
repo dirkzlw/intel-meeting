@@ -207,7 +207,6 @@ public class UserServiceImpl implements UserService {
             user.setHeadUrl(USER_INIT_HEAD_URL);
             user.setPassword(MD5Utils.md5(USER_INIT_PASSWORD));
             User save = userRepository.save(user);
-            System.out.println("save = " + save);
             return "save";
         } else {
             //修改用户名

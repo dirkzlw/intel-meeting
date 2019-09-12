@@ -10,7 +10,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import java.util.concurrent.TimeUnit;
 
 /**
- * @author Ranger
+ * @author Intel-Meeting
  * @create 2019-09-03 18:39
  */
 @RunWith(SpringJUnit4ClassRunner.class)

@@ -86,7 +86,6 @@ public class RecordController {
     @GetMapping("/to/control/record/search")
     private String searchRecord(String nameVal, Model model,
                                 HttpServletRequest request) {
-        System.out.println(nameVal);
         List<EsRecord> esrecordList = esRecordService.findDistinctByRealnameContainingOrMeetingAddressContaining(nameVal);
         MRPage mrPage = new MRPage(esrecordList,
                 1,

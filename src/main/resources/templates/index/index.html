@@ -24,6 +24,13 @@
         a:hover {
             text-decoration: none;
         }
+        * {
+            margin: 0;
+        }
+
+        html, body {
+            height: 85%;
+        }
     </style>
 
 </head>
@@ -135,7 +142,8 @@
                 <td th:utext="${mr.reserveTime}"></td>
                 <td>
                     <span th:if="${user.userId} == null">请先登录</span>
-                    <a th:if="${user.userId} != null" th:id="${mr.meetingId}" href="#" class="edit" th:title="${mr.reserveStatus}">预约</a>
+                    <a th:if="${user.userId} != null" th:id="${mr.meetingId}" href="#" class="edit"
+                       th:title="${mr.reserveStatus}">预约</a>
                 </td>
             </tr>
             </tbody>
@@ -164,6 +172,9 @@
     </div>
 </div>
 
+<!--底部-->
+<div th:replace="~{fragments/footer :: footer}"></div>
+
 <script src="/index/js/mejs.js"></script>
 <script type="text/javascript">
     //查询
@@ -180,7 +191,7 @@
                 closeButton: false
             })
             return
-        }else if(searchDay !="" && (searchStart=="" || searchEnd == "")){
+        } else if (searchDay != "" && (searchStart == "" || searchEnd == "")) {
             bootbox.alert({
                 title: "来自智能会议室的提示",
                 message: "选择日期时，开始/结束时间为必选项",
@@ -193,6 +204,8 @@
             window.open(href, "_self");
         }
     }
+
+
 </script>
 </body>
 </html>

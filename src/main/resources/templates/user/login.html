@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width-device-width,initial-scale=1.0">
@@ -213,7 +215,7 @@
                     } else if (json == "success") {
                         narn("success", "注册成功,页面即将跳转,请稍候")
                         setTimeout(function () {
-                            window.location.href = 'http://localhost/index';
+                            window.open("/index","_self");
                         }, 2500)
                         return
                     }
@@ -254,7 +256,7 @@
                         return
                     } else if (json == "success") {
                         setTimeout(function () {
-                            window.location.href = 'http://localhost/index';
+                            window.open("/index","_self");
                         }, 100)
                         return
                     }

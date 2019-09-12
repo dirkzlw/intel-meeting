@@ -31,7 +31,6 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public Role findByRoleName(String roleName) {
         Role role = roleRepository.findDistinctByRoleName(roleName);
-        System.out.println("roleName = " + roleName);
         return role;
     }
 }

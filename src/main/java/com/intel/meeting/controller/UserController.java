@@ -140,7 +140,6 @@ public class UserController {
     @PostMapping("/user/forgetpwd")
     @ResponseBody
     public String forgetPwd(String email) {
-        System.out.println("email = " + email);
         String result = userService.forgetPwd(email);
         if ("success".equals(result)) {
             return "success";
@@ -315,7 +314,6 @@ public class UserController {
      */
     @GetMapping("/user/logout")
     public String logout(HttpServletRequest request) {
-        System.out.println("....");
         //清除cookie和session
         Cookie[] cookies = request.getCookies();
         for (Cookie cookie : cookies) {
@@ -347,7 +345,6 @@ public class UserController {
             esUser.setUsername(newUsername);
             esUserService.save(esUser);
 
-            System.out.println(" success ");
             SessionUser sessionUser = (SessionUser) SessionUtils.getObjectFromSession(request, "sessionUser");
             sessionUser.setUsername(newUsername);
             SessionUtils.saveObjectToSession(request, response, sessionUser, "sessionUser");
@@ -370,7 +367,6 @@ public class UserController {
     public String userpwdReset(Integer userId, String oldUserpwd, String newUserpwd) {
         String result = userService.userPwdReset(userId, oldUserpwd, newUserpwd);
         if ("success".equals(result)) {
-            System.out.println("result = " + result);
             return "success";
         } else {
             return "oldUserpwdFalse";
@@ -388,9 +384,6 @@ public class UserController {
     @ResponseBody
     public String userEamilReset(Integer userId,
                                  String newEmail) {
-
-        System.out.println("userId = " + userId);
-        System.out.println("newEmail = " + newEmail);
 
         String result = userService.userEmailReset(userId, newEmail);
 

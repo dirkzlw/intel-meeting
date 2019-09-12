@@ -10,7 +10,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 
 /**
- * @author Ranger
+ * @author Intel-Meeting
  * @create 2019-09-07 16:32
  */
 public class FastDFSTest {

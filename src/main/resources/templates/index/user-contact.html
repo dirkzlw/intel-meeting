@@ -74,7 +74,7 @@
                     if ("success" == json) {
                         narn("success", "建议发送成功！\n即将跳转主页")
                         setTimeout(function () {
-                            window.location.href = 'http://localhost/index';
+                            window.open("/index","_self");
                         }, 2500)
                     } else {
                         narn("warn", "发送失败，请检查网络！")
