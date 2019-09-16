@@ -70,7 +70,6 @@ var methods = {
                     var email=json.email;
                     var role=json.role;
                     var status = json.rtn;
-                    // alert(status)
                     // var userId = json.rtnId;
                     var userIdTr = userId * 1 + 1;
                     if (status == "save") {
