@@ -17,6 +17,8 @@ public class EsUser implements Serializable{
     private String email;
     private String role;
 
+    protected EsUser() {
+    }
 
     public EsUser(Integer userId, String username, String email, String role) {
         this.userId = userId;
