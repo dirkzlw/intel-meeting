@@ -365,6 +365,8 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public String userNameReset(Integer userId, String newUsername) {
+        System.out.println("userId = " + userId);
+        System.out.println("newUsername = " + newUsername);
         User oldUser = userRepository.findOne(userId);
         User user1 = userRepository.findByUsername(newUsername);
         if (user1 == null) {

@@ -213,6 +213,7 @@ public class UserController {
     @ResponseBody
     public UserInfo saveUser(User user, String roleName) {
         String result;
+        System.out.println("roleName = " + roleName);
         if (user.getUserId() == null) {
             // 添加
             Role role = roleService.findByRoleName(roleName);
@@ -223,21 +224,23 @@ public class UserController {
             UserInfo userInfo = new UserInfo(user.getUsername(), user.getEmail(), user.getRole().getRoleName(), result);
             userInfo.setUserId(user.getUserId());
             //同步搜索库
-            if (result == "save") {
+            if ("save".equals(result)) {
                 esUserService.save(new EsUser(user.getUserId(), user.getUsername(), user.getEmail(), user.getRole().getRoleName()));
             }
             return userInfo;
         } else {
             //修改
             Role role = roleService.findByRoleName(roleName);
-            User newUser = userService.findUserById(user.getUserId());
-            newUser.setRole(role);
-            result = userService.saveUser(newUser);
-            UserInfo userInfo = new UserInfo(newUser.getUsername(), newUser.getEmail(), newUser.getRole().getRoleName(), result);
-            userInfo.setUserId(newUser.getUserId());
+            User oldUser = userService.findUserById(user.getUserId());
+            oldUser.setRole(role);
+            oldUser.setUsername(user.getUsername());
+            oldUser.setEmail(user.getEmail());
+            result = userService.saveUser(oldUser);
+            UserInfo userInfo = new UserInfo(oldUser.getUsername(), oldUser.getEmail(), oldUser.getRole().getRoleName(), result);
+            userInfo.setUserId(oldUser.getUserId());
             //同步搜索库
-            if (result == "save") {
-                esUserService.save(new EsUser(newUser.getUserId(), newUser.getUsername(), newUser.getEmail(), newUser.getRole().getRoleName()));
+            if ( "save".equals(result)) {
+                esUserService.save(new EsUser(oldUser.getUserId(), oldUser.getUsername(), oldUser.getEmail(), oldUser.getRole().getRoleName()));
             }
             return userInfo;
         }
@@ -347,7 +350,10 @@ public class UserController {
                                 String newUsername,
                                 HttpServletRequest request,
                                 HttpServletResponse response) {
+        System.out.println("userId = " + userId);
+        System.out.println("newUsername = " + newUsername);
         String result = userService.userNameReset(userId, newUsername);
+        System.out.println("result = " + result);
         if ("success".equals(result)) {
             //修改用户名后 同步es库
             EsUser esUser = esUserService.findEsUserById(userId);

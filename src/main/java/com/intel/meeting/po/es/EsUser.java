@@ -1,16 +1,16 @@
 package com.intel.meeting.po.es;
 
-import com.intel.meeting.po.Role;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
+
+import java.io.Serializable;
 
 @Document(indexName = "user_index",type = "es_user")
 @Getter
 @Setter
-public class EsUser {
+public class EsUser implements Serializable{
     @Id
     private Integer userId;
     private String username;
