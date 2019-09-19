@@ -22,20 +22,25 @@ import java.io.IOException;
 public class FastDFSUtils {
 
     /**
-     * @param FDFSDFS_CLIENT_PAHT fdfs_client.conf
+     * @param FDFSDFS_CLIENT_PAHT fdfs_client.properties
      * @param FDFSDFS_ADDRESS     FastDFS图片服务器地址
      * @param file                上传的文件
      * @return 返回上传之后的URL
      */
     public static String uploadFile(String FDFSDFS_CLIENT_PAHT, String FDFSDFS_ADDRESS, MultipartFile file) {
 
+        File fdfsConfFile = new File(FDFSDFS_CLIENT_PAHT);
         String fileName = file.getOriginalFilename();
         String ext = fileName.substring(fileName.lastIndexOf(".") + 1);
 
         String imgUrl = null;
         try {
+
+            //本地写法
             ClassPathResource cpr = new ClassPathResource(FDFSDFS_CLIENT_PAHT);
             ClientGlobal.init(cpr.getClassLoader().getResource(FDFSDFS_CLIENT_PAHT).getPath());
+
+//            ClientGlobal.init(fdfsConfFile.getPath());
 
             TrackerClient tracker = new TrackerClient();
             TrackerServer trackerServer = tracker.getConnection();

@@ -56,7 +56,7 @@ var methods = {
             return;
         }
         if (addEnter) {
-            var newUsername = $('.newUsername').val().trim();
+            var newUsername = $('#newUsername').val().trim();
             // ajax 修改用户名
             $.ajax({
                 type: "POST",
@@ -99,7 +99,8 @@ var methods = {
     },
     xcheckMustMes: function () {
         //确定新用户名是否为空
-        var newUsername = $('.newUsername').val().trim()
+        debugger
+        var newUsername = $('.newUsername').val().trim();
         if (newUsername === '') {
             bootbox.alert({
                 title: "来自智能会议室的提示",

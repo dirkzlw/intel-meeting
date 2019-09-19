@@ -16,7 +16,7 @@ import java.io.IOException;
 public class FastDFSTest {
 
     public static void main(String[] args) {
-        String conf_filename = "D:\\Code-workspace\\IdeaProjects\\spring-boot\\intel-meeting\\src\\main\\resources\\fdfs_client.conf";
+        String conf_filename = "D:\\Code-workspace\\IdeaProjects\\spring-boot\\intel-meeting\\src\\main\\resources\\fdfs_client.properties";
         //本地文件，要上传的文件
         String local_filename = "D:\\zz-file\\img\\fastdfs.jpeg";
 

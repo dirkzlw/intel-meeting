@@ -109,6 +109,8 @@ public class UserAuthController {
                 userAuthService.saveUserAuth(userAuth);
             } else {
                 exitAuth.setAuthUrl(authUrl);
+                exitAuth.setJobNum(userAuth.getJobNum());
+                exitAuth.setRealname(userAuth.getRealname());
                 exitAuth.setAuthStatus(2);
                 user.setUserAuth(exitAuth);
             }
