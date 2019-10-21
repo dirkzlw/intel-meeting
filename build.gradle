@@ -63,6 +63,8 @@ dependencies {
      *  勾上enable annotation processing
      */
     compile 'org.projectlombok:lombok:1.16.6'
+    //jasypt 配置文件加密
+    compile 'com.github.ulisesbocchio:jasypt-spring-boot-starter:1.18'
     //fastdfs_client
     compile files('lib/fastdfs-client-java-1.27-SNAPSHOT.jar')
 }

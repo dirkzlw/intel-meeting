@@ -37,10 +37,10 @@ public class FastDFSUtils {
         try {
 
             //本地写法
-            ClassPathResource cpr = new ClassPathResource(FDFSDFS_CLIENT_PAHT);
-            ClientGlobal.init(cpr.getClassLoader().getResource(FDFSDFS_CLIENT_PAHT).getPath());
+//            ClassPathResource cpr = new ClassPathResource(FDFSDFS_CLIENT_PAHT);
+//            ClientGlobal.init(cpr.getClassLoader().getResource(FDFSDFS_CLIENT_PAHT).getPath());
 
-//            ClientGlobal.init(fdfsConfFile.getPath());
+            ClientGlobal.init(fdfsConfFile.getPath());
 
             TrackerClient tracker = new TrackerClient();
             TrackerServer trackerServer = tracker.getConnection();
